@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Workhard</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="base_url">http://private-587c8-workhard.apiary-mock.com/</string>
+    <string name="error_login">Error login</string>
+    <string name="db_name">workhardrealmdb.realm</string>
+
+
+    <!-- Login Fragment -->
+    <string name="frg_login_login_with">Login\n\nwith</string>
+    <string name="frg_login_by_email">BY EMAIL</string>
+    <string name="frg_login_twitter">Twitter</string>
+    <string name="frg_login_by_facebook">Facebook</string>
+    <string name="frg_login_by_google">Google</string>
+    <string name="frg_login_login">Login</string>
+    <string name="frg_login_email">Email</string>
+    <string name="frg_login_password">Password</string>
+    <string name="frg_login_sing_up">Sing Up</string>
+
+
+</resources>
