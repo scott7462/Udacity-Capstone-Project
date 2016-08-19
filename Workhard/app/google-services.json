@@ -1,0 +1,50 @@
+{
+  "project_info": {
+    "project_number": "576176847631",
+    "firebase_url": "https://work-hard-ea3b6.firebaseio.com",
+    "project_id": "work-hard-ea3b6",
+    "storage_bucket": "work-hard-ea3b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576176847631:android:886ab5a95cbfd539",
+        "android_client_info": {
+          "package_name": "scott.com.workhard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576176847631-vn50emtkjimv6kt9slrs1fvi93d91s3f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "scott.com.workhard",
+            "certificate_hash": "8C06CE8098235F4C584A30EFE1428B6A5CC833D2"
+          }
+        },
+        {
+          "client_id": "576176847631-fjnm28c3sbkidg5cas3674uo10reiu1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuEfrNBtI1AfHhRScww8P4y0KyRLcQpGQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
