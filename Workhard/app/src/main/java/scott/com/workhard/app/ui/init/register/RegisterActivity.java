@@ -9,7 +9,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
 import scott.com.workhard.app.base.view.BaseActivity;
-import scott.com.workhard.app.ui.init.login.LoginFragment;
 
 /**
  * @author Pedro Scott. scott7462@gmail.com
@@ -49,7 +48,7 @@ public class RegisterActivity extends BaseActivity {
             navigateMainContent(getSupportFragmentManager().getFragment(
                     savedInstanceState, "mContent"), getString(R.string.app_name));
         } else {
-            navigateMainContent(LoginFragment.newInstance(), getString(R.string.app_name));
+            navigateMainContent(RegisterFragment.newInstance(), getString(R.string.app_name));
         }
     }
 

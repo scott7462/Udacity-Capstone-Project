@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     tools:context=".app.ui.init.InitActivity">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cVFrgLogin"
+        android:id="@+id/cVFrgRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:layout_marginBottom="32dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginRight="36dp"
-        android:elevation="4dp"
-        android:padding="8dp"
-        tools:cardCornerRadius="4dp">
+        android:layout_margin="@dimen/default_x_large_size"
+        android:elevation="@dimen/default_elevation_lvl_one"
+        android:padding="@dimen/default_medium_size"
+        tools:cardCornerRadius="@dimen/default_card_view_radios">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,14 +26,14 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="@dimen/default_medium_size">
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/eTFrgRegisterName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress"
+                    android:hint="@string/frg_register_first_name"
+                    android:inputType="textCapWords"
                     android:textColor="@color/colorAccent" />
 
             </android.support.design.widget.TextInputLayout>
@@ -43,14 +42,14 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="@dimen/default_medium_size">
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/eTFrgLoginLastName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress"
+                    android:hint="@string/frg_register_last_name"
+                    android:inputType="textCapWords"
                     android:textColor="@color/colorAccent" />
 
             </android.support.design.widget.TextInputLayout>
@@ -58,29 +57,29 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
-
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/eTFrgRegisterDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/colorAccent" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="@dimen/default_medium_size">
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/eTFrgLoginEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
+                    android:hint="@string/frg_register_email"
                     android:inputType="textEmailAddress"
+                    android:textColor="@color/colorAccent" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_medium_size">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/eTFrgRegisterDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/frg_register_birthday"
+                    android:inputType="date"
                     android:textColor="@color/colorAccent" />
 
             </android.support.design.widget.TextInputLayout>
@@ -94,7 +93,7 @@
                     android:id="@+id/eTFrgLoginPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password"
+                    android:hint="@string/frg_register_password"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:textColor="@color/colorAccent" />
@@ -105,13 +104,13 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="@dimen/default_medium_size">
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/eTFrgLoginRepeatPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password"
+                    android:hint="@string/frg_register_confirm_password"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:textColor="@color/colorAccent" />
@@ -123,12 +122,11 @@
                 android:id="@+id/bTFrgLoginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CREATE ACCOUNT" />
-
+                android:layout_marginBottom="@dimen/default_large_size"
+                android:text="@string/frg_register_create_account" />
         </LinearLayout>
-
 
     </android.support.v7.widget.CardView>
 
 
-</RelativeLayout>
+</ScrollView>

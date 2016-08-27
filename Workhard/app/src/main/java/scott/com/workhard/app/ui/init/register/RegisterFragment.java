@@ -6,29 +6,28 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.common.SignInButton;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
-import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
 import scott.com.workhard.app.base.view.BaseFragment;
 import scott.com.workhard.app.ui.MainActivity;
-import scott.com.workhard.app.ui.init.InitActivity;
 import scott.com.workhard.app.ui.init.login.presenter.LoginPresenter;
 import scott.com.workhard.app.ui.init.login.presenter.LoginPresenterListeners;
+import scott.com.workhard.utils.DatePickerFragment;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -52,31 +51,9 @@ import scott.com.workhard.app.ui.init.login.presenter.LoginPresenterListeners;
 public class RegisterFragment extends BaseFragment implements LoginPresenterListeners
         , Validator.ValidationListener {
 
-
-    @BindView(R.id.eTFrgRegisterName)
-    AppCompatEditText eTFrgRegisterName;
-    @BindView(R.id.eTFrgLoginLastName)
-    AppCompatEditText eTFrgLoginLastName;
-    @BindView(R.id.eTFrgRegisterDate)
-    AppCompatEditText eTFrgRegisterDate;
-    @BindView(R.id.eTFrgLoginEmail)
-    AppCompatEditText eTFrgLoginEmail;
-    @BindView(R.id.eTFrgLoginPassword)
-    AppCompatEditText eTFrgLoginPassword;
-    @BindView(R.id.eTFrgLoginRepeatPassword)
-    AppCompatEditText eTFrgLoginRepeatPassword;
-    @BindView(R.id.bTFrgLoginButton)
-    AppCompatButton bTFrgLoginButton;
-    @BindView(R.id.lBFrgLoginGooglePlus)
-    SignInButton lBFrgLoginGooglePlus;
-    @BindView(R.id.lBFrgLoginFacebook)
-    LoginButton lBFrgLoginFacebook;
-    @BindView(R.id.lBFrgLoginTwitter)
-    TwitterLoginButton lBFrgLoginTwitter;
     private LoginPresenter presenter;
     private Validator validator;
     private ProgressDialog progress;
-
 
     public static Fragment newInstance() {
         return new RegisterFragment();
@@ -89,6 +66,7 @@ public class RegisterFragment extends BaseFragment implements LoginPresenterList
     }
 
     private void initVars() {
+        setHasOptionsMenu(true);
         validator = new Validator(this);
         validator.setValidationListener(this);
     }
@@ -105,22 +83,9 @@ public class RegisterFragment extends BaseFragment implements LoginPresenterList
     private void intViews() {
     }
 
-    @OnClick(R.id.bTFrgLoginButton)
-    public void onClick() {
-        cleanValidations();
-        validator.validate();
-    }
-
-    @OnClick(R.id.lBFrgLoginGooglePlus)
-    public void onClickToSingInGoogle() {
-        if (getActivity() instanceof InitActivity) {
-            ((InitActivity) getActivity()).startLoginGooglePlus();
-        }
-    }
-
     private void cleanValidations() {
-        ((TextInputLayout) eTFrgLoginEmail.getParent()).setError(null);
-        ((TextInputLayout) eTFrgLoginPassword.getParent()).setError(null);
+//        ((TextInputLayout) eTFrgLoginEmail.getParent()).setError(null);
+//        ((TextInputLayout) eTFrgLoginPassword.getParent()).setError(null);
     }
 
     @Override
@@ -137,9 +102,23 @@ public class RegisterFragment extends BaseFragment implements LoginPresenterList
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                getActivity().onBackPressed();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onValidationSucceeded() {
-        presenter.doLogin(eTFrgLoginEmail.getText().toString(),
-                eTFrgLoginPassword.getText().toString());
+
     }
 
     @Override
@@ -174,4 +153,12 @@ public class RegisterFragment extends BaseFragment implements LoginPresenterList
         MainActivity.newInstance(getActivity());
     }
 
+    public void showDatePickerDialog(EditText v) {
+        DatePickerFragment.showDatePickerDialog(getActivity().getSupportFragmentManager(), v);
+    }
+
+    @OnClick(R.id.eTFrgRegisterDate)
+    public void onClick(EditText editText) {
+        showDatePickerDialog(editText);
+    }
 }
