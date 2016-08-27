@@ -22,4 +22,14 @@
     <string name="frg_login_sing_up">Sing Up</string>
 
 
+    <!-- Register Fragment -->
+    <string name="frg_register_create_account">CREATE ACCOUNT</string>
+    <string name="frg_register_first_name">First Name</string>
+    <string name="frg_register_last_name">Last Name</string>
+    <string name="frg_register_birthday">Birthday</string>
+    <string name="frg_register_confirm_password">Confirm Password</string>
+    <string name="frg_register_password">Password</string>
+    <string name="frg_register_email">Email</string>
+
+
 </resources>
