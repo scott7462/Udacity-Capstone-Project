@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.inputmethod.InputMethodManager;
 
 import java.util.ArrayList;
 
@@ -35,7 +36,7 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * Get the toolbar in the baseActivity instance.
      */
-    private Toolbar getToolbar() {
+    public Toolbar getToolbar() {
         return toolbar;
     }
 
@@ -89,9 +90,9 @@ public class BaseActivity extends AppCompatActivity {
      * Navigate in the R.id.container with the SupportFragmentManager.
      */
     public void navigateLowContent(Fragment frg, String title) {
-        cleanFragmentStack(getSupportFragmentManager());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         navigateTo(getSupportFragmentManager(), frg, R.id.container, true);
-        titleStack.clear();
         titleStack.add(title);
         updateActionBarTitle();
     }
@@ -100,9 +101,7 @@ public class BaseActivity extends AppCompatActivity {
      * Navigate in the any FrameLayout container with the SupportFragmentManager.
      */
     public void navigateDetailContent(Fragment frg, String title, int container) {
-        cleanFragmentStack(getSupportFragmentManager());
         navigateTo(getSupportFragmentManager(), frg, container, false);
-        titleStack.clear();
         titleStack.add(title);
         updateActionBarTitle();
     }
@@ -118,5 +117,32 @@ public class BaseActivity extends AppCompatActivity {
 
     public void goToRegister() {
         navigateLowContent(RegisterFragment.newInstance(), "Register");
+    }
+
+    @Override
+    public void onBackPressed() {
+        updateBackNavigation();
+        clearKeyboardFromScreen();
+        super.onBackPressed();
+    }
+
+    private void updateBackNavigation() {
+        if ((titleStack.size()) > 0) {
+            titleStack.remove(titleStack.size() - 1);
+        }
+        if (titleStack.size() == 1) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setHomeButtonEnabled(false);
+        }
+        if (titleStack.size() > 0) {
+            updateActionBarTitle();
+        }
+    }
+
+    public void clearKeyboardFromScreen() {
+        if (this.getWindow().getCurrentFocus() != null) {
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(this.getWindow().getCurrentFocus().getWindowToken(), 0);
+        }
     }
 }

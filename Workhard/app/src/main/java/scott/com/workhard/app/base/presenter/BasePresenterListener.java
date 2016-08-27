@@ -1,4 +1,4 @@
-package scott.com.workhard.utils;
+package scott.com.workhard.app.base.presenter;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -20,5 +20,12 @@ package scott.com.workhard.utils;
  */
 
 
-public class DatePickerFragment {
+public interface BasePresenterListener {
+
+    void showProgressIndicator();
+
+    void removeProgressIndicator();
+
+    void showMessage(int stringId);
+
 }
