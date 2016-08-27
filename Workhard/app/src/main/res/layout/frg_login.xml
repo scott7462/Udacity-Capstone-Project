@@ -49,14 +49,14 @@
                 android:id="@+id/bTFrgLoginFacebookButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3B5998"
+                android:backgroundTint="@color/com_facebook_blue"
                 android:text="@string/frg_login_by_facebook" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/bTFrgLoginTwitterButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#00aced"
+                android:backgroundTint="@color/tw__blue_default"
                 android:text="@string/frg_login_twitter" />
 
             <com.google.android.gms.common.SignInButton

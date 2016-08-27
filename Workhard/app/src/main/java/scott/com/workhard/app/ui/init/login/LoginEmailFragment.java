@@ -8,6 +8,9 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,6 +18,7 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
 
 import java.util.List;
 
@@ -24,11 +28,8 @@ import butterknife.OnClick;
 import scott.com.workhard.R;
 import scott.com.workhard.app.base.view.BaseActivity;
 import scott.com.workhard.app.base.view.BaseFragment;
-import scott.com.workhard.app.ui.MainActivity;
-import scott.com.workhard.app.ui.init.InitActivity;
 import scott.com.workhard.app.ui.init.login.presenter.LoginPresenter;
 import scott.com.workhard.app.ui.init.login.presenter.LoginPresenterListeners;
-import scott.com.workhard.app.ui.init.register.RegisterFragment;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -55,6 +56,8 @@ public class LoginEmailFragment extends BaseFragment implements LoginPresenterLi
     @Email
     @BindView(R.id.eTFrgLoginEmail)
     AppCompatEditText eTFrgLoginEmail;
+
+    @Password
     @NotEmpty
     @BindView(R.id.eTFrgLoginPassword)
     AppCompatEditText eTFrgLoginPassword;
@@ -62,7 +65,6 @@ public class LoginEmailFragment extends BaseFragment implements LoginPresenterLi
     private LoginPresenter presenter;
     private Validator validator;
     private ProgressDialog progress;
-
 
     public static Fragment newInstance() {
         return new LoginEmailFragment();
@@ -75,6 +77,7 @@ public class LoginEmailFragment extends BaseFragment implements LoginPresenterLi
     }
 
     private void initVars() {
+        setHasOptionsMenu(true);
         validator = new Validator(this);
         validator.setValidationListener(this);
     }
@@ -86,6 +89,21 @@ public class LoginEmailFragment extends BaseFragment implements LoginPresenterLi
         ButterKnife.bind(this, view);
         intViews();
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                getActivity().onBackPressed();
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void intViews() {

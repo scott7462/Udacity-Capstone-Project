@@ -24,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
+import scott.com.workhard.app.base.view.BaseActivity;
 import scott.com.workhard.app.base.view.BaseFragment;
 import scott.com.workhard.app.ui.init.InitActivity;
 import scott.com.workhard.app.ui.init.login.presenter.LoginPresenter;
@@ -116,6 +117,18 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
         if (getActivity() instanceof InitActivity) {
             ((InitActivity) getActivity()).startLoginGooglePlus();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((BaseActivity) getActivity()).getSupportActionBar().hide();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((BaseActivity) getActivity()).getSupportActionBar().show();
     }
 
     @Override
