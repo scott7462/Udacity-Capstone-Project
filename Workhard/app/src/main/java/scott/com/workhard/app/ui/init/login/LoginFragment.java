@@ -4,7 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatEditText;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +18,23 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
 import scott.com.workhard.R;
 import scott.com.workhard.app.base.view.BaseActivity;
 import scott.com.workhard.app.base.view.BaseFragment;
@@ -50,7 +62,16 @@ import timber.log.Timber;
  * limitations under the License.
  */
 
-public class LoginFragment extends BaseFragment implements LoginPresenterListeners {
+public class LoginFragment extends BaseFragment implements LoginPresenterListeners, Validator.ValidationListener {
+
+    @Email
+    @BindView(R.id.eTFrgLoginEmail)
+    AppCompatEditText eTFrgLoginEmail;
+
+    @Password
+    @NotEmpty
+    @BindView(R.id.eTFrgLoginPassword)
+    AppCompatEditText eTFrgLoginPassword;
 
     @BindView(R.id.lBFrgLoginFacebook)
     LoginButton lBFrgLoginFacebook;
@@ -60,8 +81,13 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
 
     @BindView(R.id.lBFrgLoginGooglePlus)
     SignInButton lBFrgLoginGooglePlus;
+//
+//    @BindView(R.id.fBFrgSingInBUU)
+//    FloatingActionButton fBFrgSingInBUU;
+
 
     private LoginPresenter presenter;
+    private Validator validator;
     private ProgressDialog progress;
 
     public static Fragment newInstance() {
@@ -75,6 +101,8 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
     }
 
     private void initVars() {
+        validator = new Validator(this);
+        validator.setValidationListener(this);
     }
 
     @Override
@@ -83,7 +111,23 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
         View view = inflater.inflate(R.layout.frg_login, container, false);
         ButterKnife.bind(this, view);
         intViews();
+        iniListeners();
         return view;
+    }
+
+    private void iniListeners() {
+        eTFrgLoginPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent event) {
+                if (event.getKeyCode() == KeyEvent.FLAG_EDITOR_ACTION) {
+                    cleanValidations();
+                    validator.validate();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
     }
 
     private void intViews() {
@@ -122,13 +166,12 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
     @Override
     public void onResume() {
         super.onResume();
-        ((BaseActivity) getActivity()).getSupportActionBar().hide();
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ((BaseActivity) getActivity()).getSupportActionBar().show();
     }
 
     @Override
@@ -195,7 +238,8 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bTFrgLoginButton: {
-                ((InitActivity) getActivity()).goToLoginByEmail();
+                cleanValidations();
+                validator.validate();
                 break;
             }
             case R.id.bTFrgLoginGoogleButton: {
@@ -207,9 +251,40 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
                 break;
             }
             case R.id.bTFrgLoginTwitterButton: {
-                lBFrgLoginFacebook.callOnClick();
+                lBFrgLoginTwitter.callOnClick();
                 break;
             }
         }
     }
+
+    @Override
+    public void onValidationSucceeded() {
+        presenter.doLogin(eTFrgLoginEmail.getText().toString(),
+                eTFrgLoginPassword.getText().toString());
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(getActivity());
+            if (view instanceof AppCompatEditText) {
+                ((TextInputLayout) view.getParent()).setError(message);
+            }
+        }
+    }
+
+    private void cleanValidations() {
+        ((TextInputLayout) eTFrgLoginEmail.getParent()).setError(null);
+        ((TextInputLayout) eTFrgLoginPassword.getParent()).setError(null);
+    }
+
+    @OnFocusChange(R.id.eTFrgLoginEmail)
+    public void checkWithFocus(boolean focus) {
+        if (!focus) {
+            cleanValidations();
+            validator.validate();
+        }
+    }
+
 }
