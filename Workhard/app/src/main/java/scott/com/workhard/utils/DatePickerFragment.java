@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import org.joda.time.DateTime;
+import org.joda.time.MutableDateTime;
+
+import scott.com.workhard.R;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -30,9 +33,10 @@ import org.joda.time.DateTime;
  */
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
-    private EditText toShowResult;
+    private TextView toShowResult;
+    private MutableDateTime mutableDateTimeDate;
 
-    public void setToShowResult(EditText toShowResult) {
+    public void setToShowResult(TextView toShowResult) {
         this.toShowResult = toShowResult;
     }
 
@@ -50,12 +54,16 @@ public class DatePickerFragment extends DialogFragment
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
-        toShowResult.setText(year + "-" + month + "-" + day);
+        mutableDateTimeDate = new MutableDateTime();
+        mutableDateTimeDate.setYear(year);
+        mutableDateTimeDate.setMonthOfYear(month + 1);
+        mutableDateTimeDate.setDayOfMonth(day);
+        toShowResult.setText(DateTimeUtils.getStringPatternFromDateTime(toShowResult.getContext().getString(R.string.date_register_formatter), mutableDateTimeDate));
     }
 
-    public static void showDatePickerDialog(FragmentManager f, EditText editText) {
+    public static void showDatePickerDialog(FragmentManager f, TextView textView) {
         DatePickerFragment newFragment = new DatePickerFragment();
-        newFragment.setToShowResult(editText);
+        newFragment.setToShowResult(textView);
         newFragment.show(f, "datePicker");
     }
 }
