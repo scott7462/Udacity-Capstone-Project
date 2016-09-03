@@ -11,15 +11,17 @@
 
 
     <!-- Login Fragment -->
-    <string name="frg_login_login_with">Login\n\nwith</string>
-    <string name="frg_login_by_email">BY EMAIL</string>
-    <string name="frg_login_twitter">Twitter</string>
-    <string name="frg_login_by_facebook">Facebook</string>
-    <string name="frg_login_by_google">Google</string>
     <string name="frg_login_login">Login</string>
     <string name="frg_login_email">Email</string>
     <string name="frg_login_password">Password</string>
     <string name="frg_login_sing_up">Sing Up</string>
+    <!-- Login Content Description -->
+    <string name="frg_login_cd_sing_in_with_facebook">Sing in with facebook</string>
+    <string name="frg_login_cd_sing_in_with_google">Sing in with google</string>
+    <string name="frg_login_cd_sing_in_with_twitter">Sing in with twitter</string>
+    <string name="frg_login_cd_sing_in_by_email">Sing in by email</string>
+    <string name="frg_login_cd_write_your_email">Write your email</string>
+    <string name="frg_login_cd_write_your_password">Write your password</string>
 
 
     <!-- Register Fragment -->
@@ -30,6 +32,12 @@
     <string name="frg_register_confirm_password">Confirm Password</string>
     <string name="frg_register_password">Password</string>
     <string name="frg_register_email">Email</string>
+    <string name="frg_login_sing_in">Sing in</string>
+    <string name="frg_login_forgot_password">forgot password</string>
+    <string name="action_button_transition_name">done_button</string>
+    <string name="frg_profile_gallery">Pick image to the gallery</string>
+    <string name="frg_profile_dialog">Open Camera</string>
+    <string name="file_not_found">File not found</string>
 
 
 </resources>

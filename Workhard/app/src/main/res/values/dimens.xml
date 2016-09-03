@@ -21,6 +21,8 @@
 
     <dimen name="default_elevation_lvl_one">4dp</dimen>
     <dimen name="default_elevation_lvl_two">4dp</dimen>
+    <dimen name="social_button_size">50dp</dimen>
+    <dimen name="top_image_login">200dp</dimen>
 
 
 </resources>
