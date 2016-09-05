@@ -181,6 +181,16 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
     }
 
     /**
+     * Get position of the item in the list.
+     *
+     * @param adapterPosition Receive the position of the adapter.
+     * @return The Position of the items in the list.
+     */
+    public int getItemPostion(int adapterPosition) {
+        return adapterPosition - getPositionByRules();
+    }
+
+    /**
      * Entry State Elements.
      */
     protected static final int ENTRY_VIEW = 2000;
