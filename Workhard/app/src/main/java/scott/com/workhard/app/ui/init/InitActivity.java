@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 
@@ -18,9 +19,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import scott.com.workhard.R;
 import scott.com.workhard.app.base.view.BaseActivity;
-import scott.com.workhard.app.ui.init.login.LoginEmailFragment;
 import scott.com.workhard.app.ui.init.login.LoginFragment;
 
 /**
@@ -49,6 +50,8 @@ public class InitActivity extends BaseActivity implements
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.fBFrgSingIn)
+    FloatingActionButton fBFrgSingIn;
 
     private CallbackManager callbackManager;
     private GoogleSignInOptions gso;
@@ -140,8 +143,9 @@ public class InitActivity extends BaseActivity implements
 
     }
 
-    public void goToLoginByEmail() {
-        navigateLowContent(LoginEmailFragment.newInstance(), "Login");
+    @OnClick(R.id.fBFrgSingIn)
+    public void goToRegister() {
+        goToRegister(fBFrgSingIn);
     }
 
 }

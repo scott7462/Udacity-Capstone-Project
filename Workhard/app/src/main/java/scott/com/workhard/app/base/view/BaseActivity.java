@@ -1,5 +1,10 @@
 package scott.com.workhard.app.base.view;
 
+import android.app.ProgressDialog;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,7 +16,8 @@ import java.util.ArrayList;
 
 import scott.com.workhard.R;
 import scott.com.workhard.app.ui.MainActivity;
-import scott.com.workhard.app.ui.init.register.RegisterFragment;
+import scott.com.workhard.app.ui.init.register.RegisterActivity;
+import scott.com.workhard.bus.BusProvider;
 
 /**
  * Copyright (C) 2015 The Android Open Source Project
@@ -32,12 +38,26 @@ public class BaseActivity extends AppCompatActivity {
 
     private final ArrayList<String> titleStack = new ArrayList<>();
     private Toolbar toolbar;
+    private ProgressDialog progress;
 
     /**
      * Get the toolbar in the baseActivity instance.
      */
     public Toolbar getToolbar() {
         return toolbar;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        progress = new ProgressDialog(this);
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BusProvider.getInstance().unregister(this);
     }
 
     /**
@@ -115,8 +135,12 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    public void goToRegister() {
-        navigateLowContent(RegisterFragment.newInstance(), "Register");
+    public void goToRegister(FloatingActionButton floatingActionButton) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            RegisterActivity.newInstance(this, floatingActionButton);
+        } else {
+            RegisterActivity.newInstance(this);
+        }
     }
 
     @Override
@@ -145,4 +169,19 @@ public class BaseActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(this.getWindow().getCurrentFocus().getWindowToken(), 0);
         }
     }
+
+    public void showProgressDialog(String message) {
+        if (progress != null) {
+            progress.setMessage(message);
+            progress.show();
+        }
+
+    }
+
+    public void dissmisProgressDialog() {
+        if (progress != null) {
+            progress.dismiss();
+        }
+    }
+
 }

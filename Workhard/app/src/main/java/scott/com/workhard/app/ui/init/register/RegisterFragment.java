@@ -1,5 +1,6 @@
 package scott.com.workhard.app.ui.init.register;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -13,20 +14,30 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.DatePicker;
+import android.widget.TextView;
 
+import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
+import com.squareup.otto.Subscribe;
 
+import org.joda.time.DateTime;
+
+import java.io.File;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
-import scott.com.workhard.app.base.view.BaseFragment;
+import scott.com.workhard.app.base.view.BasePickImageFragment;
 import scott.com.workhard.app.ui.MainActivity;
 import scott.com.workhard.app.ui.init.login.presenter.LoginPresenter;
 import scott.com.workhard.app.ui.init.login.presenter.LoginPresenterListeners;
+import scott.com.workhard.bus.BusProvider;
+import scott.com.workhard.bus.event.EventCallPickPhoto;
+import scott.com.workhard.bus.event.EventUploadImage;
 import scott.com.workhard.utils.DatePickerFragment;
 
 /**
@@ -48,12 +59,16 @@ import scott.com.workhard.utils.DatePickerFragment;
  * limitations under the License.
  */
 
-public class RegisterFragment extends BaseFragment implements LoginPresenterListeners
+public class RegisterFragment extends BasePickImageFragment implements LoginPresenterListeners
         , Validator.ValidationListener {
+
+    @BindView(R.id.tVFrgRegisterDate)
+    TextView tVFrgRegisterDate;
 
     private LoginPresenter presenter;
     private Validator validator;
     private ProgressDialog progress;
+    private String avatarFilePath;
 
     public static Fragment newInstance() {
         return new RegisterFragment();
@@ -63,6 +78,21 @@ public class RegisterFragment extends BaseFragment implements LoginPresenterList
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initVars();
+    }
+
+    @Override
+    public void imagePiker(ChosenImage image, int responseCode) {
+        avatarFilePath = image.getThumbnailPath();
+        updateImageToCover(new File(image.getThumbnailPath()));
+    }
+
+    private void updateImageToCover(File thumbnailPath) {
+        BusProvider.getInstance().post(new EventUploadImage(thumbnailPath, null));
+    }
+
+    @Override
+    public void errorFindingImage(String errorMessage, int responseCode) {
+
     }
 
     private void initVars() {
@@ -153,12 +183,31 @@ public class RegisterFragment extends BaseFragment implements LoginPresenterList
         MainActivity.newInstance(getActivity());
     }
 
-    public void showDatePickerDialog(EditText v) {
+    public void showDatePickerDialog(TextView v) {
         DatePickerFragment.showDatePickerDialog(getActivity().getSupportFragmentManager(), v);
     }
 
-    @OnClick(R.id.eTFrgRegisterDate)
-    public void onClick(EditText editText) {
-        showDatePickerDialog(editText);
+    @OnClick(R.id.tVFrgRegisterDate)
+    public void onClick(TextView textView) {
+        if (getActivity() != null) {
+            DateTime dateTime = new DateTime();
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                        }
+                    }, dateTime.getYear(), dateTime.getMonthOfYear() - 1, dateTime.getDayOfMonth() + 7);
+            datePickerDialog.getDatePicker().setMinDate(DateTime.now().getMillis());
+            datePickerDialog.setTitle("");
+            datePickerDialog.show();
+        }
+        showDatePickerDialog(textView);
     }
+
+    @Subscribe
+    public void pickPhoto(EventCallPickPhoto eventCallPickPhoto) {
+        showPikerGallery(0);
+    }
+
 }
