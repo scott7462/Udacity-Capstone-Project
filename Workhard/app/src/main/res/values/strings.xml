@@ -39,5 +39,12 @@
     <string name="frg_profile_dialog">Open Camera</string>
     <string name="file_not_found">File not found</string>
 
+    <!-- Create Workout -->
+    <string name="frg_create_workout_rounds_number">Rounds: <b>%1$d</b></string>
+    <string name="frg_create_workout_rest_between_exercise_number">Rest between exercise: <b>%1$d seg</b></string>
+    <string name="frg_create_workout_rest_between_rounds_number">Rest between rounds: <b>%1$d seg</b></string>
+    <string name="frg_create_workout_name">Workout name</string>
+    <string name="item_exercise">Repetitions: %1$d</string>
+
 
 </resources>
