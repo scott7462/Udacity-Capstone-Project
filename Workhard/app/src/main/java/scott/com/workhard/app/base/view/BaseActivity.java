@@ -1,5 +1,6 @@
 package scott.com.workhard.app.base.view;
 
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,6 +38,7 @@ public class BaseActivity extends AppCompatActivity {
 
     private final ArrayList<String> titleStack = new ArrayList<>();
     private Toolbar toolbar;
+    private ProgressDialog progress;
 
     /**
      * Get the toolbar in the baseActivity instance.
@@ -48,6 +50,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progress = new ProgressDialog(this);
         BusProvider.getInstance().register(this);
     }
 
@@ -166,4 +169,19 @@ public class BaseActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(this.getWindow().getCurrentFocus().getWindowToken(), 0);
         }
     }
+
+    public void showProgressDialog(String message) {
+        if (progress != null) {
+            progress.setMessage(message);
+            progress.show();
+        }
+
+    }
+
+    public void dissmisProgressDialog() {
+        if (progress != null) {
+            progress.dismiss();
+        }
+    }
+
 }
