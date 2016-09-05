@@ -28,9 +28,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="scott.com.workhard.app.ui.MainActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".app.ui.create_workout.CreateWorkoutActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name="scott.com.workhard.app.ui.init.register.RegisterActivity"
             android:parentActivityName=".app.ui.MainActivity"
