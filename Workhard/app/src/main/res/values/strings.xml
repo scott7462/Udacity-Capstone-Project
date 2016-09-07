@@ -45,6 +45,7 @@
     <string name="frg_create_workout_rest_between_rounds_number">Rest between rounds: <b>%1$d seg</b></string>
     <string name="frg_create_workout_name">Workout name</string>
     <string name="item_exercise">Repetitions: %1$d</string>
+    <string name="frg_create_workoud_title">Create Workout</string>
 
 
 </resources>

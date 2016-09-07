@@ -44,7 +44,8 @@
             android:drawableStart="@drawable/ic_time_laps_rounds"
             android:gravity="center_vertical"
             android:text="@string/frg_create_workout_rounds_number"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@android:color/white" />
 
         <ImageButton
             android:id="@+id/iBFrgCreateWorkoutRoundsMinus"
@@ -81,7 +82,8 @@
             android:drawableStart="@drawable/ic_timer"
             android:gravity="center_vertical"
             android:text="@string/frg_create_workout_rest_between_exercise_number"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@android:color/white" />
 
         <ImageButton
             android:id="@+id/iBFrgCreateWorkoutRestExerciseMinus"
@@ -120,7 +122,8 @@
             android:drawableStart="@drawable/ic_timer"
             android:gravity="center_vertical"
             android:text="@string/frg_create_workout_rest_between_rounds_number"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@android:color/white" />
 
         <ImageButton
             android:id="@+id/iBFrgCreateWorkoutRestRoundsMinus"

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import scott.com.workhard.R;
+import scott.com.workhard.app.ui.create_workout.CreateWorkoutActivity;
 import scott.com.workhard.app.ui.init.InitActivity;
 
 /**
@@ -31,7 +32,7 @@ public class LaunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
-        InitActivity.newInstance(this);
+        CreateWorkoutActivity.newInstance(this);
         finish();
     }
 

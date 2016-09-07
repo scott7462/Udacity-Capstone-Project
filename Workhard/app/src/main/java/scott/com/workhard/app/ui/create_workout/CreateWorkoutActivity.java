@@ -3,7 +3,6 @@ package scott.com.workhard.app.ui.create_workout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
 
 import butterknife.BindView;
@@ -51,8 +50,8 @@ public class CreateWorkoutActivity extends BaseActivity {
             navigateMainContent(getSupportFragmentManager().getFragment(
                     savedInstanceState, "mContent"), getString(R.string.app_name));
         } else {
-            ((CollapsingToolbarLayout) toolbar.getParent()).setTitle(getString(R.string.app_name));
-            navigateMainContent(FrgCreateWorkout.newInstance(), getString(R.string.app_name));
+            toolbar.setTitle(getString(R.string.app_name));
+            navigateMainContent(FrgCreateWorkout.newInstance(), getString(R.string.frg_create_workoud_title));
         }
     }
 

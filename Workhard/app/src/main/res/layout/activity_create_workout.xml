@@ -13,21 +13,11 @@
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar_layout"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary" />
-        </android.support.design.widget.CollapsingToolbarLayout>
-
-
+            android:background="?attr/colorPrimary" />
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout

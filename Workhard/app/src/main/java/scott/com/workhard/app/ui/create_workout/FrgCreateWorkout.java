@@ -17,7 +17,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
+import scott.com.workhard.app.base.view.BaseActivity;
 import scott.com.workhard.app.base.view.BaseFragment;
+import scott.com.workhard.app.base.view.BaseSimpleAdapter;
 import scott.com.workhard.app.ui.create_workout.adapter.SimpleAdapterExercise;
 import scott.com.workhard.models.Exercise;
 
@@ -41,21 +43,12 @@ import scott.com.workhard.models.Exercise;
  */
 public class FrgCreateWorkout extends BaseFragment {
 
-    //    @BindView(R.id.tVFrgCreateWorkoutRounds)
-//    TextView tVFrgCreateWorkoutRounds;
-//    @BindView(R.id.tVFrgCreateWorkoutRestExercise)
-//    TextView tVFrgCreateWorkoutRestExercise;
-//    @BindView(R.id.tVFrgCreateWorkoutRestRounds)
-//    TextView tVFrgCreateWorkoutRestRounds;
     @BindView(R.id.rVFrgCreateWorkOut)
     RecyclerView rVFrgCreateWorkOut;
-
+    public int restBetweenRounds;
+    public int restBetweenExercises;
+    public int round;
     private SimpleAdapterExercise adapter = new SimpleAdapterExercise();
-    private int rounds = 1;
-    private int restBetweenExercises = 30;
-    private int restBetweenRounds = 30;
-    private Exercise exercise;
-
 
     public static Fragment newInstance() {
         return new FrgCreateWorkout();
@@ -67,12 +60,10 @@ public class FrgCreateWorkout extends BaseFragment {
         initVars();
     }
 
-
     private void initVars() {
         setHasOptionsMenu(true);
         adapter.setHeaderView(true);
         adapter.setEntryState(true);
-
     }
 
     @Override
@@ -85,15 +76,43 @@ public class FrgCreateWorkout extends BaseFragment {
     }
 
     private void intViews() {
-        updateViewsTimes();
         rVFrgCreateWorkOut.setLayoutManager(new LinearLayoutManager(getActivity()));
         rVFrgCreateWorkOut.setAdapter(adapter);
-    }
+        adapter.addHeaderClickListener(new SimpleAdapterExercise.onHeaderClickListener() {
+            @Override
+            public void onRoundChangeListener(int round) {
+                FrgCreateWorkout.this.round = round;
+            }
 
-    private void updateViewsTimes() {
-//        tVFrgCreateWorkoutRounds.setText(getString(R.string.frg_create_workout_rounds_number, rounds));
-//        tVFrgCreateWorkoutRestExercise.setText(getString(R.string.frg_create_workout_rest_between_exercise_number, restBetweenExercises));
-//        tVFrgCreateWorkoutRestRounds.setText(getString(R.string.frg_create_workout_rest_between_rounds_number, restBetweenRounds));
+            @Override
+            public void onRestBetweenExercisesListener(int restBetweenExercises) {
+                FrgCreateWorkout.this.restBetweenExercises = restBetweenExercises;
+            }
+
+            @Override
+            public void onRestBetweenRoundsListener(int restBetweenRounds) {
+                FrgCreateWorkout.this.restBetweenRounds = restBetweenRounds;
+            }
+
+            @Override
+            public void onNameWorkoutChange(String name) {
+                ((BaseActivity) getActivity()).getToolbar().setTitle(name);
+            }
+
+        });
+
+        adapter.addItemTouchHelperAdapter(rVFrgCreateWorkOut, new BaseSimpleAdapter.ItemTouchHelperAdapter<Exercise>() {
+
+            @Override
+            public void onItemMoved(int fromAdapterPosition, int fromItemPosition, Exercise itemOrigin, int toAdapterPosition, int toItemsPosition, Exercise itemTarget) {
+
+            }
+
+            @Override
+            public void onItemDismissed(int position, Exercise itemsToDismiss) {
+
+            }
+        });
     }
 
     @Override
@@ -118,61 +137,15 @@ public class FrgCreateWorkout extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                getActivity().onBackPressed();
+                adapter.undoLastItemsChangesPosition();
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
-//    @OnClick({R.id.iBFrgCreateWorkoutRoundsMinus, R.id.iBFrgCreateWorkoutRoundsPlus})
-//    public void onClickRounds(View view) {
-//        switch (view.getId()) {
-//            case R.id.iBFrgCreateWorkoutRoundsMinus:
-//                if (rounds > getActivity().getResources().getInteger(R.integer.min_rounds)) {
-//                    rounds--;
-//                }
-//                break;
-//            case R.id.iBFrgCreateWorkoutRoundsPlus:
-//                rounds++;
-//                break;
-//        }
-//        updateViewsTimes();
-//    }
-//
-//
-//    @OnClick({R.id.iBFrgCreateWorkoutRestExerciseMinus, R.id.iBFrgCreateWorkoutRestExercisePlus})
-//    public void onClickRestExercise(View view) {
-//        switch (view.getId()) {
-//            case R.id.iBFrgCreateWorkoutRestExerciseMinus:
-//                if (restBetweenExercises > getActivity().getResources().getInteger(R.integer.min_rest_beteween_exercise)) {
-//                    restBetweenExercises = restBetweenExercises - 5;
-//                }
-//                break;
-//            case R.id.iBFrgCreateWorkoutRestExercisePlus:
-//                restBetweenExercises = restBetweenExercises + 5;
-//                break;
-//        }
-//        updateViewsTimes();
-//    }
-//
-//    @OnClick({R.id.iBFrgCreateWorkoutRestRoundsMinus, R.id.iBFrgCreateWorkoutRestRoundsPlus})
-//    public void onClickRestRounds(View view) {
-//        switch (view.getId()) {
-//            case R.id.iBFrgCreateWorkoutRestRoundsMinus:
-//                if (restBetweenRounds > getActivity().getResources().getInteger(R.integer.min_rest_beteween_rounds)) {
-//                    restBetweenRounds = restBetweenRounds - 5;
-//                }
-//                break;
-//            case R.id.iBFrgCreateWorkoutRestRoundsPlus:
-//                restBetweenRounds = restBetweenRounds + 5;
-//                break;
-//        }
-//        updateViewsTimes();
-//    }
-
     @OnClick(R.id.fBFrgCreateWork)
     public void onClick() {
-        adapter.removeItemByPosition(2);
-        adapter.removeItem(exercise);
+        adapter.addItem(new Exercise().withName("Hola mundo")
+                .withRepetitions(adapter.getItemCount() + 1));
     }
 }

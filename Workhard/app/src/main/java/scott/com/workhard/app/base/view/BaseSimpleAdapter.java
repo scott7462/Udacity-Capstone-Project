@@ -3,9 +3,11 @@ package scott.com.workhard.app.base.view;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -31,7 +33,11 @@ import butterknife.ButterKnife;
 public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> {
 
     private List<T> items = new ArrayList<>();
-    private ListingItemClickListener<T> clickListener;
+    private ItemClickListener<T> clickListener;
+    private ItemTouchHelperAdapter<T> itemTouchHelperAdapter;
+    ItemTouchHelper.Callback itemTouchCallback;
+    private int whereMoveStart = 0;
+    private int whereMoveEnd = 0;
 
     public List<T> getItems() {
         return items;
@@ -50,15 +56,15 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
     @Override
     public int getItemViewType(int position) {
         validateItemNullAndCreate();
-        if (isHeaderView() && isEntryState()) {
+        if (ifAdapterHaveHeaderView() && isEntryState()) {
             if (items.size() == 0 && position == 1) {
-                return ENTRY_VIEW;
+                return isLoadingState() ? LOADING_VIEW : EMPTY_VIEW;
             } else if (items.size() >= 0 && position == 0) {
-                return ENTRY_VIEW;
+                return isLoadingState() ? LOADING_VIEW : HEADER_VIEW;
             }
         } else if (isEntryState() && items.size() == 0) {
-            return ENTRY_VIEW;
-        } else if (isHeaderView() && items.size() >= 0 && position == 0) {
+            return isLoadingState() ? LOADING_VIEW : EMPTY_VIEW;
+        } else if (ifAdapterHaveHeaderView() && items.size() >= 0 && position == 0) {
             return HEADER_VIEW;
         }
         return super.getItemViewType(position);
@@ -164,19 +170,19 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
         }
     }
 
-    public ListingItemClickListener<T> getClickListener() {
+    public ItemClickListener<T> getClickListener() {
         return clickListener;
     }
 
-    public void addClickListener(ListingItemClickListener<T> clickListener) {
+    public void addClickListener(ItemClickListener<T> clickListener) {
         this.clickListener = clickListener;
     }
 
     public int getPositionByRules() {
-        return ((isEntryState() && items.size() == 0) ? 1 : 0) + (isHeaderView() ? 1 : 0);
+        return ((isEntryState() && items.size() == 0) ? 1 : 0) + (ifAdapterHaveHeaderView() ? 1 : 0);
     }
 
-    private interface ListingItemClickListener<T> {
+    private interface ItemClickListener<T> {
         void onListingViewsClick(T item, int position);
     }
 
@@ -186,14 +192,14 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
      * @param adapterPosition Receive the position of the adapter.
      * @return The Position of the items in the list.
      */
-    public int getItemPostion(int adapterPosition) {
+    public int getItemPosition(int adapterPosition) {
         return adapterPosition - getPositionByRules();
     }
 
     /**
      * Entry State Elements.
      */
-    protected static final int ENTRY_VIEW = 2000;
+    protected static final int EMPTY_VIEW = 2000;
     private boolean entryState = false;
 
     public boolean isEntryState() {
@@ -228,20 +234,152 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
      * Header elements.
      */
     protected static final int HEADER_VIEW = 3000;
-    private boolean headerView;
+    private boolean headerView = false;
 
-    public boolean isHeaderView() {
+    public boolean ifAdapterHaveHeaderView() {
         return headerView;
     }
 
     /**
      * Set the entry state value in constructor builder
      *
-     * @param headerView Is true if you want user a entry state by default is false.
+     * @param headerView Is true if you want user a entry state by default is true.
      */
     public void setHeaderView(boolean headerView) {
         this.headerView = headerView;
     }
 
+    /**
+     * Loading elements.
+     */
+    protected static final int LOADING_VIEW = 4000;
+    private boolean loadingState;
+
+    public boolean isLoadingState() {
+        return loadingState;
+    }
+
+    /**
+     * Set the entry state value in constructor builder
+     *
+     * @param loadingState Is true if you want user a entry state and want to use.
+     */
+    public void setLoadingState(boolean loadingState) {
+        this.loadingState = loadingState;
+    }
+
+
+    /**
+     * Move Items
+     */
+    public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return true;
+        }
+
+        @Override
+        public boolean isItemViewSwipeEnabled() {
+            return true;
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            if (ifAdapterHaveHeaderView() && viewHolder.getAdapterPosition() == 0) {
+                return 0;
+            }
+            whereMoveStart = viewHolder.getAdapterPosition();
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView,
+                              RecyclerView.ViewHolder viewHolder,
+                              RecyclerView.ViewHolder target) {
+            return changeItemsPositionByPositionAdapter(viewHolder.getAdapterPosition(),
+                    target.getAdapterPosition());
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            if (!(ifAdapterHaveHeaderView() && viewHolder.getAdapterPosition() == 0)) {
+                int position = getItemPosition(viewHolder.getAdapterPosition());
+                T item = items.get(position);
+                items.remove(position);
+                notifyItemRemoved(position + getPositionByRules());
+                if (getItemTouchHelperAdapter() != null) {
+                    getItemTouchHelperAdapter().onItemDismissed(position,
+                            item);
+                }
+            }
+        }
+
+    }
+
+    private boolean changeItemsPositionByPositionAdapter(int adapterPositionStart, int adapterPositionEnd) {
+        if (ifAdapterHaveHeaderView() && adapterPositionEnd == 0) {
+            return false;
+        }
+        if (adapterPositionEnd > items.size()) {
+            return false;
+        }
+        if (adapterPositionStart < adapterPositionEnd) {
+            for (int i = getItemPosition(adapterPositionStart); i < getItemPosition(adapterPositionEnd); i++) {
+                Collections.swap(items, i, i + 1);
+            }
+        } else {
+            for (int i = getItemPosition(adapterPositionStart); i > getItemPosition(adapterPositionEnd); i--) {
+                Collections.swap(items, i, i - 1);
+            }
+        }
+        whereMoveEnd = adapterPositionEnd;
+        notifyItemMoved(adapterPositionStart, adapterPositionEnd);
+        if (getItemTouchHelperAdapter() != null) {
+            T itemFrom = items.get(getItemPosition(adapterPositionStart));
+            T itemTarget = items.get(getItemPosition(adapterPositionEnd));
+            getItemTouchHelperAdapter().onItemMoved(adapterPositionStart,
+                    getItemPosition(adapterPositionStart),
+                    itemFrom,
+                    getItemPosition(adapterPositionEnd),
+                    adapterPositionEnd,
+                    itemTarget);
+        }
+        return true;
+    }
+
+    /**
+     * Inset a item in list by position.
+     *
+     * @param position       is the position adapter of the items.
+     * @param itemsToDismiss is the item that you previews remove
+     */
+    public void undoRemovedItem(int position, T itemsToDismiss) {
+        addItemByPosition(itemsToDismiss, position);
+    }
+
+    public boolean undoLastItemsChangesPosition() {
+        return changeItemsPositionByPositionAdapter(whereMoveEnd,whereMoveStart);
+    }
+
+    public ItemTouchHelperAdapter<T> getItemTouchHelperAdapter() {
+        return itemTouchHelperAdapter;
+    }
+
+    public void addItemTouchHelperAdapter(RecyclerView recyclerView, ItemTouchHelperAdapter<T> itemTouchHelperAdapter) {
+        this.itemTouchHelperAdapter = itemTouchHelperAdapter;
+        ItemTouchHelper.Callback callback =
+                new SimpleItemTouchHelperCallback();
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    public interface ItemTouchHelperAdapter<T> {
+        void onItemMoved(int fromAdapterPosition, int fromItemPosition, T itemOrigin, int toAdapterPosition, int toItemsPosition, T itemTarget);
+
+        void onItemDismissed(int position, T itemToDismiss);
+    }
 
 }
