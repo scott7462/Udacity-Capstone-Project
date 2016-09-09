@@ -62,8 +62,8 @@ public class FrgCreateWorkout extends BaseFragment {
 
     private void initVars() {
         setHasOptionsMenu(true);
-        adapter.setHeaderView(true);
-        adapter.setEntryState(true);
+        adapter.showHeaderView(true);
+        adapter.showEmptyState(true);
     }
 
     @Override

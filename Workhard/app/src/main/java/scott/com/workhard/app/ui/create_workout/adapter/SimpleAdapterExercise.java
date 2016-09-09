@@ -43,10 +43,10 @@ public class SimpleAdapterExercise extends BaseSimpleAdapter<Exercise, RecyclerV
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case LOADING_VIEW: {
-                return new EntryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_loading, parent, false));
+                return new EmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_loading, parent, false));
             }
             case EMPTY_VIEW: {
-                return new EntryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_empty, parent, false));
+                return new EmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_empty, parent, false));
             }
             case HEADER_VIEW: {
                 return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.frg_create_workout_header, parent, false));

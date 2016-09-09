@@ -35,9 +35,9 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
     private List<T> items = new ArrayList<>();
     private ItemClickListener<T> clickListener;
     private ItemTouchHelperAdapter<T> itemTouchHelperAdapter;
-    ItemTouchHelper.Callback itemTouchCallback;
-    private int whereMoveStart = 0;
-    private int whereMoveEnd = 0;
+
+    private int whereItemStartToMove = 0;
+    private int whereItemEndToMove = 0;
 
     public List<T> getItems() {
         return items;
@@ -45,7 +45,7 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
 
     @Override
     public int getItemCount() {
-        validateItemNullAndCreate();
+        validateItemsNullAndCreate();
         if (items.size() == 0) {
             return getPositionByRules();
         } else {
@@ -55,22 +55,22 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
 
     @Override
     public int getItemViewType(int position) {
-        validateItemNullAndCreate();
-        if (ifAdapterHaveHeaderView() && isEntryState()) {
+        validateItemsNullAndCreate();
+        if (ifAdapterHaveHeaderView() && isEmptyState()) {
             if (items.size() == 0 && position == 1) {
-                return isLoadingState() ? LOADING_VIEW : EMPTY_VIEW;
+                return isLoadingStateEnable() ? LOADING_VIEW : EMPTY_VIEW;
             } else if (items.size() >= 0 && position == 0) {
-                return isLoadingState() ? LOADING_VIEW : HEADER_VIEW;
+                return isLoadingStateEnable() ? LOADING_VIEW : HEADER_VIEW;
             }
-        } else if (isEntryState() && items.size() == 0) {
-            return isLoadingState() ? LOADING_VIEW : EMPTY_VIEW;
+        } else if (isEmptyState() && items.size() == 0) {
+            return isLoadingStateEnable() ? LOADING_VIEW : EMPTY_VIEW;
         } else if (ifAdapterHaveHeaderView() && items.size() >= 0 && position == 0) {
             return HEADER_VIEW;
         }
         return super.getItemViewType(position);
     }
 
-    private void validateItemNullAndCreate() {
+    private void validateItemsNullAndCreate() {
         if (items == null) {
             items = new ArrayList<>();
         }
@@ -95,10 +95,10 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
      *
      * @param list list of items to insert in the base list of items in the adapter.
      */
-    public void addData(@Nullable List<T> list) {
-        validateItemNullAndCreate();
+    public void cleanItemsAndUpdate(@Nullable List<T> list) {
+        validateItemsNullAndCreate();
         items.clear();
-        this.items.addAll(list == null ? new ArrayList<T>() : list);
+        addItems(list);
         notifyDataSetChanged();
     }
 
@@ -108,8 +108,8 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
      *
      * @param list list of items to add in the base list of items in the adapter.
      */
-    public void uploadData(@Nullable List<T> list) {
-        validateItemNullAndCreate();
+    public void addItems(@Nullable List<T> list) {
+        validateItemsNullAndCreate();
         this.items.addAll(list == null ? new ArrayList<T>() : list);
         notifyDataSetChanged();
     }
@@ -120,8 +120,8 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
      * @param item to remove in list.
      * @return The true in case to find and remove the items.
      */
-    public boolean removeItem(T item) {
-        validateItemNullAndCreate();
+    public boolean removeItem(@NonNull T item) {
+        validateItemsNullAndCreate();
         if (items.remove(item)) {
             notifyDataSetChanged();
             return true;
@@ -136,7 +136,7 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
      * @return The true in case to find and remove the items.
      */
     public boolean removeItemByPosition(int position) {
-        validateItemNullAndCreate();
+        validateItemsNullAndCreate();
         if (position < items.size()) {
             items.remove(position);
             notifyItemRemoved(position + getPositionByRules());
@@ -151,7 +151,7 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
      * @param item the item to insert in list.
      */
     public void addItem(@NonNull T item) {
-        validateItemNullAndCreate();
+        validateItemsNullAndCreate();
         items.add(item);
         notifyDataSetChanged();
     }
@@ -163,7 +163,7 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
      * @param position the position to insert in list
      */
     public void addItemByPosition(@NonNull T item, int position) {
-        validateItemNullAndCreate();
+        validateItemsNullAndCreate();
         if (position < items.size()) {
             items.add(position, item);
             notifyItemInserted(position + getPositionByRules());
@@ -178,8 +178,8 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
         this.clickListener = clickListener;
     }
 
-    public int getPositionByRules() {
-        return ((isEntryState() && items.size() == 0) ? 1 : 0) + (ifAdapterHaveHeaderView() ? 1 : 0);
+    private int getPositionByRules() {
+        return ((isEmptyState() && items.size() == 0) ? 1 : 0) + (ifAdapterHaveHeaderView() ? 1 : 0);
     }
 
     private interface ItemClickListener<T> {
@@ -202,7 +202,7 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
     protected static final int EMPTY_VIEW = 2000;
     private boolean entryState = false;
 
-    public boolean isEntryState() {
+    public boolean isEmptyState() {
         return entryState;
     }
 
@@ -211,22 +211,15 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
      *
      * @param entryState Is true if you want user a entry state by default is false.
      */
-    public void setEntryState(boolean entryState) {
+    public void showEmptyState(boolean entryState) {
         this.entryState = entryState;
     }
 
-    protected class EntryViewHolder extends RecyclerView.ViewHolder {
+    protected class EmptyViewHolder extends RecyclerView.ViewHolder {
 
-        public EntryViewHolder(View itemView) {
+        public EmptyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            if (getClickListener() != null) {
-                initListeners();
-            }
-        }
-
-        private void initListeners() {
-
         }
     }
 
@@ -245,7 +238,7 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
      *
      * @param headerView Is true if you want user a entry state by default is true.
      */
-    public void setHeaderView(boolean headerView) {
+    public void showHeaderView(boolean headerView) {
         this.headerView = headerView;
     }
 
@@ -255,16 +248,16 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
     protected static final int LOADING_VIEW = 4000;
     private boolean loadingState;
 
-    public boolean isLoadingState() {
+    public boolean isLoadingStateEnable() {
         return loadingState;
     }
 
     /**
      * Set the entry state value in constructor builder
      *
-     * @param loadingState Is true if you want user a entry state and want to use.
+     * @param loadingState Is true if you want to show loading state.
      */
-    public void setLoadingState(boolean loadingState) {
+    public void showLoadingState(boolean loadingState) {
         this.loadingState = loadingState;
     }
 
@@ -291,7 +284,7 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
             if (ifAdapterHaveHeaderView() && viewHolder.getAdapterPosition() == 0) {
                 return 0;
             }
-            whereMoveStart = viewHolder.getAdapterPosition();
+            whereItemStartToMove = viewHolder.getAdapterPosition();
             return makeMovementFlags(dragFlags, swipeFlags);
         }
 
@@ -335,7 +328,7 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
                 Collections.swap(items, i, i - 1);
             }
         }
-        whereMoveEnd = adapterPositionEnd;
+        whereItemEndToMove = adapterPositionEnd;
         notifyItemMoved(adapterPositionStart, adapterPositionEnd);
         if (getItemTouchHelperAdapter() != null) {
             T itemFrom = items.get(getItemPosition(adapterPositionStart));
@@ -361,7 +354,7 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
     }
 
     public boolean undoLastItemsChangesPosition() {
-        return changeItemsPositionByPositionAdapter(whereMoveEnd,whereMoveStart);
+        return changeItemsPositionByPositionAdapter(whereItemEndToMove, whereItemStartToMove);
     }
 
     public ItemTouchHelperAdapter<T> getItemTouchHelperAdapter() {
