@@ -38,10 +38,13 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
 
     private int whereItemStartToMove = 0;
     private int whereItemEndToMove = 0;
+    private boolean moveCallBack = false;
+    private boolean swipeCallBack = false;
 
     public List<T> getItems() {
         return items;
     }
+
 
     @Override
     public int getItemCount() {
@@ -182,6 +185,22 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
         return ((isEmptyState() && items.size() == 0) ? 1 : 0) + (ifAdapterHaveHeaderView() ? 1 : 0);
     }
 
+    public void setMoveCallBack(boolean moveCallBack) {
+        this.moveCallBack = moveCallBack;
+    }
+
+    public void setSwipeCallBack(boolean swipeCallBack) {
+        this.swipeCallBack = swipeCallBack;
+    }
+
+    public boolean isMoveCallBack() {
+        return moveCallBack;
+    }
+
+    public boolean isSwipeCallBack() {
+        return swipeCallBack;
+    }
+
     private interface ItemClickListener<T> {
         void onListingViewsClick(T item, int position);
     }
@@ -279,9 +298,16 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
 
         @Override
         public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
-            if (ifAdapterHaveHeaderView() && viewHolder.getAdapterPosition() == 0) {
+            int dragFlags = 0;
+            if (isMoveCallBack()) {
+                dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            }
+            int swipeFlags = 0;
+            if (isSwipeCallBack()) {
+                swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            }
+            if ((ifAdapterHaveHeaderView() && viewHolder.getAdapterPosition() == 0)
+                    || items.size() == 0) {
                 return 0;
             }
             whereItemStartToMove = viewHolder.getAdapterPosition();
@@ -361,8 +387,10 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
         return itemTouchHelperAdapter;
     }
 
-    public void addItemTouchHelperAdapter(RecyclerView recyclerView, ItemTouchHelperAdapter<T> itemTouchHelperAdapter) {
+    public void addItemTouchHelperAdapter(RecyclerView recyclerView, ItemTouchHelperAdapter<T> itemTouchHelperAdapter, boolean activeSwipe, boolean activeMove) {
         this.itemTouchHelperAdapter = itemTouchHelperAdapter;
+        setMoveCallBack(activeMove);
+        setSwipeCallBack(activeSwipe);
         ItemTouchHelper.Callback callback =
                 new SimpleItemTouchHelperCallback();
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
@@ -372,7 +400,18 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
     public interface ItemTouchHelperAdapter<T> {
         void onItemMoved(int fromAdapterPosition, int fromItemPosition, T itemOrigin, int toAdapterPosition, int toItemsPosition, T itemTarget);
 
-        void onItemDismissed(int position, T itemToDismiss);
+        void onItemDismissed(int position, T item);
     }
+
+    public List<T> getItemsByCondition() {
+        List<T> selectedItems = new ArrayList<>();
+        for (T t : getItems()) {
+            if (validCondition(t))
+                selectedItems.add(t);
+        }
+        return selectedItems;
+    }
+
+    protected abstract boolean validCondition(T t);
 
 }

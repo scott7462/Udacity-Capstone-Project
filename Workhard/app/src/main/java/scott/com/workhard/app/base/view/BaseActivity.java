@@ -12,12 +12,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.inputmethod.InputMethodManager;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 
 import scott.com.workhard.R;
 import scott.com.workhard.app.ui.MainActivity;
 import scott.com.workhard.app.ui.init.register.RegisterActivity;
-import scott.com.workhard.bus.BusProvider;
+import scott.com.workhard.app.ui.select_exercise.SelectExerciseActivity;
+import scott.com.workhard.bus.event.EventSnackBar;
+import scott.com.workhard.bus.util.SnackBarUtils;
 
 /**
  * Copyright (C) 2015 The Android Open Source Project
@@ -50,14 +55,14 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         progress = new ProgressDialog(this);
-        BusProvider.getInstance().register(this);
     }
 
     @Override
     protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
-        BusProvider.getInstance().unregister(this);
     }
 
     /**
@@ -175,7 +180,6 @@ public class BaseActivity extends AppCompatActivity {
             progress.setMessage(message);
             progress.show();
         }
-
     }
 
     public void dissmisProgressDialog() {
@@ -183,5 +187,16 @@ public class BaseActivity extends AppCompatActivity {
             progress.dismiss();
         }
     }
+
+    @Subscribe
+    public void showSnackBar(EventSnackBar eventSnackBar) {
+        eventSnackBar.setViewParent(findViewById(android.R.id.content));
+        SnackBarUtils.makeSnackBar(eventSnackBar);
+    }
+
+    public void goToSelectExercise() {
+        SelectExerciseActivity.newInstance(this);
+    }
+
 
 }

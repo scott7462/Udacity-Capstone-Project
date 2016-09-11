@@ -1,10 +1,16 @@
 package scott.com.workhard.app.base.view;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
-import scott.com.workhard.bus.BusProvider;
+import scott.com.workhard.bus.event.EventSnackBar;
 
 /**
  * @author pedroscott,
@@ -33,20 +39,34 @@ public class BaseFragment extends Fragment {
         return subscription;
     }
 
+    public void addSubscription(Subscription subscription) {
+        getSubscription().add(subscription);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
     @Override
     public void onAttach(Context activity) {
         super.onAttach(activity);
-        BusProvider.getInstance().register(this);
         subscription = new CompositeSubscription();
     }
 
     @Override
     public void onDetach() {
+        EventBus.getDefault().unregister(this);
         super.onDetach();
-        BusProvider.getInstance().unregister(this);
         if (subscription != null) {
             subscription.unsubscribe();
         }
+    }
+
+    @Subscribe
+    public void showSnackBar(EventSnackBar eventSnackBar){
+
     }
 
 }
