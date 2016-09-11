@@ -13,6 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -20,8 +23,11 @@ import scott.com.workhard.R;
 import scott.com.workhard.app.base.view.BaseActivity;
 import scott.com.workhard.app.base.view.BaseFragment;
 import scott.com.workhard.app.base.view.BaseSimpleAdapter;
-import scott.com.workhard.app.ui.create_workout.adapter.SimpleAdapterExercise;
+import scott.com.workhard.app.ui.create_workout.adapter.AdapterExercise;
+import scott.com.workhard.bus.event.EventAddExercises;
+import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.models.Exercise;
+import scott.com.workhard.utils.SpacesItemDecoration;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -45,10 +51,8 @@ public class FrgCreateWorkout extends BaseFragment {
 
     @BindView(R.id.rVFrgCreateWorkOut)
     RecyclerView rVFrgCreateWorkOut;
-    public int restBetweenRounds;
-    public int restBetweenExercises;
-    public int round;
-    private SimpleAdapterExercise adapter = new SimpleAdapterExercise();
+
+    private AdapterExercise adapter = new AdapterExercise(AdapterExercise.SHOW_IN_WORKOUT);
 
     public static Fragment newInstance() {
         return new FrgCreateWorkout();
@@ -77,23 +81,11 @@ public class FrgCreateWorkout extends BaseFragment {
 
     private void intViews() {
         rVFrgCreateWorkOut.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rVFrgCreateWorkOut.addItemDecoration(
+                new SpacesItemDecoration(adapter.ifAdapterHaveHeaderView(), R.dimen.default_medium_size));
         rVFrgCreateWorkOut.setAdapter(adapter);
-        adapter.addHeaderClickListener(new SimpleAdapterExercise.onHeaderClickListener() {
-            @Override
-            public void onRoundChangeListener(int round) {
-                FrgCreateWorkout.this.round = round;
-            }
-
-            @Override
-            public void onRestBetweenExercisesListener(int restBetweenExercises) {
-                FrgCreateWorkout.this.restBetweenExercises = restBetweenExercises;
-            }
-
-            @Override
-            public void onRestBetweenRoundsListener(int restBetweenRounds) {
-                FrgCreateWorkout.this.restBetweenRounds = restBetweenRounds;
-            }
-
+        rVFrgCreateWorkOut.setHasFixedSize(true);
+        adapter.addHeaderClickListener(new AdapterExercise.onHeaderClickListener() {
             @Override
             public void onNameWorkoutChange(String name) {
                 ((BaseActivity) getActivity()).getToolbar().setTitle(name);
@@ -105,14 +97,20 @@ public class FrgCreateWorkout extends BaseFragment {
 
             @Override
             public void onItemMoved(int fromAdapterPosition, int fromItemPosition, Exercise itemOrigin, int toAdapterPosition, int toItemsPosition, Exercise itemTarget) {
-
             }
 
             @Override
-            public void onItemDismissed(int position, Exercise itemsToDismiss) {
+            public void onItemDismissed(final int position, final Exercise item) {
+                EventBus.getDefault().post(new EventSnackBar().withMessage("You removed " + item.getName() + " of this workout.")
+                        .withAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                adapter.undoRemovedItem(position, item);
+                            }
+                        }));
 
             }
-        });
+        }, true, true);
     }
 
     @Override
@@ -130,22 +128,45 @@ public class FrgCreateWorkout extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_save, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.item_menu_save: {
+                ((BaseActivity) getActivity()).clearKeyboardFromScreen();
+                if (validateDataToSend())
+                    EventBus.getDefault().post(new EventSnackBar().withMessage("TODO Create service"));
+                break;
+            }
             case android.R.id.home: {
-                adapter.undoLastItemsChangesPosition();
+                getActivity().onBackPressed();
+                break;
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private boolean validateDataToSend() {
+        if (adapter.getItems().size() <= 0) {
+            EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.frg_create_workout_need_on)));
+            return false;
+        } else if (!adapter.validateHeader()) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
     @OnClick(R.id.fBFrgCreateWork)
     public void onClick() {
-        adapter.addItem(new Exercise().withName("Hola mundo")
-                .withRepetitions(adapter.getItemCount() + 1));
+        ((BaseActivity) getActivity()).goToSelectExercise();
+    }
+
+    @Subscribe
+    public void onGetExercisesToAdd(EventAddExercises event) {
+        adapter.addItems(event.getExercises());
     }
 }
