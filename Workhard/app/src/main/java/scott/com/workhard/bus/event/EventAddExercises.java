@@ -1,10 +1,12 @@
-package scott.com.workhard.bus;
+package scott.com.workhard.bus.event;
 
-import com.squareup.otto.Bus;
+import java.util.List;
+
+import scott.com.workhard.models.Exercise;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 8/21/16.
+ * @version 9/11/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -20,14 +22,15 @@ import com.squareup.otto.Bus;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public final class BusProvider {
-    private static final Bus BUS = new Bus();
 
-    public static Bus getInstance() {
-        return BUS;
+public class EventAddExercises {
+    private final List<Exercise> exercises;
+
+    public EventAddExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
     }
 
-    private BusProvider() {
-        // No instances.
+    public List<Exercise> getExercises() {
+        return exercises;
     }
 }

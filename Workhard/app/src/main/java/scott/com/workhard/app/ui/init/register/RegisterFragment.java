@@ -20,8 +20,9 @@ import android.widget.TextView;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
-import com.squareup.otto.Subscribe;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.joda.time.DateTime;
 
 import java.io.File;
@@ -35,7 +36,6 @@ import scott.com.workhard.app.base.view.BasePickImageFragment;
 import scott.com.workhard.app.ui.MainActivity;
 import scott.com.workhard.app.ui.init.login.presenter.LoginPresenter;
 import scott.com.workhard.app.ui.init.login.presenter.LoginPresenterListeners;
-import scott.com.workhard.bus.BusProvider;
 import scott.com.workhard.bus.event.EventCallPickPhoto;
 import scott.com.workhard.bus.event.EventUploadImage;
 import scott.com.workhard.utils.DatePickerFragment;
@@ -87,7 +87,7 @@ public class RegisterFragment extends BasePickImageFragment implements LoginPres
     }
 
     private void updateImageToCover(File thumbnailPath) {
-        BusProvider.getInstance().post(new EventUploadImage(thumbnailPath, null));
+        EventBus.getDefault().post(new EventUploadImage(thumbnailPath, null));
     }
 
     @Override

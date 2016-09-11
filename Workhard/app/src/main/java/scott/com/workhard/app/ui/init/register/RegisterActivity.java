@@ -13,13 +13,14 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.squareup.otto.Subscribe;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
 import scott.com.workhard.app.base.view.BaseActivity;
-import scott.com.workhard.bus.BusProvider;
 import scott.com.workhard.bus.event.EventCallPickPhoto;
 import scott.com.workhard.bus.event.EventUploadImage;
 
@@ -62,7 +63,7 @@ public class RegisterActivity extends BaseActivity {
         iVAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BusProvider.getInstance().post(new EventCallPickPhoto());
+                EventBus.getDefault().post(new EventCallPickPhoto());
             }
         });
     }
