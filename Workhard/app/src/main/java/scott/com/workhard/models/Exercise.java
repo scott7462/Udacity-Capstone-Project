@@ -34,6 +34,9 @@ public class Exercise {
     @SerializedName("repetition")
     @Expose
     private int repetition;
+    @SerializedName("is_checked")
+    @Expose
+    private boolean isChecked;
 
     public String getName() {
         return name;
@@ -59,5 +62,13 @@ public class Exercise {
     public Exercise withRepetitions(int repetitions) {
         setRepetition(repetitions);
         return this;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }

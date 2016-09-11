@@ -40,10 +40,11 @@ public class Workout {
     private int rounds;
     @SerializedName("name")
     @Expose
-    private List<Exercise> name;
+    private String name;
     @SerializedName("list_exercise")
     @Expose
     private List<Exercise> exerciseList = new ArrayList<>();
+    private boolean errorMessageInName;
 
     public int getRestBetweenExercise() {
         return restBetweenExercise;
@@ -69,11 +70,11 @@ public class Workout {
         this.rounds = rounds;
     }
 
-    public List<Exercise> getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(List<Exercise> name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -84,4 +85,5 @@ public class Workout {
     public void setExerciseList(List<Exercise> exerciseList) {
         this.exerciseList = exerciseList;
     }
+
 }
