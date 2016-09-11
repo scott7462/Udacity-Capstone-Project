@@ -46,6 +46,12 @@
     <string name="frg_create_workout_name">Workout name</string>
     <string name="item_exercise">Repetitions: %1$d</string>
     <string name="frg_create_workoud_title">Create Workout</string>
+    <string name="action_save">Save</string>
+    <string name="action_add">ADD</string>
+    <string name="action_add_all">ADD ALL</string>
+    <string name="action_search">Search ...</string>
+    <string name="frg_create_workout_need_on">Need at list one exercise.</string>
+    <string name="frg_create_workout_name_nim">Name need min 4 characters.</string>
 
 
 </resources>

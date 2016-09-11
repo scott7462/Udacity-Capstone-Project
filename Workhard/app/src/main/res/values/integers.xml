@@ -3,4 +3,5 @@
     <integer name="min_rounds">1</integer>
     <integer name="min_rest_beteween_exercise">0</integer>
     <integer name="min_rest_beteween_rounds">0</integer>
+    <integer name="number_of_rest">5</integer>
 </resources>
