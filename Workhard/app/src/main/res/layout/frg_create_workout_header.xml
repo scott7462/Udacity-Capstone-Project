@@ -11,12 +11,14 @@
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/eTFrgLoginEmail"
+            android:id="@+id/eTFrgCreateWorkoutName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="@string/frg_login_cd_write_your_email"
             android:drawableLeft="@drawable/ic_account"
             android:drawablePadding="@dimen/default_medium_size"
+            android:maxLines="1"
+            android:maxLength="25"
             android:drawableStart="@drawable/ic_account"
             android:hint="@string/frg_create_workout_name"
             android:inputType="textCapSentences"
