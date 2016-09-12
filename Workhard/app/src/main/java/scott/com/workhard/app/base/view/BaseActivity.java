@@ -21,8 +21,10 @@ import scott.com.workhard.R;
 import scott.com.workhard.app.ui.MainActivity;
 import scott.com.workhard.app.ui.init.register.RegisterActivity;
 import scott.com.workhard.app.ui.select_exercise.SelectExerciseActivity;
+import scott.com.workhard.bus.event.EventAlterDialog;
 import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.bus.util.SnackBarUtils;
+import scott.com.workhard.utils.AlterDialogFragment;
 
 /**
  * Copyright (C) 2015 The Android Open Source Project
@@ -193,6 +195,14 @@ public class BaseActivity extends AppCompatActivity {
         eventSnackBar.setViewParent(findViewById(android.R.id.content));
         SnackBarUtils.makeSnackBar(eventSnackBar);
     }
+
+    @Subscribe
+    public void showAlterDialog(EventAlterDialog event) {
+        AlterDialogFragment newFragment = new AlterDialogFragment();
+        newFragment.setEventAlterDialog(event);
+        newFragment.show(getSupportFragmentManager(), "dialog");
+    }
+
 
     public void goToSelectExercise() {
         SelectExerciseActivity.newInstance(this);
