@@ -52,6 +52,8 @@
     <string name="action_search">Search ...</string>
     <string name="frg_create_workout_need_on">Need at list one exercise.</string>
     <string name="frg_create_workout_name_nim">Name need min 4 characters.</string>
+    <string name="frg_home_empty_home">Empty workouts.</string>
+    <string name="frg_home_empty_history">Here you can see the history of your previews workouts.</string>
 
 
 </resources>
