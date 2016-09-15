@@ -16,7 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
-import scott.com.workhard.app.base.view.BaseFragment;
+import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.app.ui.home.adapter.AdapterWorkout;
 import scott.com.workhard.models.Workout;
 import scott.com.workhard.utils.SpacesItemDecoration;

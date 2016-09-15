@@ -13,7 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
-import scott.com.workhard.app.base.view.BaseFilterSimpleAdapter;
+import scott.com.workhard.base.view.BaseFilterSimpleAdapter;
 import scott.com.workhard.models.Workout;
 
 /**
@@ -71,7 +71,7 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
                 return new EmptyViewHomeHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_loading, parent, false));
             }
             case EMPTY_VIEW: {
-                return new EmptyViewHomeHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.frg_home_empty_view, parent, false));
+                return new EmptyViewHomeHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.frg_empty_view, parent, false));
             }
             default: {
                 return new WorkoutHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_workout, parent, false));
@@ -95,12 +95,22 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
         }
     }
 
-    private class WorkoutHolder extends RecyclerView.ViewHolder {
+    class WorkoutHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.tVItemWorkoutName)
+        TextView tVItemWorkoutName;
+        @BindView(R.id.tVItemWorkoutRounds)
+        TextView tVItemWorkoutRounds;
+        @BindView(R.id.tVItemWorkoutRestExercises)
+        TextView tVItemWorkoutRestExercises;
+        @BindView(R.id.tVItemWorkoutRestRounds)
+        TextView tVItemWorkoutRestRounds;
+        @BindView(R.id.tVItemWorkoutDate)
+        TextView tVItemWorkoutDate;
 
-        WorkoutHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        WorkoutHolder(View view) {
+            super(view);
+            ButterKnife.bind(this,view);
             if (getClickListener() != null) {
                 initListeners();
             }
@@ -111,7 +121,7 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
         }
 
         void bindView(Workout exercise) {
-
+            tVItemWorkoutDate.setVisibility(typeView == HISTORY ? View.VISIBLE : View.GONE);
         }
 
 

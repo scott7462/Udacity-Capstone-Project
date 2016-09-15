@@ -14,13 +14,12 @@ import android.view.MenuItem;
 import org.greenrobot.eventbus.EventBus;
 
 import scott.com.workhard.R;
-import scott.com.workhard.app.base.view.BaseActivity;
 import scott.com.workhard.app.ui.create_workout.CreateWorkoutActivity;
 import scott.com.workhard.app.ui.home.FrgHome;
 import scott.com.workhard.app.ui.home.adapter.AdapterWorkout;
+import scott.com.workhard.app.ui.profile.FrgProfile;
+import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.bus.event.EventAlterDialog;
-
-import static android.R.attr.id;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,6 +38,7 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_home);
     }
 
     @Override
@@ -54,23 +54,24 @@ public class MainActivity extends BaseActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.nav_home:{
+        switch (item.getItemId()) {
+            case R.id.nav_home: {
                 navigateMainContent(FrgHome.newInstance(AdapterWorkout.HOME), getString(R.string.app_name));
                 break;
             }
-            case R.id.nav_history:{
+            case R.id.nav_history: {
                 navigateMainContent(FrgHome.newInstance(AdapterWorkout.HISTORY), getString(R.string.app_name));
                 break;
             }
-            case R.id.nav_profile:{
+            case R.id.nav_profile: {
+                navigateMainContent(FrgProfile.newInstance(), getString(R.string.frg_profile_title));
                 break;
             }
-            case R.id.nav_create:{
+            case R.id.nav_create: {
                 CreateWorkoutActivity.newInstance(this);
                 break;
             }
-            case R.id.nav_logout:{
+            case R.id.nav_logout: {
                 doLogout();
                 break;
             }

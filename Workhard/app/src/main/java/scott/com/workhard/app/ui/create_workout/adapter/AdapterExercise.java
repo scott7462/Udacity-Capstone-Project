@@ -23,7 +23,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import scott.com.workhard.R;
 import scott.com.workhard.app.App;
-import scott.com.workhard.app.base.view.BaseFilterSimpleAdapter;
+import scott.com.workhard.base.view.BaseFilterSimpleAdapter;
 import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.models.Exercise;
 import scott.com.workhard.models.Workout;

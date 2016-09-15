@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
-import scott.com.workhard.app.base.view.BaseActivity;
+import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.app.ui.init.login.LoginFragment;
 
 /**
