@@ -1,4 +1,4 @@
-package scott.com.workhard.app.base.view;
+package scott.com.workhard.base.view;
 
 import android.support.v7.widget.RecyclerView;
 import android.widget.Filter;

@@ -1,4 +1,4 @@
-package scott.com.workhard.app.base.presenter;
+package scott.com.workhard.base.presenter;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;

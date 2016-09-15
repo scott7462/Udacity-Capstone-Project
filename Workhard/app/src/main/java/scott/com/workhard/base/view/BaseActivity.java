@@ -1,4 +1,4 @@
-package scott.com.workhard.app.base.view;
+package scott.com.workhard.base.view;
 
 import android.app.ProgressDialog;
 import android.os.Build;

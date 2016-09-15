@@ -1,4 +1,4 @@
-package scott.com.workhard.app.base.view;
+package scott.com.workhard.base.view;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

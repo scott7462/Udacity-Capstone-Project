@@ -1,4 +1,4 @@
-package scott.com.workhard.app.base.view;
+package scott.com.workhard.base.view;
 
 import android.Manifest;
 import android.app.Activity;

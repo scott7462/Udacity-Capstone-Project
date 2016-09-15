@@ -1,8 +1,8 @@
-package scott.com.workhard.app.base.presenter;
+package scott.com.workhard.base.presenter;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 7/14/16.
+ * @version 8/21/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -19,9 +19,13 @@ package scott.com.workhard.app.base.presenter;
  * limitations under the License.
  */
 
-public interface Presenter<V> {
 
-    void attachView(V viewListener);
+public interface BasePresenterListener {
 
-    void detachView();
+    void showProgressIndicator();
+
+    void removeProgressIndicator();
+
+    void showMessage(int stringId);
+
 }
