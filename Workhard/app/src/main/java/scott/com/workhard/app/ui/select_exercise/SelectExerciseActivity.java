@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
-import scott.com.workhard.app.base.view.BaseActivity;
+import scott.com.workhard.base.view.BaseActivity;
 
 /**
  * @author Pedro Scott. scott7462@gmail.com

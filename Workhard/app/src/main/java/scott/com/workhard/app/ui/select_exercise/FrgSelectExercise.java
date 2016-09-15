@@ -19,7 +19,7 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
-import scott.com.workhard.app.base.view.BaseFragment;
+import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.app.ui.create_workout.adapter.AdapterExercise;
 import scott.com.workhard.bus.event.EventAddExercises;
 import scott.com.workhard.models.Exercise;

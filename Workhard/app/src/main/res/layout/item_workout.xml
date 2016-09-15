@@ -13,6 +13,7 @@
         android:padding="@dimen/default_large_size">
 
         <TextView
+            android:id="@+id/tVItemWorkoutName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_medium_size"
@@ -21,6 +22,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
         <TextView
+            android:id="@+id/tVItemWorkoutRounds"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_medium_size"
@@ -30,6 +32,7 @@
 
 
         <TextView
+            android:id="@+id/tVItemWorkoutRestExercises"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_medium_size"
@@ -38,6 +41,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
+            android:id="@+id/tVItemWorkoutRestRounds"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_medium_size"
@@ -46,6 +50,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
+            android:id="@+id/tVItemWorkoutDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_medium_size"
