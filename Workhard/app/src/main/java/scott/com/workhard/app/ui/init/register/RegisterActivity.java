@@ -20,7 +20,7 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
-import scott.com.workhard.app.base.view.BaseActivity;
+import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.bus.event.EventCallPickPhoto;
 import scott.com.workhard.bus.event.EventUploadImage;
 

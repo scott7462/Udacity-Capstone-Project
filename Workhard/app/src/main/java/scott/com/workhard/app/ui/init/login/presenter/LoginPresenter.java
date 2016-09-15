@@ -2,7 +2,7 @@ package scott.com.workhard.app.ui.init.login.presenter;
 
 import rx.Subscriber;
 import scott.com.workhard.R;
-import scott.com.workhard.app.base.presenter.BasePresenter;
+import scott.com.workhard.base.presenter.BasePresenter;
 import scott.com.workhard.models.User;
 import timber.log.Timber;
 
@@ -50,4 +50,9 @@ public class LoginPresenter extends BasePresenter<LoginPresenterListeners> {
                     }
                 }));
     }
+
+
+
+
+
 }

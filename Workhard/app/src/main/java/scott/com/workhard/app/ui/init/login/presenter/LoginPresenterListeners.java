@@ -1,6 +1,6 @@
 package scott.com.workhard.app.ui.init.login.presenter;
 
-import scott.com.workhard.app.base.presenter.BasePresenterListener;
+import scott.com.workhard.base.presenter.BasePresenterListener;
 
 /**
  * @author pedroscott. scott7462@gmail.com

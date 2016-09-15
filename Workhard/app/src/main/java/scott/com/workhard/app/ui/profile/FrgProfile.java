@@ -1,12 +1,10 @@
-package scott.com.workhard.app.ui.init.register;
+package scott.com.workhard.app.ui.profile;
 
-import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.kbeanie.multipicker.api.entity.ChosenImage;
@@ -23,7 +20,7 @@ import com.mobsandgeeks.saripaar.Validator;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.joda.time.DateTime;
+import org.joda.time.MutableDateTime;
 
 import java.io.File;
 import java.util.List;
@@ -33,12 +30,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
 import scott.com.workhard.base.view.BasePickImageFragment;
-import scott.com.workhard.app.ui.MainActivity;
-import scott.com.workhard.app.ui.init.login.presenter.LoginPresenter;
-import scott.com.workhard.app.ui.init.login.presenter.LoginPresenterListeners;
 import scott.com.workhard.bus.event.EventCallPickPhoto;
 import scott.com.workhard.bus.event.EventUploadImage;
+import scott.com.workhard.models.User;
 import scott.com.workhard.utils.DatePickerFragment;
+import scott.com.workhard.utils.DateTimeUtils;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -59,19 +55,23 @@ import scott.com.workhard.utils.DatePickerFragment;
  * limitations under the License.
  */
 
-public class RegisterFragment extends BasePickImageFragment implements LoginPresenterListeners
-        , Validator.ValidationListener {
+public class FrgProfile extends BasePickImageFragment implements Validator.ValidationListener {
 
-    @BindView(R.id.tVFrgRegisterDate)
-    TextView tVFrgRegisterDate;
+    @BindView(R.id.tVFrgProfileDate)
+    TextView tVFrgProfileDate;
+    @BindView(R.id.eTFrgProfileName)
+    AppCompatEditText eTFrgProfileName;
+    @BindView(R.id.eTFrgProfileLastName)
+    AppCompatEditText eTFrgProfileLastName;
+    @BindView(R.id.eTFrgProfileEmail)
+    AppCompatEditText eTFrgProfileEmail;
 
-    private LoginPresenter presenter;
     private Validator validator;
-    private ProgressDialog progress;
     private String avatarFilePath;
+    private User user;
 
     public static Fragment newInstance() {
-        return new RegisterFragment();
+        return new FrgProfile();
     }
 
     @Override
@@ -99,37 +99,44 @@ public class RegisterFragment extends BasePickImageFragment implements LoginPres
         setHasOptionsMenu(true);
         validator = new Validator(this);
         validator.setValidationListener(this);
+        user = new User();
+        user.setName("Pedro");
+        user.setLastName("Scott");
+        user.setEmail("scott7462@gmail.com");
+        user.setBirthday(594864000);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frg_register, container, false);
+        View view = inflater.inflate(R.layout.frg_profile, container, false);
         ButterKnife.bind(this, view);
         intViews();
         return view;
     }
 
     private void intViews() {
+        eTFrgProfileName.setText(user.getName());
+        eTFrgProfileLastName.setText(user.getLastName());
+        eTFrgProfileEmail.setText(user.getEmail());
+        tVFrgProfileDate.setText(DateTimeUtils.getStringPatternFromDateTime(
+                getString(R.string.date_register_formatter), new MutableDateTime(user.getBirthday())));
     }
 
-    private void cleanValidations() {
-//        ((TextInputLayout) eTFrgLoginEmail.getParent()).setError(null);
-//        ((TextInputLayout) eTFrgLoginPassword.getParent()).setError(null);
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        presenter = new LoginPresenter();
-        presenter.attachView(this);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        presenter.detachView();
-    }
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        presenter = new LoginPresenter();
+//        presenter.attachView(this);
+//    }
+//
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        presenter.detachView();
+//    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -162,46 +169,12 @@ public class RegisterFragment extends BasePickImageFragment implements LoginPres
         }
     }
 
-    @Override
-    public void showMessage(int stringId) {
-
-    }
-
-    @Override
-    public void showProgressIndicator() {
-        progress = ProgressDialog.show(getActivity(), "Login",
-                "login message ...", true);
-    }
-
-    @Override
-    public void removeProgressIndicator() {
-        progress.dismiss();
-    }
-
-    @Override
-    public void navigateToMain() {
-        MainActivity.newInstance(getActivity());
-    }
-
     public void showDatePickerDialog(TextView v) {
         DatePickerFragment.showDatePickerDialog(getActivity().getSupportFragmentManager(), v);
     }
 
-    @OnClick(R.id.tVFrgRegisterDate)
+    @OnClick(R.id.tVFrgProfileDate)
     public void onClick(TextView textView) {
-        if (getActivity() != null) {
-            DateTime dateTime = new DateTime();
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                    new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                        }
-                    }, dateTime.getYear(), dateTime.getMonthOfYear() - 1, dateTime.getDayOfMonth() + 7);
-            datePickerDialog.getDatePicker().setMinDate(DateTime.now().getMillis());
-            datePickerDialog.setTitle("");
-            datePickerDialog.show();
-        }
         showDatePickerDialog(textView);
     }
 
