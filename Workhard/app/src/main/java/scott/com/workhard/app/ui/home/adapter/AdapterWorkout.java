@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
 import scott.com.workhard.base.view.BaseFilterSimpleAdapter;
-import scott.com.workhard.models.Workout;
+import scott.com.workhard.entities.Workout;
 
 /**
  * @author pedroscott. scott7462@gmail.com

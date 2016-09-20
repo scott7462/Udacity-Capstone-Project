@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,7 +31,7 @@ import scott.com.workhard.R;
 import scott.com.workhard.base.view.BasePickImageFragment;
 import scott.com.workhard.bus.event.EventCallPickPhoto;
 import scott.com.workhard.bus.event.EventUploadImage;
-import scott.com.workhard.models.User;
+import scott.com.workhard.entities.User;
 import scott.com.workhard.utils.DatePickerFragment;
 import scott.com.workhard.utils.DateTimeUtils;
 

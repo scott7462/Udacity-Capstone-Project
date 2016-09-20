@@ -25,8 +25,8 @@ import scott.com.workhard.R;
 import scott.com.workhard.app.App;
 import scott.com.workhard.base.view.BaseFilterSimpleAdapter;
 import scott.com.workhard.bus.event.EventSnackBar;
-import scott.com.workhard.models.Exercise;
-import scott.com.workhard.models.Workout;
+import scott.com.workhard.entities.Exercise;
+import scott.com.workhard.entities.Workout;
 
 /**
  * @author pedroscott. scott7462@gmail.com

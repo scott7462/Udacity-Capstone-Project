@@ -1,12 +1,13 @@
-package scott.com.workhard.base.model;
-
-import java.util.List;
+package scott.com.workhard.data.sourse.rest.api;
 
 import rx.Observable;
+import scott.com.workhard.data.sourse.rest.request.RequestLogin;
+import scott.com.workhard.data.sourse.rest.response.ResponseExercises;
+import scott.com.workhard.data.sourse.rest.response.ResponseLogin;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 9/14/16.
+ * @version 7/17/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -23,15 +24,22 @@ import rx.Observable;
  * limitations under the License.
  */
 
+public class PublicService {
 
-public interface Repository<T> {
+    private final ApiClient apiService;
 
-    Observable<T> add(T object);
+    public PublicService(ApiClient apiService) {
+        this.apiService = apiService;
+    }
 
-    Observable<Boolean> delete(T object);
+    public Observable<ResponseLogin> login(String email, String password) {
+        RequestLogin requestLogin = new RequestLogin(email, password);
+        return apiService.login(requestLogin);
+    }
 
-    Observable<T> update(T object);
+    public Observable<ResponseExercises> exercises() {
+        return apiService.exercises();
+    }
 
-    Observable<List<T>> findAll();
 
 }

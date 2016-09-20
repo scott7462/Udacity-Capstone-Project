@@ -2,7 +2,6 @@ package scott.com.workhard.base.presenter;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
-import scott.com.workhard.repository.DataManager;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -29,18 +28,12 @@ public class BasePresenter<V extends BasePresenterListener> implements Presenter
 
     private CompositeSubscription subscription = new CompositeSubscription();
 
-    private final DataManager dataManager = new DataManager();
-
     protected Subscription getSubscription() {
         return subscription;
     }
 
     protected void setSubscription(Subscription subscription) {
         this.subscription.add(subscription);
-    }
-
-    protected DataManager getDataManager() {
-        return dataManager;
     }
 
     @Override

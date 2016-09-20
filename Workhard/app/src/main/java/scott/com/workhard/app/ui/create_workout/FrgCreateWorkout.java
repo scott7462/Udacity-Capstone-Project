@@ -26,7 +26,7 @@ import scott.com.workhard.base.view.BaseSimpleAdapter;
 import scott.com.workhard.app.ui.create_workout.adapter.AdapterExercise;
 import scott.com.workhard.bus.event.EventAddExercises;
 import scott.com.workhard.bus.event.EventSnackBar;
-import scott.com.workhard.models.Exercise;
+import scott.com.workhard.entities.Exercise;
 import scott.com.workhard.utils.SpacesItemDecoration;
 
 /**

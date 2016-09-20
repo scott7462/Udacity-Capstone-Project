@@ -10,8 +10,6 @@ import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
 import io.fabric.sdk.android.Fabric;
-import scott.com.workhard.R;
-import scott.com.workhard.repository.rest.RestClient;
 
 /**
  * @author pedroscott ${EMAIL}
@@ -37,9 +35,6 @@ public class App extends MultiDexApplication {
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private static final String TWITTER_KEY = "MDBSpgrxgVsUMTK3obdGghOHx";
     private static final String TWITTER_SECRET = "Bk81Tv1x4PyOb4D1Ak2ZkPn0VMMaIwiJDmwpsWpnGgfiRQhAVA";
-
-
-    private static RestClient restClientPublic;
     private static Context globalContext;
 
     public static Context getGlobalContext() {
@@ -53,16 +48,13 @@ public class App extends MultiDexApplication {
         Fabric.with(this, new Twitter(authConfig));
         facebookInit();
         globalContext = this.getApplicationContext();
-        restClientPublic = new RestClient(getString(R.string.base_url));
         Dexter.initialize(this);
     }
+
+
 
     private void facebookInit() {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
-    }
-
-    public static RestClient getRestClientPublic() {
-        return restClientPublic;
     }
 }

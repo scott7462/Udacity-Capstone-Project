@@ -2,7 +2,7 @@ package scott.com.workhard.bus.event;
 
 import java.util.List;
 
-import scott.com.workhard.models.Exercise;
+import scott.com.workhard.entities.Exercise;
 
 /**
  * @author pedroscott. scott7462@gmail.com

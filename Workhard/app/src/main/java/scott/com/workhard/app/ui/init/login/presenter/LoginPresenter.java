@@ -1,10 +1,6 @@
 package scott.com.workhard.app.ui.init.login.presenter;
 
-import rx.Subscriber;
-import scott.com.workhard.R;
 import scott.com.workhard.base.presenter.BasePresenter;
-import scott.com.workhard.models.User;
-import timber.log.Timber;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -29,30 +25,8 @@ public class LoginPresenter extends BasePresenter<LoginPresenterListeners> {
 
     public void doLogin(String email, String password) {
         getViewListener().showProgressIndicator();
-        setSubscription(getDataManager()
-                .login(email, password)
-                .subscribe(new Subscriber<User>() {
-                    @Override
-                    public void onCompleted() {
-                        getViewListener().removeProgressIndicator();
-                        getViewListener().navigateToMain();
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Timber.e(e.getMessage());
-                        getViewListener().showMessage(R.string.error_login);
-                    }
-
-                    @Override
-                    public void onNext(User user) {
-                        Timber.e(user.toString());
-                    }
-                }));
     }
-
-
-
 
 
 }

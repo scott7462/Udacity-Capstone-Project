@@ -1,12 +1,15 @@
-package scott.com.workhard.base.model;
+package scott.com.workhard.data.sourse.rest.response;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import rx.Observable;
+import scott.com.workhard.entities.Exercise;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 9/14/16.
+ * @version 7/17/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -22,16 +25,17 @@ import rx.Observable;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+public class ResponseExercises {
 
+    @SerializedName("exercises")
+    @Expose
+    private List<Exercise> exercises;
 
-public interface Repository<T> {
+    public List<Exercise> getExercises() {
+        return exercises;
+    }
 
-    Observable<T> add(T object);
-
-    Observable<Boolean> delete(T object);
-
-    Observable<T> update(T object);
-
-    Observable<List<T>> findAll();
-
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
+    }
 }

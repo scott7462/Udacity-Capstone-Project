@@ -55,6 +55,7 @@
     <string name="frg_home_empty_home">Empty workouts.</string>
     <string name="frg_home_empty_history">Here you can see the history of your previews workouts.</string>
     <string name="frg_profile_title">Profile</string>
+    <string name="frg_do_rest_workoud_title">Recovery Time</string>
 
 
 </resources>

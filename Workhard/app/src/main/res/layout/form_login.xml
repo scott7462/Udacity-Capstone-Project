@@ -14,15 +14,12 @@
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/eTFrgLoginEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/EditTextFrom"
             android:contentDescription="@string/frg_login_cd_write_your_email"
             android:drawableLeft="@drawable/ic_account"
-            android:drawablePadding="@dimen/default_medium_size"
             android:drawableStart="@drawable/ic_account"
             android:hint="@string/frg_login_email"
-            android:inputType="textEmailAddress"
-            android:textColorHint="@color/accent" />
+            android:inputType="textEmailAddress" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -33,16 +30,13 @@
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/eTFrgLoginPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/EditTextFrom"
             android:contentDescription="@string/frg_login_cd_write_your_password"
             android:drawableLeft="@drawable/ic_lock_login"
-            android:drawablePadding="@dimen/default_medium_size"
             android:drawableStart="@drawable/ic_lock_login"
             android:hint="@string/frg_login_password"
             android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:textColorHint="@color/accent" />
+            android:inputType="textPassword" />
 
     </android.support.design.widget.TextInputLayout>
 
