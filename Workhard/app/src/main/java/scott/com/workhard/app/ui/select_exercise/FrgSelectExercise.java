@@ -85,9 +85,10 @@ public class FrgSelectExercise extends BaseFragment {
     private void intViews() {
         rVFrgCreateWorkOut.setLayoutManager(new LinearLayoutManager(getActivity()));
         rVFrgCreateWorkOut.addItemDecoration(
-                new SpacesItemDecoration(adapter.ifAdapterHaveHeaderView(), R.dimen.default_medium_size));
+                new SpacesItemDecoration(adapter.haveAdapterHeaderView(), R.dimen.default_medium_size));
         rVFrgCreateWorkOut.setAdapter(adapter);
         fillDummyData();
+        adapter.showLoadMoreView(true);
     }
 
     private void fillDummyData() {
@@ -97,32 +98,32 @@ public class FrgSelectExercise extends BaseFragment {
         adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
                 .withRepetitions(adapter.getItemCount() + 1));
 
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1));
+//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+//                .withRepetitions(adapter.getItemCount() + 1));
+//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+//                .withRepetitions(adapter.getItemCount() + 1));
+//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+//                .withRepetitions(adapter.getItemCount() + 1));
+//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+//                .withRepetitions(adapter.getItemCount() + 1));
+//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+//                .withRepetitions(adapter.getItemCount() + 1));
+//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+//                .withRepetitions(adapter.getItemCount() + 1));
+//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+//                .withRepetitions(adapter.getItemCount() + 1));
+//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+//                .withRepetitions(adapter.getItemCount() + 1));
+//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+//                .withRepetitions(adapter.getItemCount() + 1));
+//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+//                .withRepetitions(adapter.getItemCount() + 1));
+//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+//                .withRepetitions(adapter.getItemCount() + 1));
+//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+//                .withRepetitions(adapter.getItemCount() + 1));
+//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+//                .withRepetitions(adapter.getItemCount() + 1));
 
 
     }
@@ -191,7 +192,8 @@ public class FrgSelectExercise extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_menu_add: {
-                returnExercisesSelected();
+//                returnExercisesSelected();
+                adapter.showLoadMoreView(!adapter.haveLoadMoreView());
                 break;
             }
             case R.id.item_menu_add_all: {

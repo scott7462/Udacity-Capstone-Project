@@ -82,8 +82,9 @@ public class FrgCreateWorkout extends BaseFragment {
     private void intViews() {
         rVFrgCreateWorkOut.setLayoutManager(new LinearLayoutManager(getActivity()));
         rVFrgCreateWorkOut.addItemDecoration(
-                new SpacesItemDecoration(adapter.ifAdapterHaveHeaderView(), R.dimen.default_medium_size));
+                new SpacesItemDecoration(adapter.haveAdapterHeaderView(), R.dimen.default_medium_size));
         rVFrgCreateWorkOut.setAdapter(adapter);
+        adapter.showLoadMoreView(true);
         rVFrgCreateWorkOut.setHasFixedSize(true);
         adapter.addHeaderClickListener(new AdapterExercise.onHeaderClickListener() {
             @Override
@@ -135,9 +136,10 @@ public class FrgCreateWorkout extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_menu_save: {
-                ((BaseActivity) getActivity()).clearKeyboardFromScreen();
-                if (validateDataToSend())
-                    EventBus.getDefault().post(new EventSnackBar().withMessage("TODO Create service"));
+                adapter.showLoadMoreView(!adapter.haveLoadMoreView());
+//                ((BaseActivity) getActivity()).clearKeyboardFromScreen();
+//                if (validateDataToSend())
+//                    EventBus.getDefault().post(new EventSnackBar().withMessage("TODO Create service"));
                 break;
             }
             case android.R.id.home: {

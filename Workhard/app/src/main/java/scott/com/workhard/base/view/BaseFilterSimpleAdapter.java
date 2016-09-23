@@ -72,7 +72,7 @@ public abstract class BaseFilterSimpleAdapter<T, H extends RecyclerView.ViewHold
                 getFilteredItemList().addAll(originalList);
             } else {
                 for (final T item : getItems()) {
-                    if (conditionToSearch(item, constraint.toString())) {
+                    if (searchCondition(item, constraint.toString())) {
                         getFilteredItemList().add(item);
                     }
                 }
@@ -89,8 +89,7 @@ public abstract class BaseFilterSimpleAdapter<T, H extends RecyclerView.ViewHold
         }
     }
 
-
-    protected abstract boolean conditionToSearch(T item, String query);
+    protected abstract boolean searchCondition(T item, String query);
 
 
 }

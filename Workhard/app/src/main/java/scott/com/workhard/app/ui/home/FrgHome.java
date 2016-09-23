@@ -102,7 +102,7 @@ public class FrgHome extends BaseFragment {
     private void intViews() {
         rVFrgHome.setLayoutManager(new LinearLayoutManager(getActivity()));
         rVFrgHome.addItemDecoration(
-                new SpacesItemDecoration(adapter.ifAdapterHaveHeaderView(), R.dimen.default_medium_size));
+                new SpacesItemDecoration(adapter.haveAdapterHeaderView(), R.dimen.default_medium_size));
         rVFrgHome.setAdapter(adapter);
         rVFrgHome.setHasFixedSize(true);
     }

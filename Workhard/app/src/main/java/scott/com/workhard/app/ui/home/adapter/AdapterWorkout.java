@@ -43,12 +43,12 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
     private int typeView;
 
     @Override
-    protected boolean conditionToSearch(Workout item, String query) {
+    protected boolean searchCondition(Workout item, String query) {
         return false;
     }
 
     @Override
-    protected boolean validCondition(Workout workout) {
+    protected boolean ifValidCondition(Workout workout) {
         return false;
     }
 

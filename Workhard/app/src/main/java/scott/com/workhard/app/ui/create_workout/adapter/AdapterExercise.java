@@ -4,6 +4,7 @@ import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,6 +95,9 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
             case HEADER_VIEW: {
                 return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.frg_create_workout_header, parent, false));
             }
+            case LOAD_MORE_VIEW: {
+                return new EmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_load_more, parent, false));
+            }
             default: {
                 return new ExerciseHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise, parent, false));
             }
@@ -107,6 +111,10 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
                 break;
             }
             case LOADING_VIEW: {
+                break;
+            }
+            case LOAD_MORE_VIEW: {
+                Log.e("TEST", "CASA");
                 break;
             }
             case HEADER_VIEW: {
@@ -263,7 +271,7 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
             cBCreateExercise.setChecked(exercise.isChecked());
             tVItemExerciseRepetitions.setVisibility(typeView == SHOW_IN_WORKOUT ? View.VISIBLE : View.GONE);
             iBCreateExerciseDelete.setVisibility(typeView == SHOW_IN_WORKOUT ? View.VISIBLE : View.GONE);
-            iVItemExerciseMove.setVisibility(isMoveCallBack() ? View.VISIBLE : View.GONE);
+            iVItemExerciseMove.setVisibility(isCallbackMoved() ? View.VISIBLE : View.GONE);
         }
 
         @OnClick(R.id.iBCreateExerciseDelete)
@@ -314,12 +322,12 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
     }
 
     @Override
-    protected boolean conditionToSearch(Exercise item, String query) {
+    protected boolean searchCondition(Exercise item, String query) {
         return item.getName().toLowerCase().contains(query.toLowerCase());
     }
 
     @Override
-    protected boolean validCondition(Exercise exercise) {
+    protected boolean ifValidCondition(Exercise exercise) {
         return exercise.isChecked();
     }
 
