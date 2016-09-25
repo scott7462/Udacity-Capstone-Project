@@ -84,14 +84,6 @@ public class RegisterActivity extends BaseActivity {
         getSupportFragmentManager().putFragment(outState, "mContent", getSupportFragmentManager().findFragmentById(R.id.container));
     }
 
-    public static void newInstance(Activity activity, FloatingActionButton button) {
-        ActivityCompat.startActivity(activity,
-                new Intent(activity, RegisterActivity.class)
-                , ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
-                        new Pair<View, String>(button,
-                                activity.getString(R.string.action_button_transition_name))).toBundle());
-    }
-
     public static void newInstance(Activity activity) {
         activity.startActivity(new Intent(activity, RegisterActivity.class));
     }

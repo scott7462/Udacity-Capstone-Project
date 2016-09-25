@@ -102,7 +102,7 @@ public abstract class BasePickImageFragment extends BaseFragment implements Imag
         if (list != null && list.size() > 0) {
             this.imagePiker(list.get(0), RESPONSE_CODE_TO_IMAGE);
         } else {
-            this.errorFindingImage(getString(R.string.file_not_found), RESPONSE_CODE_TO_IMAGE);
+            this.errorFindingImage(getString(R.string.error_file_not_found), RESPONSE_CODE_TO_IMAGE);
         }
     }
 

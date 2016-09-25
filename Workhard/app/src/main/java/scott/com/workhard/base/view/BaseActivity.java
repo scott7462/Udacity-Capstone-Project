@@ -1,7 +1,6 @@
 package scott.com.workhard.base.view;
 
 import android.app.ProgressDialog;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -143,11 +142,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
     public void goToRegister(FloatingActionButton floatingActionButton) {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            RegisterActivity.newInstance(this, floatingActionButton);
-        } else {
-            RegisterActivity.newInstance(this);
-        }
+        RegisterActivity.newInstance(this);
     }
 
     @Override

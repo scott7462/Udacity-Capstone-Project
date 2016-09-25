@@ -5,9 +5,17 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="base_url">http://private-587c8-workhard.apiary-mock.com/</string>
-    <string name="error_login">Error login</string>
     <string name="db_name">workhardrealmdb.realm</string>
+
+    <!-- Errors -->
+    <string name="error_file_not_found">File not found</string>
+    <string name="error_login">Error login</string>
+
+    <!-- Actions -->
+    <string name="action_save">Save</string>
+    <string name="action_add">Add</string>
+    <string name="action_add_all">Add all</string>
+    <string name="action_search">Search …</string>
 
 
     <!-- Login Fragment -->
@@ -15,6 +23,8 @@
     <string name="frg_login_email">Email</string>
     <string name="frg_login_password">Password</string>
     <string name="frg_login_sing_up">Sing Up</string>
+    <string name="frg_login_sing_in">Sing in</string>
+    <string name="frg_login_forgot_password">forgot password</string>
     <!-- Login Content Description -->
     <string name="frg_login_cd_sing_in_with_facebook">Sing in with facebook</string>
     <string name="frg_login_cd_sing_in_with_google">Sing in with google</string>
@@ -32,30 +42,33 @@
     <string name="frg_register_confirm_password">Confirm Password</string>
     <string name="frg_register_password">Password</string>
     <string name="frg_register_email">Email</string>
-    <string name="frg_login_sing_in">Sing in</string>
-    <string name="frg_login_forgot_password">forgot password</string>
-    <string name="action_button_transition_name">done_button</string>
+
+
+    <!-- Profile Fragment -->
     <string name="frg_profile_gallery">Pick image to the gallery</string>
     <string name="frg_profile_dialog">Open Camera</string>
-    <string name="file_not_found">File not found</string>
 
     <!-- Create Workout -->
     <string name="frg_create_workout_rounds_number">Rounds: <b>%1$d</b></string>
     <string name="frg_create_workout_rest_between_exercise_number">Rest between exercise: <b>%1$d seg</b></string>
     <string name="frg_create_workout_rest_between_rounds_number">Rest between rounds: <b>%1$d seg</b></string>
     <string name="frg_create_workout_name">Workout name</string>
-    <string name="item_exercise">Repetitions: %1$d</string>
-    <string name="frg_create_workoud_title">Create Workout</string>
-    <string name="action_save">Save</string>
-    <string name="action_add">ADD</string>
-    <string name="action_add_all">ADD ALL</string>
-    <string name="action_search">Search ...</string>
+    <string name="frg_create_workout_title">Create Workout</string>
     <string name="frg_create_workout_need_on">Need at list one exercise.</string>
     <string name="frg_create_workout_name_nim">Name need min 4 characters.</string>
+    <string name="frg_create_workout_item_exercise">Repetitions: %1$d</string>
+
+    <!-- Home Fragment -->
     <string name="frg_home_empty_home">Empty workouts.</string>
     <string name="frg_home_empty_history">Here you can see the history of your previews workouts.</string>
     <string name="frg_profile_title">Profile</string>
-    <string name="frg_do_rest_workoud_title">Recovery Time</string>
+
+    <!-- Do Workout Fragment -->
+    <string name="frg_do_rest_workout_title">Recovery Time</string>
+    <string name="frg_do_workout_recovery_time">Recovery Time</string>
+    <string name="frg_do_workout_next_exercise">Next Exercise</string>
+    <string name="frg_do_workout_skip">Skip</string>
+    <string name="frg_do_workout_next">Next</string>
 
 
 </resources>
