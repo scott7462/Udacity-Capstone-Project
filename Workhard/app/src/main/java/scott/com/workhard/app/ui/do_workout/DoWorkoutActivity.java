@@ -75,9 +75,9 @@ public class DoWorkoutActivity extends BaseActivity {
     private void savedFragmentState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             navigateMainContent(getSupportFragmentManager().getFragment(
-                    savedInstanceState, "mContent"), getString(R.string.frg_do_rest_workoud_title));
+                    savedInstanceState, "mContent"), getString(R.string.frg_do_rest_workout_title));
         } else {
-            navigateMainContent(FrgDoRestWorkout.newInstance(), getString(R.string.frg_do_rest_workoud_title));
+            navigateMainContent(FrgDoRestWorkout.newInstance(), getString(R.string.frg_do_rest_workout_title));
         }
     }
 

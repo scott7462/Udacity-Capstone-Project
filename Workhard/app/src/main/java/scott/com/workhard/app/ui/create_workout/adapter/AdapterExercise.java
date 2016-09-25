@@ -219,7 +219,7 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
                         } else {
                             getOnHeaderClickListener().onNameWorkoutChange(
                                     eTFrgCreateWorkoutName.getContext()
-                                            .getString(R.string.frg_create_workoud_title));
+                                            .getString(R.string.frg_create_workout_title));
                         }
                     }
 
@@ -266,7 +266,7 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
         void bindView(Exercise exercise) {
             tVItemExerciseName.setText(exercise.getName());
             tVItemExerciseRepetitions.setText(tVItemExerciseRepetitions.getContext()
-                    .getString(R.string.item_exercise, exercise.getRepetition()));
+                    .getString(R.string.frg_create_workout_item_exercise, exercise.getRepetition()));
             cBCreateExercise.setVisibility(typeView == ADD_TO_WORKOUT ? View.VISIBLE : View.GONE);
             cBCreateExercise.setChecked(exercise.isChecked());
             tVItemExerciseRepetitions.setVisibility(typeView == SHOW_IN_WORKOUT ? View.VISIBLE : View.GONE);

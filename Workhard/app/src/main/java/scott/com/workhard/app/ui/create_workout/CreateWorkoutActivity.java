@@ -51,7 +51,7 @@ public class CreateWorkoutActivity extends BaseActivity {
                     savedInstanceState, "mContent"), getString(R.string.app_name));
         } else {
             toolbar.setTitle(getString(R.string.app_name));
-            navigateMainContent(FrgCreateWorkout.newInstance(), getString(R.string.frg_create_workoud_title));
+            navigateMainContent(FrgCreateWorkout.newInstance(), getString(R.string.frg_create_workout_title));
         }
     }
 
