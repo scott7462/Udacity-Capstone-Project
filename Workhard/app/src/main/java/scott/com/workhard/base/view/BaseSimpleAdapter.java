@@ -38,7 +38,7 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
     protected static final int LOAD_MORE_VIEW = 5000;
 
     private List<T> items = new ArrayList<>();
-    private ItemClickListener<T> clickListener;
+    private onItemClickListener<T> clickListener;
     private ItemTouchHelperAdapter<T> itemTouchHelperAdapter;
 
     private int whereItemStartToMove;
@@ -214,11 +214,11 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
         }
     }
 
-    public ItemClickListener<T> getClickListener() {
+    public onItemClickListener<T> getClickListener() {
         return clickListener;
     }
 
-    public void addClickListener(ItemClickListener<T> clickListener) {
+    public void addClickListener(onItemClickListener<T> clickListener) {
         this.clickListener = clickListener;
     }
 
@@ -242,8 +242,22 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
         return callbackSwiped;
     }
 
-    private interface ItemClickListener<T> {
-        void onListingViewsClick(T item, int position);
+    public interface onItemClickListener<T> {
+        void onItemViewsClick(T item, int position);
+    }
+
+
+    /**
+     * Call the click item  Listener with the position of the item in the adapter and call
+     * the @onItemViewsClick() executing the position rules and giving to the listener the position
+     * in the list items and the current item.
+     *
+     * @param adapterPosition Receive the position of the adapter.
+     */
+    public void callItemListenerByPosition(int adapterPosition) {
+        if (getClickListener() != null) {
+            getClickListener().onItemViewsClick(items.get(getItemPosition(adapterPosition)), getItemPosition(adapterPosition));
+        }
     }
 
     /**

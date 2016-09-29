@@ -1,5 +1,8 @@
 package scott.com.workhard.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -24,8 +27,9 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class Workout {
+public class Workout implements Parcelable {
 
+    public static final String WORKOUT_ARG = Workout.class.getName();
     @SerializedName("id")
     @Expose
     private int id;
@@ -86,4 +90,45 @@ public class Workout {
         this.exerciseList = exerciseList;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.restBetweenExercise);
+        dest.writeInt(this.restRoundsExercise);
+        dest.writeInt(this.rounds);
+        dest.writeString(this.name);
+        dest.writeList(this.exerciseList);
+        dest.writeByte(this.errorMessageInName ? (byte) 1 : (byte) 0);
+    }
+
+    public Workout() {
+    }
+
+    protected Workout(Parcel in) {
+        this.id = in.readInt();
+        this.restBetweenExercise = in.readInt();
+        this.restRoundsExercise = in.readInt();
+        this.rounds = in.readInt();
+        this.name = in.readString();
+        this.exerciseList = new ArrayList<Exercise>();
+        in.readList(this.exerciseList, Exercise.class.getClassLoader());
+        this.errorMessageInName = in.readByte() != 0;
+    }
+
+    public static final Parcelable.Creator<Workout> CREATOR = new Parcelable.Creator<Workout>() {
+        @Override
+        public Workout createFromParcel(Parcel source) {
+            return new Workout(source);
+        }
+
+        @Override
+        public Workout[] newArray(int size) {
+            return new Workout[size];
+        }
+    };
 }

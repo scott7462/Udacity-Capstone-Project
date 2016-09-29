@@ -24,8 +24,10 @@ import scott.com.workhard.R;
 import scott.com.workhard.app.ui.create_workout.CreateWorkoutActivity;
 import scott.com.workhard.app.ui.home.FrgHome;
 import scott.com.workhard.app.ui.profile.FrgProfile;
+import scott.com.workhard.app.ui.workout.WorkoutActivity;
 import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.bus.event.EventAlterDialog;
+import scott.com.workhard.entities.Workout;
 
 import static scott.com.workhard.app.ui.home.FrgHome.HISTORY;
 import static scott.com.workhard.app.ui.home.FrgHome.HOME;
@@ -158,5 +160,9 @@ public class MainActivity extends BaseActivity
     @Override
     public void onDrawerStateChanged(int newState) {
 
+    }
+
+    public void goToWorkout(Workout item) {
+        WorkoutActivity.newInstance(this, item);
     }
 }

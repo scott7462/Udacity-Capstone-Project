@@ -55,7 +55,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
 
     //Fire Base
-    compile 'com.google.android.gms:play-services-auth:9.6.0'
+    compile 'com.google.android.gms:play-services-auth:9.6.1'
 
     //RxJava
     compile 'io.reactivex:rxandroid:1.2.1'

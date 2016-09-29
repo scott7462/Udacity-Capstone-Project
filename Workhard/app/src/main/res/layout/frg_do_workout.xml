@@ -1,35 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tVFrgDoWorkoutName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primary_dark"
         android:gravity="center"
         android:padding="@dimen/default_large_size"
-        android:text="@string/frg_do_workout_recovery_time"
+        tools:text="Push up"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
         android:textColor="@color/primary_light"
         android:textStyle="bold" />
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <com.github.lzyzsd.circleprogress.DonutProgress
-            android:id="@+id/donut_progress"
-            android:layout_width="@dimen/frg_do_workout_rest_clock"
-            android:layout_height="@dimen/frg_do_workout_rest_clock"
-            android:layout_gravity="center"
-            custom:donut_progress="0"
-            custom:donut_suffix_text=" seg" />
 
-    </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/default_large_size"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                tools:text="5\nResp" />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/primary" />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/default_large_size"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                tools:text="Rounds\n1/5"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/primary" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

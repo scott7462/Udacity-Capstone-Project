@@ -1,4 +1,4 @@
-package scott.com.workhard.app.ui.do_workout;
+package scott.com.workhard.app.ui.workout;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,8 +30,9 @@ import scott.com.workhard.entities.Workout;
  * limitations under the License.
  */
 
-public class DoWorkoutActivity extends BaseActivity {
+public class WorkoutActivity extends BaseActivity {
 
+    private static final String CONTENT_FRAGMENT = "content";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -49,9 +50,9 @@ public class DoWorkoutActivity extends BaseActivity {
     private void savedFragmentState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             navigateMainContent(getSupportFragmentManager().getFragment(
-                    savedInstanceState, "mContent"), getString(R.string.frg_do_rest_workout_title));
+                    savedInstanceState, CONTENT_FRAGMENT), getString(R.string.frg_do_rest_workout_title));
         } else {
-            navigateMainContent(FrgDoRestWorkout.newInstance(), getString(R.string.frg_do_rest_workout_title));
+            navigateMainContent(FrgWorkout.newInstance(), getString(R.string.frg_do_rest_workout_title));
         }
     }
 
@@ -62,7 +63,7 @@ public class DoWorkoutActivity extends BaseActivity {
     }
 
     public static void newInstance(Activity activity, Workout workout) {
-        Intent intent = new Intent(activity, DoWorkoutActivity.class);
+        Intent intent = new Intent(activity, WorkoutActivity.class);
         intent.putExtra(Workout.WORKOUT_ARG, workout);
         activity.startActivity(intent);
     }

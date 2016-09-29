@@ -95,7 +95,7 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
         }
     }
 
-    class WorkoutHolder extends RecyclerView.ViewHolder {
+    class WorkoutHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.tVItemWorkoutName)
         TextView tVItemWorkoutName;
@@ -110,21 +110,22 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
 
         WorkoutHolder(View view) {
             super(view);
-            ButterKnife.bind(this,view);
-            if (getClickListener() != null) {
-                initListeners();
-            }
+            ButterKnife.bind(this, view);
+            initListeners();
         }
 
         private void initListeners() {
-
+            itemView.setOnClickListener(this);
         }
 
         void bindView(Workout exercise) {
             tVItemWorkoutDate.setVisibility(typeView == HISTORY ? View.VISIBLE : View.GONE);
         }
 
-
+        @Override
+        public void onClick(View v) {
+            callItemListenerByPosition(getAdapterPosition());
+        }
     }
 
     public class EmptyViewHomeHolder extends RecyclerView.ViewHolder {
@@ -134,10 +135,6 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
         EmptyViewHomeHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-
-        private void initListeners() {
-
         }
 
         void bindView() {
