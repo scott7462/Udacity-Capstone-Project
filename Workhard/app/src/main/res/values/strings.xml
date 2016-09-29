@@ -16,6 +16,9 @@
     <string name="action_add">Add</string>
     <string name="action_add_all">Add all</string>
     <string name="action_search">Search …</string>
+    <string name="action_not">No</string>
+    <string name="action_yes">Yes</string>
+    <string name="logout_message">You are sure to logout.</string>
 
 
     <!-- Login Fragment -->

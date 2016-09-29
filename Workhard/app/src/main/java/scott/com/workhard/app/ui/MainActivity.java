@@ -36,9 +36,9 @@ public class MainActivity extends BaseActivity
     private static final String CONTENT_FRAGMENT = "content";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.drawer_layout)
+    @BindView(R.id.dLMain)
     DrawerLayout drawer;
-    @BindView(R.id.nav_view)
+    @BindView(R.id.nVMain)
     NavigationView navigationView;
 
     @Override
@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.dLMain);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
