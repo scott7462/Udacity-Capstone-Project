@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="error_file_not_found">File not found</string>
+    <string name="error_login">Error login</string>
+
+</resources>
