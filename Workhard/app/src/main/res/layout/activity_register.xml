@@ -46,6 +46,7 @@
         android:adjustViewBounds="true"
         app:fabSize="normal"
         android:elevation="@dimen/default_elevation_lvl_two"
+        android:contentDescription="@string/frg_register_cd_create_a_new_user"
         android:src="@drawable/ic_add_user" />
 
     <FrameLayout

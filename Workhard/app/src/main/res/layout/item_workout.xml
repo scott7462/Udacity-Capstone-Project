@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/default_small_size"
     app:cardElevation="@dimen/default_small_size">
 
@@ -17,8 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_medium_size"
+            android:contentDescription="@string/item_workout_cd_workout_name"
             android:maxLines="1"
-            android:text="Name"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
         <TextView
@@ -26,8 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_medium_size"
+            android:contentDescription="@string/item_workout_cd_round"
             android:maxLines="1"
-            android:text="3 Rounds"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 
@@ -36,8 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_medium_size"
+            android:contentDescription="@string/item_workout_cd_rest_between_exercises"
             android:maxLines="1"
-            android:text="Between exercise: 30seg"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
@@ -45,8 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_medium_size"
+            android:contentDescription="@string/item_workout_cd_rest_between_rounds"
             android:maxLines="1"
-            android:text="Between rounds: 30seg"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
@@ -54,9 +55,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_medium_size"
+            android:contentDescription="@string/item_workout_cd_date_of_the_workout"
             android:gravity="center"
             android:maxLines="1"
-            android:text="07/11/1988"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     </LinearLayout>

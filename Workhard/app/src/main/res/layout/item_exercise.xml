@@ -18,9 +18,11 @@
             android:id="@+id/iVItemExerciseMove"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:contentDescription="@string/item_exercise_cd_move_exercise_position"
             android:paddingBottom="@dimen/default_medium_size"
             android:paddingEnd="@dimen/default_medium_size"
             android:paddingRight="@dimen/default_medium_size"
+            android:paddingStart="@dimen/default_medium_size"
             android:paddingTop="@dimen/default_medium_size"
             android:src="@drawable/drag_vertical" />
 
@@ -34,6 +36,7 @@
                 android:id="@+id/tVItemExerciseName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/item_exercise_cd_exercise_name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textStyle="bold"
                 tools:text="Push up" />
@@ -42,14 +45,44 @@
                 android:id="@+id/tVItemExerciseRepetitions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/item_exercise_cd_exercise_repetitions"
                 tools:text="Repetitions: 5" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lLItemExerciseControllerRepetitions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/default_large_size"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/iBFItemExerciseMinusRepetitions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/frg_create_workout_cd_minus_round_to_workout"
+                android:padding="@dimen/default_small_size"
+                android:src="@drawable/selector_minus_button" />
+
+            <ImageButton
+                android:id="@+id/iBFItemExercisePluseRepetitions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/frg_create_workout_cd_plus_rounds_to_workout"
+                android:padding="@dimen/default_small_size"
+                android:src="@drawable/selector_plus_button" />
+
+        </LinearLayout>
+
 
         <ImageButton
             android:id="@+id/iBCreateExerciseDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/item_exercise_cd_remove_exercise_to_this_workout"
             android:padding="@dimen/default_medium_size"
             android:src="@drawable/selector_delete_button" />
 
@@ -59,6 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/item_exercise_cd_check_to_add_in_workout"
             android:visibility="gone" />
 
     </LinearLayout>

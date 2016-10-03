@@ -34,6 +34,7 @@
         android:layout_margin="@dimen/default_large_size"
         android:adjustViewBounds="true"
         android:elevation="@dimen/default_elevation_lvl_two"
+        android:contentDescription="@string/frg_login_cd_create_a_new_user"
         android:src="@drawable/ic_add_user"
         app:layout_anchor="@+id/appBar"
         app:layout_anchorGravity="bottom|right|end" />

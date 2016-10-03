@@ -1,11 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tVFrgDoWorkoutName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Workout" />
+        android:background="@color/primary_dark"
+        android:contentDescription="@string/frg_do_workout_cd_workout_name"
+        android:gravity="center"
+        android:padding="@dimen/default_large_size"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+        android:textColor="@color/primary_light"
+        android:textStyle="bold"
+        tools:text="I can do that" />
+
+    <TextView
+        android:id="@+id/tVFrgDoWorkoutRounds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/frg_do_workout_cd_rounds_of_exercises"
+        android:gravity="center"
+        android:padding="@dimen/default_large_size"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+        tools:text="Rounds\n1/5" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:listitem="@layout/item_exercise_resume" />
+
+    <LinearLayout
+        android:id="@+id/lL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right|end"
+        android:orientation="horizontal"
+        android:padding="@dimen/default_medium_size">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_medium_size"
+            android:text="Do another round"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:textStyle="bold" />
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_large_size"
+            android:text="Finish"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:textColor="@android:color/white" />
+
+
+    </LinearLayout>
+
+
 </LinearLayout>

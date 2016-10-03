@@ -126,7 +126,7 @@
         android:layout_marginBottom="@dimen/default_x_large_size"
         android:layout_marginTop="@dimen/default_medium_size"
         android:gravity="center"
-        android:text="forgot password"
+        android:text="@string/frg_login_forgot_password"
         android:textColor="@color/primary_text" />
 
 </LinearLayout>
