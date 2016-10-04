@@ -218,7 +218,7 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
         return clickListener;
     }
 
-    public void addClickListener(onItemClickListener<T> clickListener) {
+    public void addOnClickListener(onItemClickListener<T> clickListener) {
         this.clickListener = clickListener;
     }
 

@@ -1,9 +1,14 @@
-package scott.com.workhard.app.ui.workout;
+package scott.com.workhard.app.ui.exercise;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,17 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
 import scott.com.workhard.base.view.BaseFragment;
-import scott.com.workhard.bus.event.EventSnackBar;
-import scott.com.workhard.entities.Workout;
+import scott.com.workhard.entities.Exercise;
+import scott.com.workhard.utils.IntentUtils;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -43,34 +43,23 @@ import scott.com.workhard.entities.Workout;
  * limitations under the License.
  */
 
-public class FrgWorkout extends BaseFragment {
+public class FrgExercise extends BaseFragment {
 
-    @BindView(R.id.tVFrgWorkoutName)
-    TextView tVFrgWorkoutName;
-    @BindView(R.id.tVFrgWorkoutRounds)
-    TextView tVFrgWorkoutRounds;
+    @BindView(R.id.tVFrgExerciseName)
+    TextView tVFrgExerciseName;
+    @BindView(R.id.tVFrgExerciseDetails)
+    TextView tVFrgExerciseDetails;
+    @BindView(R.id.tVFrgExerciseSource)
+    TextView tVFrgExerciseSource;
 
-    public static final int NEW = 1234;
-    public static final int RESUME = 4321;
-    public static final String VIEW_TYPE_ARG = "view_type";
+    private Exercise exercise;
 
-    @IntDef({NEW, RESUME})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface typeToView {
-    }
-
-    @typeToView
-    private int viewType;
-
-    private Workout workout;
-
-    public static FrgWorkout newInstance(Workout workout, @typeToView int viewType) {
+    public static Fragment newInstance(Exercise exercise) {
+        FrgExercise frgExercise = new FrgExercise();
         Bundle args = new Bundle();
-        args.putParcelable(Workout.WORKOUT_ARG, workout);
-        args.putInt(VIEW_TYPE_ARG, viewType);
-        FrgWorkout fragment = new FrgWorkout();
-        fragment.setArguments(args);
-        return fragment;
+        args.putParcelable(Exercise.EXERCISE_ARG, exercise);
+        frgExercise.setArguments(args);
+        return frgExercise;
     }
 
 
@@ -82,30 +71,41 @@ public class FrgWorkout extends BaseFragment {
 
     private void initVars() {
         setHasOptionsMenu(true);
-        workout = (Workout) getArguments().getParcelable(Workout.WORKOUT_ARG);
-        switch (getArguments().getInt(VIEW_TYPE_ARG)) {
-            case NEW:
-                viewType = NEW;
-                break;
-            case RESUME:
-                viewType = RESUME;
-                break;
-        }
+        exercise = (Exercise) getArguments().getParcelable(Exercise.EXERCISE_ARG);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frg_workout, container, false);
+        View view = inflater.inflate(R.layout.frg_exercise, container, false);
         ButterKnife.bind(this, view);
         intViews();
         return view;
     }
 
     private void intViews() {
-        if (workout != null) {
-            tVFrgWorkoutName.setText(workout.getName());
-            tVFrgWorkoutRounds.setText(getString(R.string.frg_workout_rounds, workout.getRounds()));
+        if (exercise != null) {
+            tVFrgExerciseName.setText(exercise.getName());
+            tVFrgExerciseDetails.setText(exercise.getDescription());
+            if (exercise.getUrl() != null) {
+                SpannableStringBuilder builder = new SpannableStringBuilder();
+                SpannableString url = new SpannableString(exercise.getUrl().length() > 20 ?
+                        exercise.getUrl().substring(0, 20).concat(getString(R.string.tree_points)) : exercise.getUrl());
+                url.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getActivity(), R.color.primary)), 0, url.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.append(getString(R.string.frg_exercise_source));
+                builder.append(" ");
+                builder.append(url);
+                tVFrgExerciseSource.setText(builder);
+                tVFrgExerciseSource.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        IntentUtils.openWebView(getActivity(), exercise.getUrl());
+                    }
+                });
+            } else {
+                tVFrgExerciseSource.setVisibility(View.GONE);
+            }
+
         }
     }
 
@@ -125,14 +125,7 @@ public class FrgWorkout extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        switch (viewType) {
-            case NEW:
-                inflater.inflate(R.menu.menu_workout_new, menu);
-                break;
-            case RESUME:
-                inflater.inflate(R.menu.menu_workout_resume, menu);
-                break;
-        }
+        inflater.inflate(R.menu.menu_exercise, menu);
     }
 
     @Override
@@ -140,14 +133,6 @@ public class FrgWorkout extends BaseFragment {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 getActivity().onBackPressed();
-                break;
-            }
-            case R.id.item_menu_do_it: {
-                EventBus.getDefault().post(new EventSnackBar().withMessage("Do workout"));
-                break;
-            }
-            case R.id.item_menu_do_it_again: {
-                EventBus.getDefault().post(new EventSnackBar().withMessage("Do workout"));
                 break;
             }
         }

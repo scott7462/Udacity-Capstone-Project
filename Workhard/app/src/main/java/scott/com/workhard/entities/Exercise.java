@@ -1,5 +1,8 @@
 package scott.com.workhard.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -25,14 +28,21 @@ import scott.com.workhard.data.sourse.db.tables.ExerciseTable;
  */
 
 
-public class Exercise {
+public class Exercise implements Parcelable {
 
+    public static final String EXERCISE_ARG = Exercise.class.getName();
     @SerializedName("id")
     @Expose
     private String id;
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("description")
+    @Expose
+    private String description;
+    @SerializedName("url")
+    @Expose
+    private String url;
     @SerializedName("repetition")
     @Expose
     private int repetition;
@@ -57,6 +67,14 @@ public class Exercise {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public int getRepetition() {
         return repetition;
     }
@@ -73,8 +91,26 @@ public class Exercise {
         this.id = id;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public Exercise withName(String name) {
         setName(name);
+        return this;
+    }
+
+    public Exercise withDescription(String description) {
+        setDescription(description);
+        return this;
+    }
+
+    public Exercise withUrl(String url) {
+        setUrl(url);
         return this;
     }
 
@@ -90,4 +126,40 @@ public class Exercise {
     public void setChecked(boolean checked) {
         isChecked = checked;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.description);
+        dest.writeString(this.url);
+        dest.writeInt(this.repetition);
+        dest.writeByte(this.isChecked ? (byte) 1 : (byte) 0);
+    }
+
+    protected Exercise(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.description = in.readString();
+        this.url = in.readString();
+        this.repetition = in.readInt();
+        this.isChecked = in.readByte() != 0;
+    }
+
+    public static final Creator<Exercise> CREATOR = new Creator<Exercise>() {
+        @Override
+        public Exercise createFromParcel(Parcel source) {
+            return new Exercise(source);
+        }
+
+        @Override
+        public Exercise[] newArray(int size) {
+            return new Exercise[size];
+        }
+    };
 }

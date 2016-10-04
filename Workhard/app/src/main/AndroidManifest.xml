@@ -49,9 +49,13 @@
         <activity
             android:name=".app.ui.do_workout.DoWorkoutActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".app.ui.select_exercise.SelectExerciseActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".app.ui.exercise.ExerciseActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 

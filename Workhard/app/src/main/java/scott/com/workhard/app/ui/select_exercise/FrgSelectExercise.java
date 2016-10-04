@@ -19,8 +19,10 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
-import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.app.ui.create_workout.adapter.AdapterExercise;
+import scott.com.workhard.app.ui.exercise.ExerciseActivity;
+import scott.com.workhard.base.view.BaseFragment;
+import scott.com.workhard.base.view.BaseSimpleAdapter;
 import scott.com.workhard.bus.event.EventAddExercises;
 import scott.com.workhard.entities.Exercise;
 import scott.com.workhard.utils.SpacesItemDecoration;
@@ -71,6 +73,12 @@ public class FrgSelectExercise extends BaseFragment {
                 getActivity().invalidateOptionsMenu();
             }
         });
+        adapter.addOnClickListener(new BaseSimpleAdapter.onItemClickListener<Exercise>() {
+            @Override
+            public void onItemViewsClick(Exercise item, int position) {
+                ExerciseActivity.newInstance(getActivity(), item);
+            }
+        });
     }
 
     @Override
@@ -94,36 +102,51 @@ public class FrgSelectExercise extends BaseFragment {
     private void fillDummyData() {
 
         adapter.addItem(new Exercise().withName("Pedro")
-                .withRepetitions(adapter.getItemCount() + 1));
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise))
+                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
         adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1));
-
-//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-//                .withRepetitions(adapter.getItemCount() + 1));
-//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-//                .withRepetitions(adapter.getItemCount() + 1));
-//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-//                .withRepetitions(adapter.getItemCount() + 1));
-//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-//                .withRepetitions(adapter.getItemCount() + 1));
-//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-//                .withRepetitions(adapter.getItemCount() + 1));
-//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-//                .withRepetitions(adapter.getItemCount() + 1));
-//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-//                .withRepetitions(adapter.getItemCount() + 1));
-//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-//                .withRepetitions(adapter.getItemCount() + 1));
-//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-//                .withRepetitions(adapter.getItemCount() + 1));
-//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-//                .withRepetitions(adapter.getItemCount() + 1));
-//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-//                .withRepetitions(adapter.getItemCount() + 1));
-//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-//                .withRepetitions(adapter.getItemCount() + 1));
-//        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-//                .withRepetitions(adapter.getItemCount() + 1));
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise)));
+        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise)));
+        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise)));
+        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise)));
+        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise)));
+        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise)));
+        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise)));
+        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise)));
+        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise)));
+        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise)));
+        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise)));
+        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise)));
+        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise)));
+        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
+                .withRepetitions(adapter.getItemCount() + 1)
+                .withDescription(getString(R.string.text_exercise)));
 
 
     }
@@ -149,7 +172,6 @@ public class FrgSelectExercise extends BaseFragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-//                UserFeedback.show("SearchOnQueryTextSubmit: " + query);
                 if (!searchView.isIconified()) {
                     searchView.setIconified(true);
                 }
@@ -160,7 +182,6 @@ public class FrgSelectExercise extends BaseFragment {
             @Override
             public boolean onQueryTextChange(String s) {
                 adapter.filterItems(s);
-                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
                 return true;
             }
         });
@@ -192,8 +213,7 @@ public class FrgSelectExercise extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_menu_add: {
-//                returnExercisesSelected();
-                adapter.showLoadMoreView(!adapter.haveLoadMoreView());
+                returnExercisesSelected();
                 break;
             }
             case R.id.item_menu_add_all: {

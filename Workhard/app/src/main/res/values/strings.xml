@@ -133,6 +133,17 @@
     <string name="frg_create_item_rest_between_rounds_number">Rest between rounds:
         <big>%1$d</big> seg
     </string>
+    <string name="text_exercise"><html><body><p align="justify\">A push-up (or press-up) is a common calisthenics exercise performed in a prone position by raising and lowering the body using the arms. Push-ups exercise the pectoral muscles, triceps, and anterior deltoids, with ancillary benefits to the rest of the deltoids, serratus anterior, coracobrachialis and the midsection as a whole. Push-ups are a basic exercise used in civilian athletic training or physical education and commonly in military physical training. They are also a common form of punishment used in the military, school sport, or in some martial arts disciplines.</p></body></html></string>
+    <string name="frg_exercise_source">Source:</string>
+    <string name="tree_points">…</string>
+    <string name="frg_workout_title">Workout</string>
+    <string name="action_do_it">Do it</string>
+    <string name="action_do_it_again">Do it again</string>
+    <string name="frg_workout_rounds" >Rounds\n%1$d</string>
+    <string name="nav_drawable_my_workout">My Workout</string>
+    <string name="frg_home_empty_my_workouts">You dont save any workout jet.</string>
+    <string name="frg_my_workouts_title">My workouts</string>
+    <string name="frg_history_title">History of workout</string>
 
 
 </resources>

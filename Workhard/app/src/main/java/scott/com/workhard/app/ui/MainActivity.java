@@ -24,13 +24,13 @@ import scott.com.workhard.R;
 import scott.com.workhard.app.ui.create_workout.CreateWorkoutActivity;
 import scott.com.workhard.app.ui.home.FrgHome;
 import scott.com.workhard.app.ui.profile.FrgProfile;
-import scott.com.workhard.app.ui.workout.WorkoutActivity;
 import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.bus.event.EventAlterDialog;
 import scott.com.workhard.entities.Workout;
 
 import static scott.com.workhard.app.ui.home.FrgHome.HISTORY;
 import static scott.com.workhard.app.ui.home.FrgHome.HOME;
+import static scott.com.workhard.app.ui.home.FrgHome.MY_WORKOUTS;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
@@ -105,8 +105,11 @@ public class MainActivity extends BaseActivity
             case R.id.nav_home:
                 navigateMainContent(FrgHome.newInstance(HOME), getString(R.string.app_name));
                 break;
+            case R.id.nav_my_workout:
+                navigateMainContent(FrgHome.newInstance(MY_WORKOUTS), getString(R.string.frg_my_workouts_title));
+                break;
             case R.id.nav_history:
-                navigateMainContent(FrgHome.newInstance(HISTORY), getString(R.string.app_name));
+                navigateMainContent(FrgHome.newInstance(HISTORY), getString(R.string.frg_history_title));
                 break;
             case R.id.nav_profile:
                 navigateMainContent(FrgProfile.newInstance(), getString(R.string.frg_profile_title));
@@ -163,6 +166,5 @@ public class MainActivity extends BaseActivity
     }
 
     public void goToWorkout(Workout item) {
-        WorkoutActivity.newInstance(this, item);
     }
 }

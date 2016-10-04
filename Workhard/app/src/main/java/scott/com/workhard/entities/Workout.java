@@ -93,6 +93,41 @@ public class Workout implements Parcelable {
         this.exerciseList = exerciseList;
     }
 
+    public void setDateCompleted(String dateCompleted) {
+        this.dateCompleted = dateCompleted;
+    }
+
+    public Workout withName(String name) {
+        setName(name);
+        return this;
+    }
+
+    public Workout withRestBetweenExercise(int restBetweenExercise) {
+        setRestBetweenExercise(restBetweenExercise);
+        return this;
+    }
+
+    public Workout withRestRoundsExercise(int restRoundsExercise) {
+        setRestRoundsExercise(restRoundsExercise);
+        return this;
+    }
+
+    public Workout withRounds(int rounds) {
+        setRounds(rounds);
+        return this;
+    }
+
+    public Workout withDateCompleted(String dateCompleted) {
+        setDateCompleted(dateCompleted);
+        return this;
+    }
+
+    public Workout withExercises(List<Exercise> exercises) {
+        setExerciseList(exercises);
+        return this;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;

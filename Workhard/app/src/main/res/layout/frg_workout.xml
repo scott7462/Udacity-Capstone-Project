@@ -6,11 +6,10 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tVFrgDoWorkoutName"
+        android:id="@+id/tVFrgWorkoutName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primary_dark"
-        android:contentDescription="@string/frg_do_workout_cd_workout_name"
         android:gravity="center"
         android:padding="@dimen/default_large_size"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
@@ -19,7 +18,7 @@
         tools:text="I can do that" />
 
     <TextView
-        android:id="@+id/tVFrgDoWorkoutRounds"
+        android:id="@+id/tVFrgWorkoutRounds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -36,12 +35,13 @@
         tools:listitem="@layout/item_exercise_resume" />
 
     <LinearLayout
-        android:id="@+id/lL"
+        android:id="@+id/lLDoOrFinish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right|end"
         android:orientation="horizontal"
-        android:padding="@dimen/default_medium_size">
+        android:padding="@dimen/default_medium_size"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,8 +59,6 @@
             android:text="Finish"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@android:color/white" />
-
-
     </LinearLayout>
 
 

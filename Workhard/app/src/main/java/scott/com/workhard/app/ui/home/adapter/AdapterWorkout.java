@@ -38,6 +38,7 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
 
     public static final int HOME = 1234;
     public static final int HISTORY = 4321;
+    public static final int MY_WORKOUTS = 9453;
 
     @typeToView
     private int typeView;
@@ -55,7 +56,7 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
     /**
      * @hide
      */
-    @IntDef({HOME, HISTORY})
+    @IntDef({HOME, HISTORY, MY_WORKOUTS})
     @Retention(RetentionPolicy.SOURCE)
     public @interface typeToView {
     }
@@ -122,13 +123,10 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
             tVItemWorkoutName.setText(workout.getName());
             tVItemWorkoutRounds.setText(tVItemWorkoutRounds.getContext()
                     .getString(R.string.frg_item_workout_rounds_number, workout.getRounds()));
-
             tVItemWorkoutRestExercises.setText(tVItemWorkoutRestExercises.getContext()
                     .getString(R.string.frg_create_item_rest_between_exercise_number, workout.getRestBetweenExercise()));
-
             tVItemWorkoutRestRounds.setText(tVItemWorkoutRestRounds.getContext()
                     .getString(R.string.frg_create_item_rest_between_rounds_number, workout.getRestRoundsExercise()));
-
             tVItemWorkoutDate.setVisibility(typeView == HISTORY ? View.VISIBLE : View.GONE);
             tVItemWorkoutDate.setText(workout.getDateCompleted());
         }
@@ -140,6 +138,7 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
     }
 
     public class EmptyViewHomeHolder extends RecyclerView.ViewHolder {
+
         @BindView(R.id.tVFrgHomeEmpty)
         TextView tVFrgHomeEmpty;
 
@@ -149,8 +148,17 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
         }
 
         void bindView() {
-            tVFrgHomeEmpty.setText(typeView == HOME ? tVFrgHomeEmpty.getContext().getString(R.string.frg_home_empty_home) :
-                    tVFrgHomeEmpty.getContext().getString(R.string.frg_home_empty_history));
+            switch (typeView) {
+                case HOME:
+                    tVFrgHomeEmpty.setText(tVFrgHomeEmpty.getContext().getString(R.string.frg_home_empty_home));
+                    break;
+                case HISTORY:
+                    tVFrgHomeEmpty.setText(tVFrgHomeEmpty.getContext().getString(R.string.frg_home_empty_history));
+                    break;
+                case MY_WORKOUTS:
+                    tVFrgHomeEmpty.setText(tVFrgHomeEmpty.getContext().getString(R.string.frg_home_empty_my_workouts));
+                    break;
+            }
         }
 
 

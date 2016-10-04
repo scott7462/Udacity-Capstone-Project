@@ -21,12 +21,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
-import scott.com.workhard.app.ui.MainActivity;
 import scott.com.workhard.app.ui.create_workout.CreateWorkoutActivity;
 import scott.com.workhard.app.ui.home.adapter.AdapterWorkout;
-import scott.com.workhard.base.view.BaseActivity;
+import scott.com.workhard.app.ui.workout.FrgWorkout;
+import scott.com.workhard.app.ui.workout.WorkoutActivity;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.base.view.BaseSimpleAdapter;
+import scott.com.workhard.entities.Exercise;
 import scott.com.workhard.entities.Workout;
 import scott.com.workhard.utils.SpacesItemDecoration;
 
@@ -61,13 +62,12 @@ public class FrgHome extends BaseFragment {
 
     public static final int HOME = 1234;
     public static final int HISTORY = 4321;
+    public static final int MY_WORKOUTS = 1987;
 
-    /**
-     * @hide
-     */
-    @IntDef({HOME, HISTORY})
+    @IntDef({HOME, HISTORY, MY_WORKOUTS})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface typeToView {}
+    public @interface typeToView {
+    }
 
 
     public static Fragment newInstance(@typeToView int typeView) {
@@ -92,6 +92,10 @@ public class FrgHome extends BaseFragment {
                     adapter = new AdapterWorkout(AdapterWorkout.HISTORY);
                     break;
                 }
+                case MY_WORKOUTS: {
+                    adapter = new AdapterWorkout(AdapterWorkout.MY_WORKOUTS);
+                    break;
+                }
                 default: {
                     adapter = new AdapterWorkout(AdapterWorkout.HOME);
                     break;
@@ -101,15 +105,40 @@ public class FrgHome extends BaseFragment {
             adapter = new AdapterWorkout(AdapterWorkout.HOME);
         }
 
-        adapter.addClickListener(new BaseSimpleAdapter.onItemClickListener<Workout>() {
+        adapter.addOnClickListener(new BaseSimpleAdapter.onItemClickListener<Workout>() {
             @Override
             public void onItemViewsClick(Workout item, int position) {
-                ((MainActivity)getActivity()).goToWorkout(item);
+
+                switch (getArguments().getInt(TYPE_VIEW_ADAPTER)) {
+                    case HISTORY: {
+                        WorkoutActivity.newInstance(getActivity(), item,FrgWorkout.RESUME);
+                        break;
+                    }
+                    default: {
+                        WorkoutActivity.newInstance(getActivity(), item,FrgWorkout.NEW);
+                        break;
+                    }
+                }
             }
         });
         adapter.showEmptyState(true);
+        List<Exercise> exercises = new ArrayList<>();
+        exercises.add(new Exercise().withName("Pedro")
+                .withRepetitions(1)
+                .withDescription(getString(R.string.text_exercise))
+                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
+        exercises.add(new Exercise().withName("Marsela")
+                .withRepetitions(1)
+                .withDescription(getString(R.string.text_exercise))
+                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
 
-        workouts.add(new Workout());
+
+        workouts.add(new Workout()
+                .withName("Test Name")
+                .withRestBetweenExercise(50)
+                .withRestRoundsExercise(90)
+                .withRounds(4)
+                .withExercises(exercises));
         workouts.add(new Workout());
         workouts.add(new Workout());
         workouts.add(new Workout());
@@ -135,16 +164,16 @@ public class FrgHome extends BaseFragment {
                 new SpacesItemDecoration(adapter.haveAdapterHeaderView(), R.dimen.default_medium_size));
         rVFrgHome.setAdapter(adapter);
         rVFrgHome.setHasFixedSize(true);
-        rVFrgHome.addOnScrollListener(new RecyclerView.OnScrollListener(){
+        rVFrgHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
-                if (dy > 0 ||dy<0 && fBHomeAddWorkout.isShown())
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0 || dy < 0 && fBHomeAddWorkout.isShown())
                     fBHomeAddWorkout.hide();
             }
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     fBHomeAddWorkout.show();
                 }
                 super.onScrollStateChanged(recyclerView, newState);

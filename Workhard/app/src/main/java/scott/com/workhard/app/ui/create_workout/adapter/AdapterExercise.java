@@ -254,13 +254,16 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
         ExerciseHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            if (getClickListener() != null) {
-                initListeners();
-            }
+            initListeners();
         }
 
         private void initListeners() {
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callItemListenerByPosition(getAdapterPosition());
+                }
+            });
         }
 
         void bindView(Exercise exercise) {
@@ -295,7 +298,6 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
                     .getString(R.string.frg_create_workout_item_exercise, getItems()
                             .get(getItemPosition(getAdapterPosition())).getRepetition()));
         }
-
 
         @OnClick(R.id.iBCreateExerciseDelete)
         public void onDeleteItem() {
