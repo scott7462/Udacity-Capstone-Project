@@ -14,14 +14,14 @@
             android:id="@+id/eTFrgCreateWorkoutName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/frg_login_cd_write_your_email"
+            android:contentDescription="@string/frg_create_workout_cd_name_of_you_workout"
             android:drawableLeft="@drawable/ic_account"
             android:drawablePadding="@dimen/default_medium_size"
-            android:maxLines="1"
-            android:maxLength="25"
             android:drawableStart="@drawable/ic_account"
             android:hint="@string/frg_create_workout_name"
             android:inputType="textCapSentences"
+            android:maxLength="25"
+            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColorHint="@color/accent" />
 
@@ -54,6 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/frg_create_workout_cd_minus_round_to_workout"
             android:padding="@dimen/default_small_size"
             android:src="@drawable/selector_minus_button" />
 
@@ -62,6 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/frg_create_workout_cd_plus_rounds_to_workout"
             android:padding="@dimen/default_small_size"
             android:src="@drawable/selector_plus_button" />
     </LinearLayout>
@@ -92,6 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/frg_create_workout_cd_minus_recovery_time_between_exercises_to_workout"
             android:padding="@dimen/default_small_size"
             android:src="@drawable/selector_minus_button" />
 
@@ -100,6 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/frg_create_workout_cd_plus_recovery_time_between_exercises_to_workout"
             android:padding="@dimen/default_small_size"
             android:src="@drawable/selector_plus_button" />
 
@@ -132,6 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/frg_create_workout_cd_minus_recovery_time_between_rounds_to_workout"
             android:padding="@dimen/default_small_size"
             android:src="@drawable/selector_minus_button" />
 
@@ -140,6 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/frg_create_workout_cd_plus_recovery_time_between_rounds_to_workout"
             android:padding="@dimen/default_small_size"
             android:src="@drawable/selector_plus_button" />
     </LinearLayout>
