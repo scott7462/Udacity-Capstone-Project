@@ -45,6 +45,9 @@ public class Workout implements Parcelable {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("date_completed")
+    @Expose
+    private String dateCompleted;
     @SerializedName("list_exercise")
     @Expose
     private List<Exercise> exerciseList = new ArrayList<>();
@@ -131,4 +134,8 @@ public class Workout implements Parcelable {
             return new Workout[size];
         }
     };
+
+    public String getDateCompleted() {
+        return dateCompleted;
+    }
 }

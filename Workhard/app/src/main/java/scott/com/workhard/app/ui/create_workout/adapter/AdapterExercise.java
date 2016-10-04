@@ -4,13 +4,13 @@ import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,7 +48,6 @@ import scott.com.workhard.entities.Workout;
  * limitations under the License.
  */
 public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerView.ViewHolder> {
-
 
     private onHeaderClickListener onHeaderClickListener;
     private onExerciseClickListener onExerciseClickListener;
@@ -90,13 +89,13 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
                 return new EmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_loading, parent, false));
             }
             case EMPTY_VIEW: {
-                return new EmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_empty, parent, false));
+                return new EmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_empty_state, parent, false));
             }
             case HEADER_VIEW: {
                 return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.frg_create_workout_header, parent, false));
             }
             case LOAD_MORE_VIEW: {
-                return new EmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_load_more, parent, false));
+                return new EmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_load_more, parent, false));
             }
             default: {
                 return new ExerciseHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise, parent, false));
@@ -114,7 +113,6 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
                 break;
             }
             case LOAD_MORE_VIEW: {
-                Log.e("TEST", "CASA");
                 break;
             }
             case HEADER_VIEW: {
@@ -159,7 +157,7 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
             switch (view.getId()) {
                 case R.id.iBFrgCreateWorkoutRestExerciseMinus:
                     if (workout.getRestBetweenExercise() > view.getContext().getResources()
-                            .getInteger(R.integer.min_rest_beteween_exercise)) {
+                            .getInteger(R.integer.min_rest_between_exercise)) {
                         workout.setRestBetweenExercise(workout.getRestBetweenExercise()
                                 - view.getContext().getResources().getInteger(R.integer.number_of_rest));
                     }
@@ -176,13 +174,13 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
         public void onClickRestRounds(View view) {
             switch (view.getId()) {
                 case R.id.iBFrgCreateWorkoutRestRoundsMinus:
-                    if (workout.getRestRoundsExercise() > view.getContext().getResources().getInteger(R.integer.min_rest_beteween_rounds)) {
+                    if (workout.getRestRoundsExercise() > view.getContext().getResources().getInteger(R.integer.min_rest_between_rounds)) {
                         workout.setRestRoundsExercise(workout.getRestRoundsExercise() - view.getContext().getResources().getInteger(R.integer.number_of_rest));
                     }
                     break;
 
                 case R.id.iBFrgCreateWorkoutRestRoundsPlus:
-                    workout.setRestBetweenExercise(workout.getRestRoundsExercise() +
+                    workout.setRestRoundsExercise(workout.getRestRoundsExercise() +
                             view.getContext().getResources().getInteger(R.integer.number_of_rest));
                     break;
             }
@@ -250,6 +248,8 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
         CheckBox cBCreateExercise;
         @BindView(R.id.iBCreateExerciseDelete)
         ImageView iBCreateExerciseDelete;
+        @BindView(R.id.lLItemExerciseControllerRepetitions)
+        LinearLayout lLItemExerciseControllerRepetitions;
 
         ExerciseHolder(View itemView) {
             super(itemView);
@@ -268,11 +268,34 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
             tVItemExerciseRepetitions.setText(tVItemExerciseRepetitions.getContext()
                     .getString(R.string.frg_create_workout_item_exercise, exercise.getRepetition()));
             cBCreateExercise.setVisibility(typeView == ADD_TO_WORKOUT ? View.VISIBLE : View.GONE);
+            lLItemExerciseControllerRepetitions.setVisibility(typeView == SHOW_IN_WORKOUT ? View.VISIBLE : View.GONE);
             cBCreateExercise.setChecked(exercise.isChecked());
             tVItemExerciseRepetitions.setVisibility(typeView == SHOW_IN_WORKOUT ? View.VISIBLE : View.GONE);
             iBCreateExerciseDelete.setVisibility(typeView == SHOW_IN_WORKOUT ? View.VISIBLE : View.GONE);
             iVItemExerciseMove.setVisibility(isCallbackMoved() ? View.VISIBLE : View.GONE);
         }
+
+        @OnClick({R.id.iBFItemExerciseMinusRepetitions, R.id.iBFItemExercisePluseRepetitions})
+        public void onClickRounds(View view) {
+            switch (view.getId()) {
+                case R.id.iBFItemExerciseMinusRepetitions:
+                    if (getItems().get(getItemPosition(getAdapterPosition())).getRepetition() > view.getContext().getResources().getInteger(R.integer.min_rounds)) {
+                        getItems().get(getItemPosition(getAdapterPosition()))
+                                .setRepetition(getItems().get(getItemPosition(getAdapterPosition())).getRepetition()
+                                        - view.getContext().getResources().getInteger(R.integer.min_rounds));
+                    }
+                    break;
+                case R.id.iBFItemExercisePluseRepetitions:
+                    getItems().get(getItemPosition(getAdapterPosition()))
+                            .setRepetition(getItems().get(getItemPosition(getAdapterPosition())).getRepetition()
+                                    + view.getContext().getResources().getInteger(R.integer.min_rounds));
+                    break;
+            }
+            tVItemExerciseRepetitions.setText(tVItemExerciseRepetitions.getContext()
+                    .getString(R.string.frg_create_workout_item_exercise, getItems()
+                            .get(getItemPosition(getAdapterPosition())).getRepetition()));
+        }
+
 
         @OnClick(R.id.iBCreateExerciseDelete)
         public void onDeleteItem() {

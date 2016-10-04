@@ -118,8 +118,19 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
             itemView.setOnClickListener(this);
         }
 
-        void bindView(Workout exercise) {
+        void bindView(Workout workout) {
+            tVItemWorkoutName.setText(workout.getName());
+            tVItemWorkoutRounds.setText(tVItemWorkoutRounds.getContext()
+                    .getString(R.string.frg_item_workout_rounds_number, workout.getRounds()));
+
+            tVItemWorkoutRestExercises.setText(tVItemWorkoutRestExercises.getContext()
+                    .getString(R.string.frg_create_item_rest_between_exercise_number, workout.getRestBetweenExercise()));
+
+            tVItemWorkoutRestRounds.setText(tVItemWorkoutRestRounds.getContext()
+                    .getString(R.string.frg_create_item_rest_between_rounds_number, workout.getRestRoundsExercise()));
+
             tVItemWorkoutDate.setVisibility(typeView == HISTORY ? View.VISIBLE : View.GONE);
+            tVItemWorkoutDate.setText(workout.getDateCompleted());
         }
 
         @Override

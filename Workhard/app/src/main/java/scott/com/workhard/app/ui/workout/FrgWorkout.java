@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
-import scott.com.workhard.app.ui.do_workout.FrgDoRestWorkout;
 import scott.com.workhard.base.view.BaseFragment;
 
 /**
