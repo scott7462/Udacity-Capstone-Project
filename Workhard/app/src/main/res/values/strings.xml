@@ -137,9 +137,12 @@
     <string name="frg_exercise_source">Source:</string>
     <string name="tree_points">…</string>
     <string name="frg_workout_title">Workout</string>
-    <string name="action_do_it">Do it</string>
+    <string name="action_finish">Do it</string>
     <string name="action_do_it_again">Do it again</string>
-    <string name="frg_workout_rounds" >Rounds\n%1$d</string>
+    <string name="frg_workout_rounds">Rounds\n%1$d</string>
+    <string name="frg_workout_rest_rounds">R rounds\n%1$d seg</string>
+    <string name="frg_workout_rest_between_exercise">R exercise\n%1$d seg</string>
+    <string name="frg_workout_dates">Date: %1$s</string>
     <string name="nav_drawable_my_workout">My Workout</string>
     <string name="frg_home_empty_my_workouts">You dont save any workout jet.</string>
     <string name="frg_my_workouts_title">My workouts</string>

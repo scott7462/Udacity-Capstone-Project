@@ -1,6 +1,7 @@
 package scott.com.workhard.app.ui.create_workout.adapter;
 
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -63,8 +64,11 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
         return workout;
     }
 
-    public void setWorkout(Workout workout) {
+    public void setWorkout(@NonNull Workout workout) {
         this.workout = workout;
+        if (workout.getExerciseList() != null) {
+            cleanItemsAndUpdate(workout.getExerciseList());
+        }
     }
 
     /**

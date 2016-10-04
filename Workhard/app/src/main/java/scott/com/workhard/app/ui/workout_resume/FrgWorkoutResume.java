@@ -1,9 +1,11 @@
-package scott.com.workhard.app.ui.workout;
+package scott.com.workhard.app.ui.workout_resume;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +22,8 @@ import java.lang.annotation.RetentionPolicy;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
+import scott.com.workhard.app.ui.create_workout.CreateWorkoutActivity;
+import scott.com.workhard.app.ui.workout_resume.adapter.AdapterExerciseResume;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.entities.Workout;
@@ -43,18 +47,28 @@ import scott.com.workhard.entities.Workout;
  * limitations under the License.
  */
 
-public class FrgWorkout extends BaseFragment {
+public class FrgWorkoutResume extends BaseFragment {
 
     @BindView(R.id.tVFrgWorkoutName)
     TextView tVFrgWorkoutName;
     @BindView(R.id.tVFrgWorkoutRounds)
     TextView tVFrgWorkoutRounds;
+    @BindView(R.id.rVFrgWorkoutResume)
+    RecyclerView rVFrgWorkoutResume;
+    @BindView(R.id.tVFrgWorkoutRestRounds)
+    TextView tVFrgWorkoutRestRounds;
+    @BindView(R.id.tVFrgWorkoutRestExercise)
+    TextView tVFrgWorkoutRestExercise;
+    @BindView(R.id.tVFrgWorkoutDate)
+    TextView tVFrgWorkoutDate;
 
-    public static final int NEW = 1234;
+    private AdapterExerciseResume adapter;
+
+    public static final int FINISH = 1234;
     public static final int RESUME = 4321;
     public static final String VIEW_TYPE_ARG = "view_type";
 
-    @IntDef({NEW, RESUME})
+    @IntDef({FINISH, RESUME})
     @Retention(RetentionPolicy.SOURCE)
     public @interface typeToView {
     }
@@ -64,11 +78,11 @@ public class FrgWorkout extends BaseFragment {
 
     private Workout workout;
 
-    public static FrgWorkout newInstance(Workout workout, @typeToView int viewType) {
+    public static FrgWorkoutResume newInstance(Workout workout, @typeToView int viewType) {
         Bundle args = new Bundle();
         args.putParcelable(Workout.WORKOUT_ARG, workout);
         args.putInt(VIEW_TYPE_ARG, viewType);
-        FrgWorkout fragment = new FrgWorkout();
+        FrgWorkoutResume fragment = new FrgWorkoutResume();
         fragment.setArguments(args);
         return fragment;
     }
@@ -83,9 +97,11 @@ public class FrgWorkout extends BaseFragment {
     private void initVars() {
         setHasOptionsMenu(true);
         workout = (Workout) getArguments().getParcelable(Workout.WORKOUT_ARG);
+        adapter = new AdapterExerciseResume();
+        adapter.setWorkout(workout);
         switch (getArguments().getInt(VIEW_TYPE_ARG)) {
-            case NEW:
-                viewType = NEW;
+            case FINISH:
+                viewType = FINISH;
                 break;
             case RESUME:
                 viewType = RESUME;
@@ -103,9 +119,15 @@ public class FrgWorkout extends BaseFragment {
     }
 
     private void intViews() {
+        rVFrgWorkoutResume.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rVFrgWorkoutResume.setAdapter(adapter);
+        rVFrgWorkoutResume.setHasFixedSize(true);
         if (workout != null) {
             tVFrgWorkoutName.setText(workout.getName());
             tVFrgWorkoutRounds.setText(getString(R.string.frg_workout_rounds, workout.getRounds()));
+            tVFrgWorkoutRestExercise.setText(getString(R.string.frg_workout_rest_between_exercise, workout.getRestBetweenExercise()));
+            tVFrgWorkoutRestRounds.setText(getString(R.string.frg_workout_rest_rounds, workout.getRestRoundsExercise()));
+            tVFrgWorkoutDate.setText(getString(R.string.frg_workout_dates, workout.getDateCompleted()));
         }
     }
 
@@ -126,8 +148,8 @@ public class FrgWorkout extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         switch (viewType) {
-            case NEW:
-                inflater.inflate(R.menu.menu_workout_new, menu);
+            case FINISH:
+                inflater.inflate(R.menu.menu_workout_finish, menu);
                 break;
             case RESUME:
                 inflater.inflate(R.menu.menu_workout_resume, menu);
@@ -138,18 +160,15 @@ public class FrgWorkout extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home: {
+            case android.R.id.home:
                 getActivity().onBackPressed();
                 break;
-            }
-            case R.id.item_menu_do_it: {
-                EventBus.getDefault().post(new EventSnackBar().withMessage("Do workout"));
+            case R.id.item_menu_finish:
+                EventBus.getDefault().post(new EventSnackBar().withMessage("Finish workout"));
                 break;
-            }
-            case R.id.item_menu_do_it_again: {
-                EventBus.getDefault().post(new EventSnackBar().withMessage("Do workout"));
+            case R.id.item_menu_do_it_again:
+                CreateWorkoutActivity.newInstance(getActivity(), workout);
                 break;
-            }
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,4 +1,4 @@
-package scott.com.workhard.app.ui.workout;
+package scott.com.workhard.app.ui.workout_resume;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,7 +30,7 @@ import scott.com.workhard.entities.Workout;
  * limitations under the License.
  */
 
-public class WorkoutActivity extends BaseActivity {
+public class WorkoutResumeActivity extends BaseActivity {
 
     private static final String CONTENT_FRAGMENT = "content";
     @BindView(R.id.toolbar)
@@ -52,8 +52,8 @@ public class WorkoutActivity extends BaseActivity {
             navigateMainContent(getSupportFragmentManager().getFragment(
                     savedInstanceState, CONTENT_FRAGMENT), getString(R.string.frg_workout_title));
         } else {
-            navigateMainContent(FrgWorkout.newInstance((Workout) getIntent().getParcelableExtra(Workout.WORKOUT_ARG),
-                    getIntent().getIntExtra(FrgWorkout.VIEW_TYPE_ARG, FrgWorkout.NEW) == FrgWorkout.NEW ? FrgWorkout.NEW : FrgWorkout.RESUME),
+            navigateMainContent(FrgWorkoutResume.newInstance((Workout) getIntent().getParcelableExtra(Workout.WORKOUT_ARG),
+                    getIntent().getIntExtra(FrgWorkoutResume.VIEW_TYPE_ARG, FrgWorkoutResume.FINISH) == FrgWorkoutResume.FINISH ? FrgWorkoutResume.FINISH : FrgWorkoutResume.RESUME),
                     getString(R.string.frg_workout_title));
         }
     }
@@ -64,10 +64,10 @@ public class WorkoutActivity extends BaseActivity {
         getSupportFragmentManager().putFragment(outState, "mContent", getSupportFragmentManager().findFragmentById(R.id.container));
     }
 
-    public static void newInstance(Activity activity, Workout workout, @FrgWorkout.typeToView int viewType) {
-        Intent intent = new Intent(activity, WorkoutActivity.class);
+    public static void newInstance(Activity activity, Workout workout, @FrgWorkoutResume.typeToView int viewType) {
+        Intent intent = new Intent(activity, WorkoutResumeActivity.class);
         intent.putExtra(Workout.WORKOUT_ARG, workout);
-        intent.putExtra(FrgWorkout.VIEW_TYPE_ARG, viewType);
+        intent.putExtra(FrgWorkoutResume.VIEW_TYPE_ARG, viewType);
         activity.startActivity(intent);
     }
 

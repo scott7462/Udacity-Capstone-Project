@@ -3,12 +3,14 @@ package scott.com.workhard.app.ui.create_workout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
 import scott.com.workhard.base.view.BaseActivity;
+import scott.com.workhard.entities.Workout;
 
 /**
  * @author Pedro Scott. scott7462@gmail.com
@@ -50,8 +52,7 @@ public class CreateWorkoutActivity extends BaseActivity {
             navigateMainContent(getSupportFragmentManager().getFragment(
                     savedInstanceState, "mContent"), getString(R.string.app_name));
         } else {
-            toolbar.setTitle(getString(R.string.app_name));
-            navigateMainContent(FrgCreateWorkout.newInstance(), getString(R.string.frg_create_workout_title));
+            navigateMainContent(FrgCreateWorkout.newInstance((Workout) getIntent().getParcelableExtra(Workout.WORKOUT_ARG)), getString(R.string.frg_create_workout_title));
         }
     }
 
@@ -61,8 +62,12 @@ public class CreateWorkoutActivity extends BaseActivity {
         getSupportFragmentManager().putFragment(outState, "mContent", getSupportFragmentManager().findFragmentById(R.id.container));
     }
 
-    public static void newInstance(Activity activity) {
-        activity.startActivity(new Intent(activity, CreateWorkoutActivity.class));
+    public static void newInstance(Activity activity, @Nullable Workout workout) {
+        Intent intent = new Intent(activity, CreateWorkoutActivity.class);
+        if (workout != null) {
+            intent.putExtra(Workout.WORKOUT_ARG, workout);
+        }
+        activity.startActivity(intent);
     }
 
 }

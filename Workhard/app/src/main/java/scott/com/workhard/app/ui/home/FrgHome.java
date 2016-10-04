@@ -23,8 +23,8 @@ import butterknife.OnClick;
 import scott.com.workhard.R;
 import scott.com.workhard.app.ui.create_workout.CreateWorkoutActivity;
 import scott.com.workhard.app.ui.home.adapter.AdapterWorkout;
-import scott.com.workhard.app.ui.workout.FrgWorkout;
-import scott.com.workhard.app.ui.workout.WorkoutActivity;
+import scott.com.workhard.app.ui.workout_resume.FrgWorkoutResume;
+import scott.com.workhard.app.ui.workout_resume.WorkoutResumeActivity;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.base.view.BaseSimpleAdapter;
 import scott.com.workhard.entities.Exercise;
@@ -111,11 +111,11 @@ public class FrgHome extends BaseFragment {
 
                 switch (getArguments().getInt(TYPE_VIEW_ADAPTER)) {
                     case HISTORY: {
-                        WorkoutActivity.newInstance(getActivity(), item,FrgWorkout.RESUME);
+                        WorkoutResumeActivity.newInstance(getActivity(), item, FrgWorkoutResume.RESUME);
                         break;
                     }
                     default: {
-                        WorkoutActivity.newInstance(getActivity(), item,FrgWorkout.NEW);
+                        CreateWorkoutActivity.newInstance(getActivity(), item);
                         break;
                     }
                 }
@@ -132,12 +132,12 @@ public class FrgHome extends BaseFragment {
                 .withDescription(getString(R.string.text_exercise))
                 .withUrl("https://en.wikipedia.org/wiki/Push-up"));
 
-
         workouts.add(new Workout()
                 .withName("Test Name")
                 .withRestBetweenExercise(50)
                 .withRestRoundsExercise(90)
                 .withRounds(4)
+                .withDateCompleted("07 Nov 2016")
                 .withExercises(exercises));
         workouts.add(new Workout());
         workouts.add(new Workout());
@@ -183,7 +183,7 @@ public class FrgHome extends BaseFragment {
 
     @OnClick(R.id.fBHomeAddWorkout)
     public void createWorkout() {
-        CreateWorkoutActivity.newInstance(getActivity());
+        CreateWorkoutActivity.newInstance(getActivity(), null);
     }
 
     @Override

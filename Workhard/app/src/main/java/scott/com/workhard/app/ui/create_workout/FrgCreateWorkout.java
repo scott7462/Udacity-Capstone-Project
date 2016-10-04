@@ -27,6 +27,7 @@ import scott.com.workhard.app.ui.create_workout.adapter.AdapterExercise;
 import scott.com.workhard.bus.event.EventAddExercises;
 import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.entities.Exercise;
+import scott.com.workhard.entities.Workout;
 import scott.com.workhard.utils.SpacesItemDecoration;
 
 /**
@@ -54,8 +55,14 @@ public class FrgCreateWorkout extends BaseFragment {
 
     private AdapterExercise adapter = new AdapterExercise(AdapterExercise.SHOW_IN_WORKOUT);
 
-    public static Fragment newInstance() {
-        return new FrgCreateWorkout();
+    private Workout workout;
+
+    public static FrgCreateWorkout newInstance(Workout workout) {
+        Bundle args = new Bundle();
+        args.putParcelable(Workout.WORKOUT_ARG, workout);
+        FrgCreateWorkout fragment = new FrgCreateWorkout();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -68,6 +75,14 @@ public class FrgCreateWorkout extends BaseFragment {
         setHasOptionsMenu(true);
         adapter.showHeaderView(true);
         adapter.showEmptyState(true);
+        adapter.setWorkout((Workout) getArguments().getParcelable(Workout.WORKOUT_ARG) != null ?
+                (Workout) getArguments().getParcelable(Workout.WORKOUT_ARG) : new Workout());
+        adapter.addHeaderClickListener(new AdapterExercise.onHeaderClickListener() {
+            @Override
+            public void onNameWorkoutChange(String name) {
+                ((BaseActivity) getActivity()).getToolbar().setTitle(name);
+            }
+        });
     }
 
     @Override
@@ -84,16 +99,7 @@ public class FrgCreateWorkout extends BaseFragment {
         rVFrgCreateWorkOut.addItemDecoration(
                 new SpacesItemDecoration(adapter.haveAdapterHeaderView(), R.dimen.default_medium_size));
         rVFrgCreateWorkOut.setAdapter(adapter);
-        adapter.showLoadMoreView(true);
         rVFrgCreateWorkOut.setHasFixedSize(true);
-        adapter.addHeaderClickListener(new AdapterExercise.onHeaderClickListener() {
-            @Override
-            public void onNameWorkoutChange(String name) {
-                ((BaseActivity) getActivity()).getToolbar().setTitle(name);
-            }
-
-        });
-
         adapter.addItemTouchHelperAdapter(rVFrgCreateWorkOut, new BaseSimpleAdapter.ItemTouchHelperAdapter<Exercise>() {
 
             @Override

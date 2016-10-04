@@ -127,6 +127,10 @@ public class Workout implements Parcelable {
         return this;
     }
 
+    public String getDateCompleted() {
+        return dateCompleted;
+    }
+
 
     @Override
     public int describeContents() {
@@ -140,7 +144,8 @@ public class Workout implements Parcelable {
         dest.writeInt(this.restRoundsExercise);
         dest.writeInt(this.rounds);
         dest.writeString(this.name);
-        dest.writeList(this.exerciseList);
+        dest.writeString(this.dateCompleted);
+        dest.writeTypedList(this.exerciseList);
         dest.writeByte(this.errorMessageInName ? (byte) 1 : (byte) 0);
     }
 
@@ -153,12 +158,12 @@ public class Workout implements Parcelable {
         this.restRoundsExercise = in.readInt();
         this.rounds = in.readInt();
         this.name = in.readString();
-        this.exerciseList = new ArrayList<Exercise>();
-        in.readList(this.exerciseList, Exercise.class.getClassLoader());
+        this.dateCompleted = in.readString();
+        this.exerciseList = in.createTypedArrayList(Exercise.CREATOR);
         this.errorMessageInName = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<Workout> CREATOR = new Parcelable.Creator<Workout>() {
+    public static final Creator<Workout> CREATOR = new Creator<Workout>() {
         @Override
         public Workout createFromParcel(Parcel source) {
             return new Workout(source);
@@ -169,8 +174,4 @@ public class Workout implements Parcelable {
             return new Workout[size];
         }
     };
-
-    public String getDateCompleted() {
-        return dateCompleted;
-    }
 }

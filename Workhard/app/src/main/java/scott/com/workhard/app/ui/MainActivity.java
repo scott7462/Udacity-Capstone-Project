@@ -69,6 +69,7 @@ public class MainActivity extends BaseActivity
 
     private void iniViews() {
         setSupportActionBar(toolbar);
+        setToolbar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -115,7 +116,7 @@ public class MainActivity extends BaseActivity
                 navigateMainContent(FrgProfile.newInstance(), getString(R.string.frg_profile_title));
                 break;
             case R.id.nav_create:
-                CreateWorkoutActivity.newInstance(this);
+                CreateWorkoutActivity.newInstance(this, null);
                 break;
             case R.id.nav_logout:
                 doLogout();
