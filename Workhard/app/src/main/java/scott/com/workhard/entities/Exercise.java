@@ -53,12 +53,6 @@ public class Exercise implements Parcelable {
     public Exercise() {
     }
 
-    public Exercise(ExerciseTable realmItem) {
-        this.id = realmItem.getId();
-        this.name = realmItem.getName();
-        this.repetition = realmItem.getRepetition();
-    }
-
     public String getName() {
         return name;
     }
@@ -99,6 +93,10 @@ public class Exercise implements Parcelable {
         this.url = url;
     }
 
+    public Exercise withId(String id) {
+        setId(id);
+        return this;
+    }
     public Exercise withName(String name) {
         setName(name);
         return this;

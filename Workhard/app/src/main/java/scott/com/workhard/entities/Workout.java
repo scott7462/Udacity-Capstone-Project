@@ -32,7 +32,7 @@ public class Workout implements Parcelable {
     public static final String WORKOUT_ARG = Workout.class.getName();
     @SerializedName("id")
     @Expose
-    private int id;
+    private String id;
     @SerializedName("rest_between_exercise")
     @Expose
     private int restBetweenExercise;
@@ -52,6 +52,15 @@ public class Workout implements Parcelable {
     @Expose
     private List<Exercise> exerciseList = new ArrayList<>();
     private boolean errorMessageInName;
+    private String currentExercise;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public int getRestBetweenExercise() {
         return restBetweenExercise;
@@ -96,6 +105,10 @@ public class Workout implements Parcelable {
     public void setDateCompleted(String dateCompleted) {
         this.dateCompleted = dateCompleted;
     }
+    public Workout withId(String id) {
+        setId(id);
+        return this;
+    }
 
     public Workout withName(String name) {
         setName(name);
@@ -139,7 +152,7 @@ public class Workout implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeString(this.id);
         dest.writeInt(this.restBetweenExercise);
         dest.writeInt(this.restRoundsExercise);
         dest.writeInt(this.rounds);
@@ -153,7 +166,7 @@ public class Workout implements Parcelable {
     }
 
     protected Workout(Parcel in) {
-        this.id = in.readInt();
+        this.id = in.readString();
         this.restBetweenExercise = in.readInt();
         this.restRoundsExercise = in.readInt();
         this.rounds = in.readInt();
@@ -174,4 +187,8 @@ public class Workout implements Parcelable {
             return new Workout[size];
         }
     };
+
+    public String getCurrentExercise() {
+        return currentExercise;
+    }
 }

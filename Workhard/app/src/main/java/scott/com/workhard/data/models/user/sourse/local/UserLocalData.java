@@ -1,13 +1,10 @@
-package scott.com.workhard.data.user.sourse.remote;
-
-import android.support.annotation.NonNull;
+package scott.com.workhard.data.models.user.sourse.local;
 
 import java.util.List;
 
 import rx.Observable;
-import scott.com.workhard.data.user.UserRepository;
-import scott.com.workhard.data.sourse.rest.api.RestClient;
 import scott.com.workhard.entities.User;
+import scott.com.workhard.data.models.user.UserRepository;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -29,27 +26,11 @@ import scott.com.workhard.entities.User;
  */
 
 
-public class UserRemoteData implements UserRepository {
+public class UserLocalData implements UserRepository {
 
-    private static UserRemoteData INSTANCE = null;
-
-    private RestClient restClientPublic;
-
-    public RestClient getRestClientPublic() {
-        return restClientPublic;
-    }
-
-    @NonNull
-    public static UserRemoteData newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new UserRemoteData();
-        }
-        return INSTANCE;
-    }
 
     @Override
     public Observable<User> add(User object) {
-
         return null;
     }
 

@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
 import scott.com.workhard.app.ui.create_workout.CreateWorkoutActivity;
+import scott.com.workhard.app.ui.do_workout.DoWorkoutActivity;
 import scott.com.workhard.app.ui.home.adapter.AdapterWorkout;
 import scott.com.workhard.app.ui.workout_resume.FrgWorkoutResume;
 import scott.com.workhard.app.ui.workout_resume.WorkoutResumeActivity;
@@ -115,7 +116,7 @@ public class FrgHome extends BaseFragment {
                         break;
                     }
                     default: {
-                        CreateWorkoutActivity.newInstance(getActivity(), item);
+                        DoWorkoutActivity.newInstance(getActivity(), item);
                         break;
                     }
                 }
@@ -189,7 +190,7 @@ public class FrgHome extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        presenter = new LoginPresenter();
+//        presenter = new DoWorkoutPresenter();
 //        presenter.attachView(this);
     }
 

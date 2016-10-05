@@ -1,12 +1,18 @@
-package scott.com.workhard.data.exercise;
+package scott.com.workhard.data.models.exercise.remote;
 
 import android.support.annotation.NonNull;
 
 import java.util.List;
 
 import rx.Observable;
+import rx.functions.Action1;
 import rx.functions.Func1;
-import scott.com.workhard.base.model.BaseDataManager;
+import rx.schedulers.Schedulers;
+import scott.com.workhard.R;
+import scott.com.workhard.app.App;
+import scott.com.workhard.data.models.exercise.ExerciseRepository;
+import scott.com.workhard.data.sourse.rest.api.RestClient;
+import scott.com.workhard.data.sourse.rest.response.ResponseExercises;
 import scott.com.workhard.entities.Exercise;
 
 /**
@@ -29,21 +35,27 @@ import scott.com.workhard.entities.Exercise;
  */
 
 
-public class ExerciseDataManager extends BaseDataManager<Exercise, ExerciseRepository> {
+public class ExerciseRemoteData implements ExerciseRepository {
 
-    private static ExerciseDataManager INSTANCE = null;
-
-    public ExerciseDataManager(@NonNull ExerciseRepository restRepository, @NonNull ExerciseRepository dbRepository) {
-        super(restRepository, dbRepository);
-    }
+    private static ExerciseRemoteData INSTANCE = null;
+    private RestClient restClientPublic;
 
     @NonNull
-    public static ExerciseDataManager newInstance(@NonNull ExerciseRepository restRepository, @NonNull ExerciseRepository dbRepository) {
+    public static ExerciseRemoteData newInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new ExerciseDataManager(restRepository, dbRepository);
+            INSTANCE = new ExerciseRemoteData();
         }
         return INSTANCE;
     }
+
+    public ExerciseRemoteData() {
+        restClientPublic = new RestClient(App.getGlobalContext().getString(R.string.base_url));
+    }
+
+    public RestClient getRestClientPublic() {
+        return restClientPublic;
+    }
+
 
     @Override
     public Observable<Exercise> add(Exercise object) {
@@ -62,25 +74,20 @@ public class ExerciseDataManager extends BaseDataManager<Exercise, ExerciseRepos
 
     @Override
     public Observable<List<Exercise>> findAll() {
-        return getDbRepository().findAll()
-                .flatMap(new Func1<List<Exercise>, Observable<List<Exercise>>>() {
+        return getRestClientPublic().getPublicService().exercises()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
+                .flatMap(new Func1<ResponseExercises, Observable<List<Exercise>>>() {
                     @Override
-                    public Observable<List<Exercise>> call(List<Exercise> exercises) {
-                        Observable.just(exercises);
-                        return getRestRepository().findAll();
+                    public Observable<List<Exercise>> call(ResponseExercises responseExercises) {
+                        return Observable.just(responseExercises.getExercises());
                     }
                 })
-                .flatMap(new Func1<List<Exercise>, Observable<Exercise>>() {
+                .doOnError(new Action1<Throwable>() {
                     @Override
-                    public Observable<Exercise> call(List<Exercise> exercises) {
-                        return Observable.from(exercises);
+                    public void call(Throwable throwable) {
+                        Observable.error(throwable);
                     }
-                })
-                .flatMap(new Func1<Exercise, Observable<Exercise>>() {
-                    @Override
-                    public Observable<Exercise> call(Exercise exercise) {
-                        return getDbRepository().add(exercise);
-                    }
-                }).toList();
+                });
     }
 }

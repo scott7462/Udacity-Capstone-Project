@@ -5,9 +5,11 @@ import android.support.multidex.MultiDexApplication;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.stetho.Stetho;
 import com.karumi.dexter.Dexter;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -47,6 +49,7 @@ public class App extends MultiDexApplication {
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         facebookInit();
+        Stetho.initializeWithDefaults(this);
         globalContext = this.getApplicationContext();
         Dexter.initialize(this);
     }

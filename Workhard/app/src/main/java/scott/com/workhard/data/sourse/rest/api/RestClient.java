@@ -1,5 +1,6 @@
 package scott.com.workhard.data.sourse.rest.api;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -64,6 +65,7 @@ public class RestClient {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addNetworkInterceptor(new StethoInterceptor());
         httpClient.addInterceptor(logging);
         return httpClient.build();
     }

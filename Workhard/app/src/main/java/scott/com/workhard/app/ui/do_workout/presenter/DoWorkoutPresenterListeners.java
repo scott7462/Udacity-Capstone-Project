@@ -1,14 +1,11 @@
-package scott.com.workhard.data.user.sourse.local;
+package scott.com.workhard.app.ui.do_workout.presenter;
 
-import java.util.List;
-
-import rx.Observable;
-import scott.com.workhard.entities.User;
-import scott.com.workhard.data.user.UserRepository;
+import scott.com.workhard.base.presenter.BasePresenterListener;
+import scott.com.workhard.entities.Workout;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 9/17/16.
+ * @version 7/14/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -24,28 +21,9 @@ import scott.com.workhard.data.user.UserRepository;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+public interface DoWorkoutPresenterListeners extends BasePresenterListener {
 
+    void onSavedWorkout(Workout workout);
 
-public class UserLocalData implements UserRepository {
-
-
-    @Override
-    public Observable<User> add(User object) {
-        return null;
-    }
-
-    @Override
-    public Observable<Boolean> delete(User object) {
-        return null;
-    }
-
-    @Override
-    public Observable<User> update(User object) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<User>> findAll() {
-        return null;
-    }
+    void onErrorSavingWorkout();
 }

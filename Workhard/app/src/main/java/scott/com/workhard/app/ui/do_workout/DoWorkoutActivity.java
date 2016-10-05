@@ -8,6 +8,9 @@ import android.support.v7.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
+import scott.com.workhard.app.ui.do_workout.presenter.DoWorkoutPresenter;
+import scott.com.workhard.app.ui.do_workout.presenter.DoWorkoutPresenterListeners;
+import scott.com.workhard.app.ui.init.login.presenter.LoginPresenter;
 import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.entities.Workout;
 
@@ -30,20 +33,30 @@ import scott.com.workhard.entities.Workout;
  * limitations under the License.
  */
 
-public class DoWorkoutActivity extends BaseActivity {
+public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresenterListeners {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    DoWorkoutPresenter presenter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_workout);
         ButterKnife.bind(this);
+        presenter = new DoWorkoutPresenter();
+        presenter.attachView(this);
         setSupportActionBar(toolbar);
         setToolbar(toolbar);
         savedFragmentState(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        presenter.saveWorkout((Workout) getIntent().getParcelableExtra(Workout.WORKOUT_ARG));
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.detachView();
+        super.onDestroy();
     }
 
     private void savedFragmentState(Bundle savedInstanceState) {
@@ -67,4 +80,31 @@ public class DoWorkoutActivity extends BaseActivity {
         activity.startActivity(intent);
     }
 
+    @Override
+    public void onSavedWorkout(Workout workout) {
+
+    }
+
+    @Override
+    public void onErrorSavingWorkout() {
+
+    }
+
+    @Override
+    public void showProgressIndicator() {
+
+    }
+
+    @Override
+    public void removeProgressIndicator() {
+
+    }
+
+    @Override
+    public void showMessage(int stringId) {
+
+    }
+
+    public DoWorkoutActivity() {
+    }
 }

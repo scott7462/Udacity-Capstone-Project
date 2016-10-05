@@ -14,6 +14,7 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Action0;
 import rx.subscriptions.Subscriptions;
+import scott.com.workhard.R;
 import scott.com.workhard.app.App;
 
 /**
@@ -37,9 +38,9 @@ import scott.com.workhard.app.App;
 
 abstract class OnSubscribeRealm<T> implements Observable.OnSubscribe<T> {
 
-
     private final List<Subscriber<? super T>> subscribers = new ArrayList<>();
     private final AtomicBoolean canceled = new AtomicBoolean();
+    private RealmConfiguration config;
 
     @Override
     public void call(final Subscriber<? super T> subscriber) {
@@ -55,8 +56,7 @@ abstract class OnSubscribeRealm<T> implements Observable.OnSubscribe<T> {
         subscriber.add(newUnSubscribeAction(subscriber));
         subscribers.add(subscriber);
 
-        RealmConfiguration.Builder builder = new RealmConfiguration.Builder(App.getGlobalContext());
-        Realm realm = Realm.getInstance(builder.build());
+        Realm realm = getRealm();
         boolean withError = false;
 
         T object = null;
@@ -131,4 +131,16 @@ abstract class OnSubscribeRealm<T> implements Observable.OnSubscribe<T> {
     }
 
     public abstract T get(Realm realm);
+
+    public Realm getRealm() {
+        if (config == null) {
+            Realm.init(App.getGlobalContext());
+            config = new RealmConfiguration.Builder()
+                    .name(App.getGlobalContext().getString(R.string.db_name))
+                    .schemaVersion(1)
+                    .build();
+            Realm.setDefaultConfiguration(config);
+        }
+        return Realm.getInstance(config);
+    }
 }

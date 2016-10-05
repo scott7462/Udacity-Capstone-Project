@@ -102,6 +102,12 @@ dependencies {
 
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
 
+    //Stetho
+    compile 'com.facebook.stetho:stetho:1.4.1'
+    compile 'com.facebook.stetho:stetho-okhttp3:1.4.1'
+    compile 'com.uphyca:stetho_realm:2.0.0'
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'

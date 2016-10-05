@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
+import rx.Observable;
+import rx.Observer;
 import scott.com.workhard.entities.Exercise;
 
 /**
@@ -28,15 +30,11 @@ import scott.com.workhard.entities.Exercise;
 
 public class ExerciseTable extends RealmObject {
 
-    @SerializedName("id")
-    @Expose
     private String id;
-    @SerializedName("name")
-    @Expose
     private String name;
-    @SerializedName("repetition")
-    @Expose
     private int repetition;
+    private String description;
+    private String url;
 
     public ExerciseTable() {
     }
@@ -69,5 +67,27 @@ public class ExerciseTable extends RealmObject {
 
     public void setRepetition(int repetition) {
         this.repetition = repetition;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Exercise transformToExercise() {
+        return new Exercise().withId(getId()).withName(getName())
+                .withDescription(getDescription()).withUrl(getUrl())
+                .withRepetitions(getRepetition());
     }
 }

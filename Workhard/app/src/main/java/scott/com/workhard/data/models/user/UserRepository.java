@@ -1,7 +1,7 @@
-package scott.com.workhard.data.exercise;
+package scott.com.workhard.data.models.user;
 
 import scott.com.workhard.base.model.Repository;
-import scott.com.workhard.entities.Exercise;
+import scott.com.workhard.entities.User;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -23,7 +23,7 @@ import scott.com.workhard.entities.Exercise;
  */
 
 
-public interface ExerciseRepository extends Repository<Exercise> {
+public interface UserRepository extends Repository<User> {
 
 
 }

@@ -113,7 +113,7 @@ public class FrgExercise extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        presenter = new LoginPresenter();
+//        presenter = new DoWorkoutPresenter();
 //        presenter.attachView(this);
     }
 

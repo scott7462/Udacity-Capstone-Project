@@ -1,4 +1,4 @@
-package scott.com.workhard.data.exercise.sourse.local;
+package scott.com.workhard.data.models.exercise.local;
 
 import android.support.annotation.NonNull;
 
@@ -10,7 +10,7 @@ import io.realm.RealmResults;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
-import scott.com.workhard.data.exercise.ExerciseRepository;
+import scott.com.workhard.data.models.exercise.ExerciseRepository;
 import scott.com.workhard.data.sourse.db.realm_utils.RealmObservable;
 import scott.com.workhard.data.sourse.db.tables.ExerciseTable;
 import scott.com.workhard.entities.Exercise;
@@ -58,7 +58,7 @@ public class ExerciseLocalData implements ExerciseRepository {
         }).flatMap(new Func1<ExerciseTable, Observable<Exercise>>() {
             @Override
             public Observable<Exercise> call(ExerciseTable exerciseTable) {
-                return Observable.just(new Exercise(exerciseTable));
+                return Observable.just(exerciseTable.transformToExercise());
             }
         });
     }
@@ -87,7 +87,7 @@ public class ExerciseLocalData implements ExerciseRepository {
                     public Observable<List<Exercise>> call(RealmResults<ExerciseTable> realmResults) {
                         List<Exercise> exercises = new ArrayList<>();
                         for (ExerciseTable realmItem : realmResults) {
-                            exercises.add(new Exercise(realmItem));
+                            exercises.add(realmItem.transformToExercise());
                         }
                         return Observable.just(exercises);
                     }

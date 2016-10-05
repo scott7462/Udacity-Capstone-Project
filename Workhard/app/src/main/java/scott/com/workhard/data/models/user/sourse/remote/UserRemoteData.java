@@ -1,10 +1,12 @@
-package scott.com.workhard.data.user;
+package scott.com.workhard.data.models.user.sourse.remote;
 
 import android.support.annotation.NonNull;
 
 import java.util.List;
 
 import rx.Observable;
+import scott.com.workhard.data.models.user.UserRepository;
+import scott.com.workhard.data.sourse.rest.api.RestClient;
 import scott.com.workhard.entities.User;
 
 /**
@@ -27,27 +29,27 @@ import scott.com.workhard.entities.User;
  */
 
 
-public class UserDataManager implements UserRepository {
+public class UserRemoteData implements UserRepository {
 
-    private UserRepository restResposity;
-    private UserRepository dbRepository;
-    private static UserDataManager INSTANCE = null;
+    private static UserRemoteData INSTANCE = null;
 
-    public UserDataManager(@NonNull UserRepository restRepository, @NonNull UserRepository dbRepository) {
-        this.restResposity = restRepository;
-        this.dbRepository = dbRepository;
+    private RestClient restClientPublic;
+
+    public RestClient getRestClientPublic() {
+        return restClientPublic;
     }
 
     @NonNull
-    public static UserDataManager newInstance(@NonNull UserRepository restRepository, @NonNull UserRepository dbRepository) {
+    public static UserRemoteData newInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new UserDataManager(restRepository, dbRepository);
+            INSTANCE = new UserRemoteData();
         }
         return INSTANCE;
     }
 
     @Override
     public Observable<User> add(User object) {
+
         return null;
     }
 
