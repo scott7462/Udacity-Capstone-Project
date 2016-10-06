@@ -14,8 +14,6 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Action0;
 import rx.subscriptions.Subscriptions;
-import scott.com.workhard.R;
-import scott.com.workhard.app.App;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -133,14 +131,8 @@ abstract class OnSubscribeRealm<T> implements Observable.OnSubscribe<T> {
     public abstract T get(Realm realm);
 
     public Realm getRealm() {
-        if (config == null) {
-            Realm.init(App.getGlobalContext());
-            config = new RealmConfiguration.Builder()
-                    .name(App.getGlobalContext().getString(R.string.db_name))
-                    .schemaVersion(1)
-                    .build();
-            Realm.setDefaultConfiguration(config);
-        }
+        config = new RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded().build();
         return Realm.getInstance(config);
     }
 }

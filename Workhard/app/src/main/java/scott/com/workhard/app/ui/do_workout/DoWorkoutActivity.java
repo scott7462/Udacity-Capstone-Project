@@ -1,16 +1,25 @@
 package scott.com.workhard.app.ui.do_workout;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
 import scott.com.workhard.app.ui.do_workout.presenter.DoWorkoutPresenter;
 import scott.com.workhard.app.ui.do_workout.presenter.DoWorkoutPresenterListeners;
-import scott.com.workhard.app.ui.init.login.presenter.LoginPresenter;
 import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.entities.Workout;
 
@@ -33,7 +42,8 @@ import scott.com.workhard.entities.Workout;
  * limitations under the License.
  */
 
-public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresenterListeners {
+public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresenterListeners,
+        MultiplePermissionsListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -50,7 +60,9 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
         savedFragmentState(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        presenter.saveWorkout((Workout) getIntent().getParcelableExtra(Workout.WORKOUT_ARG));
+
+        Dexter.checkPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
     }
 
     @Override
@@ -106,5 +118,31 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
     }
 
     public DoWorkoutActivity() {
+    }
+
+    @Override
+    public void onPermissionsChecked(MultiplePermissionsReport report) {
+        if (report.areAllPermissionsGranted() && report.getGrantedPermissionResponses().size() == 2) {
+            for (PermissionGrantedResponse permissionGrantedResponse : report.getGrantedPermissionResponses()) {
+                if (!validatePermission(permissionGrantedResponse)) {
+                    return;
+                }
+            }
+            initWorkout();
+        }
+    }
+
+    private void initWorkout() {
+        presenter.saveWorkout((Workout) getIntent().getParcelableExtra(Workout.WORKOUT_ARG));
+    }
+
+    private boolean validatePermission(PermissionGrantedResponse permissionGrantedResponse) {
+        return permissionGrantedResponse.getPermissionName().equals(Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                permissionGrantedResponse.getPermissionName().equals(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    @Override
+    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+        token.continuePermissionRequest();
     }
 }

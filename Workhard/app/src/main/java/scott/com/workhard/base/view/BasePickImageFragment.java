@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.kbeanie.multipicker.api.CacheLocation;
@@ -66,13 +68,10 @@ public abstract class BasePickImageFragment extends BaseFragment implements Imag
         this.cameraPicker = cameraPicker;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initViews();
-        initListeners();
+    protected void initVars() {
     }
 
+    @CallSuper
     protected void initViews() {
         View sheetView = getActivity().getLayoutInflater().inflate(R.layout.frg_button_sheet_camera_gallery, null);
         bottomSheetDialog = new BottomSheetDialog(getActivity());
@@ -81,6 +80,7 @@ public abstract class BasePickImageFragment extends BaseFragment implements Imag
         bottomSheetDialog.setContentView(sheetView);
     }
 
+    @CallSuper
     protected void initListeners() {
         lLFrgPickGallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,16 +145,26 @@ public abstract class BasePickImageFragment extends BaseFragment implements Imag
 
     @Override
     public void onPermissionsChecked(MultiplePermissionsReport report) {
-        if (report.getDeniedPermissionResponses() != null && report.getDeniedPermissionResponses().size() == 0) {
+        if (report.areAllPermissionsGranted() && report.getGrantedPermissionResponses().size() == 3) {
+            for (PermissionGrantedResponse permissionGrantedResponse : report.getGrantedPermissionResponses()) {
+                if (!validatePermissionCamera(permissionGrantedResponse)) {
+                    return;
+                }
+            }
             bottomSheetDialog.show();
         }
+    }
+
+    private boolean validatePermissionCamera(PermissionGrantedResponse permissionGrantedResponse) {
+        return permissionGrantedResponse.getPermissionName().equals(Manifest.permission.CAMERA) ||
+                permissionGrantedResponse.getPermissionName().equals(Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                permissionGrantedResponse.getPermissionName().equals(Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     @Override
     public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
         token.continuePermissionRequest();
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

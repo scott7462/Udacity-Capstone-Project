@@ -94,7 +94,8 @@ public class FrgProfile extends BasePickImageFragment implements Validator.Valid
 
     }
 
-    private void initVars() {
+    @Override
+    protected void initVars() {
         setHasOptionsMenu(true);
         validator = new Validator(this);
         validator.setValidationListener(this);

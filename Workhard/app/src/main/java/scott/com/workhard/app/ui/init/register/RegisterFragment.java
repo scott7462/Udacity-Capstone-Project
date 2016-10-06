@@ -95,7 +95,8 @@ public class RegisterFragment extends BasePickImageFragment implements LoginPres
 
     }
 
-    private void initVars() {
+    @Override
+    protected void initVars() {
         setHasOptionsMenu(true);
         validator = new Validator(this);
         validator.setValidationListener(this);

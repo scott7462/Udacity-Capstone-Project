@@ -9,9 +9,9 @@ import com.facebook.stetho.Stetho;
 import com.karumi.dexter.Dexter;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import io.fabric.sdk.android.Fabric;
+import io.realm.Realm;
 
 /**
  * @author pedroscott ${EMAIL}
@@ -46,6 +46,7 @@ public class App extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        Realm.init(this);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         facebookInit();
@@ -53,7 +54,6 @@ public class App extends MultiDexApplication {
         globalContext = this.getApplicationContext();
         Dexter.initialize(this);
     }
-
 
 
     private void facebookInit() {
