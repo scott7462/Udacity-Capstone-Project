@@ -32,6 +32,16 @@ public class CurrentWorkoutLocal implements CurrentWorkoutRepository {
     }
 
     @Override
+    public Observable<Boolean> finishWorkout() {
+        return RealmObservable.remove(new Func1<Realm, Boolean>() {
+            @Override
+            public Boolean call(Realm realm) {
+                return realm.where(CurrentWorkoutTable.class).findAll().deleteAllFromRealm();
+            }
+        });
+    }
+
+    @Override
     public Observable<Boolean> delete(Workout object) {
         return null;
     }
@@ -45,4 +55,7 @@ public class CurrentWorkoutLocal implements CurrentWorkoutRepository {
     public Observable<List<Workout>> findAll() {
         return null;
     }
+
+
+
 }

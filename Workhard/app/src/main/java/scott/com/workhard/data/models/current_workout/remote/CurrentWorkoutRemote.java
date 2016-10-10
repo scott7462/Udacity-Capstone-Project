@@ -30,4 +30,9 @@ public class CurrentWorkoutRemote implements CurrentWorkoutRepository {
     public Observable<List<Workout>> findAll() {
         return null;
     }
+
+    @Override
+    public Observable<Boolean> finishWorkout() {
+        return null;
+    }
 }

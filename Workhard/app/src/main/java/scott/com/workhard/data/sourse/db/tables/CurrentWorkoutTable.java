@@ -5,6 +5,7 @@ import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import rx.Observable;
 import scott.com.workhard.entities.Exercise;
 import scott.com.workhard.entities.Workout;
@@ -14,12 +15,16 @@ import scott.com.workhard.entities.Workout;
  */
 
 public class CurrentWorkoutTable extends RealmObject {
+
+    @PrimaryKey
     private String id;
     private int restBetweenExercise;
     private int restRoundsExercise;
     private int rounds;
     private String currentExercise;
     private String name;
+    private int currentRound = 1;
+    private boolean recoveryTime;
     public RealmList<ExerciseTable> exercises;
 
     public CurrentWorkoutTable(Workout workout) {
@@ -29,6 +34,8 @@ public class CurrentWorkoutTable extends RealmObject {
         setRestRoundsExercise(workout.getRestRoundsExercise());
         setRounds(workout.getRounds());
         setCurrentExercise(workout.getCurrentExercise());
+        setCurrentRound(workout.getCurrentRound());
+        setRecoveryTime(workout.isRecoveryTime());
         RealmList<ExerciseTable> exerciseTables = new RealmList<>();
         for (Exercise exercise : workout.getExerciseList()) {
             exerciseTables.add(new ExerciseTable(exercise));
@@ -95,12 +102,31 @@ public class CurrentWorkoutTable extends RealmObject {
         this.rounds = rounds;
     }
 
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
+    public boolean isRecoveryTime() {
+        return recoveryTime;
+    }
+
+    public void setRecoveryTime(boolean recoveryTime) {
+        this.recoveryTime = recoveryTime;
+    }
+
     public Observable<Workout> transformToWorkout() {
         return Observable.just(new Workout().withId(getId())
                 .withName(getName())
+                .withCurrentExercise(getCurrentExercise())
                 .withRestBetweenExercise(getRestBetweenExercise())
                 .withRestRoundsExercise(getRestRoundsExercise())
                 .withRounds(getRounds())
+                .withCurrentRound(getCurrentRound())
+                .withRecoveryTime(isRecoveryTime())
                 .withExercises(getExercisesList()));
     }
 

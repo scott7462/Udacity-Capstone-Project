@@ -29,7 +29,7 @@ import scott.com.workhard.entities.Workout;
  */
 
 
-public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentWorkoutRepository> {
+public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentWorkoutRepository> implements CurrentWorkoutRepository{
 
     private static CurrentWorkoutDataManager INSTANCE = null;
 
@@ -64,4 +64,12 @@ public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentW
     public Observable<List<Workout>> findAll() {
         return null;
     }
+
+    @Override
+    public Observable<Boolean> finishWorkout() {
+        return getDbRepository().finishWorkout();
+    }
+
+
+
 }

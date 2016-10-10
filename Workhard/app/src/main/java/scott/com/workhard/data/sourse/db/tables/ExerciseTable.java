@@ -1,11 +1,7 @@
 package scott.com.workhard.data.sourse.db.tables;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import io.realm.RealmObject;
-import rx.Observable;
-import rx.Observer;
+import io.realm.annotations.PrimaryKey;
 import scott.com.workhard.entities.Exercise;
 
 /**
@@ -30,6 +26,7 @@ import scott.com.workhard.entities.Exercise;
 
 public class ExerciseTable extends RealmObject {
 
+    @PrimaryKey
     private String id;
     private String name;
     private int repetition;
@@ -40,9 +37,11 @@ public class ExerciseTable extends RealmObject {
     }
 
     public ExerciseTable(Exercise exercise) {
-        this.id = exercise.getId();
-        this.name = exercise.getName();
-        this.repetition = getRepetition();
+        setId(exercise.getId());
+        setName(exercise.getName());
+        setRepetition(exercise.getRepetition());
+        setDescription(exercise.getDescription());
+        setUrl(exercise.getUrl());
     }
 
     public String getId() {
@@ -86,8 +85,11 @@ public class ExerciseTable extends RealmObject {
     }
 
     public Exercise transformToExercise() {
-        return new Exercise().withId(getId()).withName(getName())
-                .withDescription(getDescription()).withUrl(getUrl())
+        return new Exercise()
+                .withId(getId())
+                .withName(getName())
+                .withDescription(getDescription())
+                .withUrl(getUrl())
                 .withRepetitions(getRepetition());
     }
 }

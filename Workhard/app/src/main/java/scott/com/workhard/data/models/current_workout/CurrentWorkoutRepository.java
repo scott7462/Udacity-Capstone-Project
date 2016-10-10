@@ -1,7 +1,7 @@
 package scott.com.workhard.data.models.current_workout;
 
+import rx.Observable;
 import scott.com.workhard.base.model.Repository;
-import scott.com.workhard.entities.Exercise;
 import scott.com.workhard.entities.Workout;
 
 /**
@@ -25,5 +25,7 @@ import scott.com.workhard.entities.Workout;
 
 
 public interface CurrentWorkoutRepository extends Repository<Workout> {
+
+    Observable<Boolean> finishWorkout();
 
 }
