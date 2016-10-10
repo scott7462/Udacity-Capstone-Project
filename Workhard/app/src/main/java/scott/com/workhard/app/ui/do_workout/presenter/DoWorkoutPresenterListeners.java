@@ -26,4 +26,8 @@ public interface DoWorkoutPresenterListeners extends BasePresenterListener {
     void onSavedWorkout(Workout workout);
 
     void onErrorSavingWorkout();
+
+    void onErrorFinishingWorkout();
+
+    void onFinishWorkout();
 }

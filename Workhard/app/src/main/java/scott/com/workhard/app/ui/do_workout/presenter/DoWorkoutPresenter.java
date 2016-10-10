@@ -51,4 +51,45 @@ public class DoWorkoutPresenter extends BasePresenter<DoWorkoutPresenterListener
     }
 
 
+    public void doGoToNextExercise(Workout workout) {
+        if (workout.isTheLastExercise()) {
+            finishWorkout();
+        } else {
+            workout.updateToNextStep();
+            saveWorkout(workout);
+        }
+    }
+
+
+    public void doFinishRecoveryTime(Workout workout) {
+        saveWorkout(workout.withRecoveryTime(false));
+    }
+
+    public void finishWorkout() {
+
+        setSubscription(Injection.provideCurrentWorkoutRepository()
+                .finishWorkout()
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        getViewListener().onErrorFinishingWorkout();
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        if(aBoolean){
+                            getViewListener().onFinishWorkout();
+                        }else{
+                            getViewListener().onErrorFinishingWorkout();
+                        }
+                    }
+                }));
+
+    }
 }

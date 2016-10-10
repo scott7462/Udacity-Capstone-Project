@@ -13,6 +13,8 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,6 +23,9 @@ import scott.com.workhard.R;
 import scott.com.workhard.app.ui.do_workout.presenter.DoWorkoutPresenter;
 import scott.com.workhard.app.ui.do_workout.presenter.DoWorkoutPresenterListeners;
 import scott.com.workhard.base.view.BaseActivity;
+import scott.com.workhard.bus.event.EventFinishRecoveryTime;
+import scott.com.workhard.bus.event.EventFinishWorkout;
+import scott.com.workhard.bus.event.EventNextExercise;
 import scott.com.workhard.entities.Workout;
 
 /**
@@ -48,21 +53,25 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     DoWorkoutPresenter presenter;
+    private Workout workout;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_workout);
-        ButterKnife.bind(this);
+        initView();
+        initPresenter();
+        Dexter.checkPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    private void initPresenter() {
         presenter = new DoWorkoutPresenter();
         presenter.attachView(this);
+    }
+
+    private void initView() {
+        setContentView(R.layout.activity_create_workout);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         setToolbar(toolbar);
-        savedFragmentState(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-        Dexter.checkPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
     }
 
     @Override
@@ -71,20 +80,11 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
         super.onDestroy();
     }
 
-    private void savedFragmentState(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            navigateMainContent(getSupportFragmentManager().getFragment(
-                    savedInstanceState, "mContent"), getString(R.string.frg_do_rest_workout_title));
-        } else {
-            navigateMainContent(FrgDoRestWorkout.newInstance(), getString(R.string.frg_do_rest_workout_title));
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, "mContent", getSupportFragmentManager().findFragmentById(R.id.container));
-    }
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        getSupportFragmentManager().putFragment(outState, "mContent", getSupportFragmentManager().findFragmentById(R.id.container));
+//    }
 
     public static void newInstance(Activity activity, Workout workout) {
         Intent intent = new Intent(activity, DoWorkoutActivity.class);
@@ -94,12 +94,48 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
 
     @Override
     public void onSavedWorkout(Workout workout) {
+        this.workout = workout;
+        goToCurrentStep();
+    }
 
+    private void goToCurrentStep() {
+        if (workout != null) {
+            if (!workout.isRecoveryTime()) {
+                navigateMainContent(FrgDoWorkout.newInstance(workout), getString(R.string.frg_do_workout_title));
+            } else {
+                navigateMainContent(FrgDoRestWorkout.newInstance(), getString(R.string.frg_do_rest_workout_title));
+            }
+        }
+    }
+
+    @Subscribe
+    public void onNextExercise(EventNextExercise eventNextExercise) {
+        presenter.doGoToNextExercise(workout);
+    }
+
+    @Subscribe
+    public void onFinishRecoveryTime(EventFinishRecoveryTime eventFinishRecoveryTime) {
+        presenter.doFinishRecoveryTime(workout);
+    }
+
+    @Subscribe
+    public void onFinishRecoveryTime(EventFinishWorkout eventFinishWorkout) {
+        presenter.finishWorkout();
     }
 
     @Override
     public void onErrorSavingWorkout() {
 
+    }
+
+    @Override
+    public void onErrorFinishingWorkout() {
+
+    }
+
+    @Override
+    public void onFinishWorkout() {
+        finish();
     }
 
     @Override
@@ -117,9 +153,6 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
 
     }
 
-    public DoWorkoutActivity() {
-    }
-
     @Override
     public void onPermissionsChecked(MultiplePermissionsReport report) {
         if (report.areAllPermissionsGranted() && report.getGrantedPermissionResponses().size() == 2) {
@@ -128,8 +161,8 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
                     return;
                 }
             }
-            initWorkout();
         }
+        initWorkout();
     }
 
     private void initWorkout() {
@@ -144,5 +177,9 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
     @Override
     public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
         token.continuePermissionRequest();
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }

@@ -14,15 +14,20 @@ import android.view.ViewGroup;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import scott.com.workhard.R;
 import scott.com.workhard.base.view.BaseFragment;
+import scott.com.workhard.bus.event.EventFinishRecoveryTime;
+import scott.com.workhard.bus.event.EventNextExercise;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -131,6 +136,11 @@ public class FrgDoRestWorkout extends BaseFragment {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.bTFrgDoWorkoutNext)
+    public void onClick() {
+        EventBus.getDefault().post(new EventFinishRecoveryTime());
     }
 
 }
