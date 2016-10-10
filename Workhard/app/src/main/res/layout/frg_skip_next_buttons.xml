@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tVFrgRestWorkoutNextExercise"
+        android:id="@+id/tVFrgDoWorkoutNextExercise"
         android:layout_width="match_parent"
         android:layout_height="@dimen/frg_do_workout_next_description"
         tools:text="Push up" />
@@ -23,7 +23,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/bTFrgRestWorkoutSkip"
+            android:id="@+id/bTFrgDoWorkoutSkip"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -42,7 +42,7 @@
             android:background="@color/primary" />
 
         <Button
-            android:id="@+id/bTFrgRestWorkoutNext"
+            android:id="@+id/bTFrgDoWorkoutNext"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

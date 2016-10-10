@@ -71,11 +71,7 @@
     <string name="frg_profile_title">Profile</string>
 
     <!-- Do Workout Fragment -->
-    <string name="frg_do_rest_workout_title">Recovery Time</string>
     <string name="frg_rest_workout_recovery_time">Recovery Time</string>
-    <string name="frg_do_workout_next_exercise">Next Exercise</string>
-    <string name="frg_do_workout_skip">Skip</string>
-    <string name="frg_do_workout_next">Next</string>
     <string name="nav_drawable_cd_avatar_of_the_user">Avatar of the user</string>
     <string name="nav_drawable_cd_name_of_the_user">Name of the user</string>
     <string name="nav_drawable_home">Home</string>
@@ -92,11 +88,7 @@
     <string name="frg_create_workout_cd_minus_recovery_time_between_rounds_to_workout">Minus recovery time between rounds to workout</string>
     <string name="frg_create_workout_cd_plus_recovery_time_between_exercises_to_workout">Plus recovery time between exercises to workout</string>
     <string name="frg_create_workout_cd_minus_recovery_time_between_exercises_to_workout">Minus recovery time between exercises to workout</string>
-    <string name="frg_do_workout_cd_workout_name">Workout name</string>
-    <string name="frg_do_workout_cd_number_of_repetitions">Number of repetitions</string>
-    <string name="frg_do_workout_cd_rounds_of_exercises">Rounds of exercises</string>
-    <string name="frg_do_workout_cd_skip_the_current_exercise">Skip the current exercise</string>
-    <string name="frg_do_workout_cd_go_to_next_step">Go to next step</string>
+
     <string name="frg_home_cd_create_new_workout">Create new workout</string>
 
     <string name="frg_profile_cd_first_name">First name</string>
@@ -137,7 +129,7 @@
     <string name="frg_exercise_source">Source:</string>
     <string name="tree_points">…</string>
     <string name="frg_workout_title">Workout</string>
-    <string name="action_finish">Do it</string>
+    <string name="action_finish">Finish Workout</string>
     <string name="action_do_it_again">Do it again</string>
     <string name="frg_workout_rounds">Rounds\n%1$d</string>
     <string name="frg_workout_rest_rounds">R rounds\n%1$d seg</string>
@@ -148,5 +140,19 @@
     <string name="frg_my_workouts_title">My workouts</string>
     <string name="frg_history_title">History of workout</string>
 
+    <!-- Fragment do workout -->
+    <string name="frg_do_rest_workout_title">Recovery Time</string>
+    <string name="frg_do_workout_next_exercise">Next Exercise</string>
+    <string name="frg_do_workout_skip">Skip</string>
+    <string name="frg_do_workout_next">Next</string>
+    <string name="frg_do_workout_number_of_repetitions">Reps\n%1$d</string>
+    <string name="frg_do_workout_rounds_of_exercises">Rounds\n%1$d/%2$d</string>
+    <string name="frg_do_workout_cd_workout_name">Workout name</string>
+    <string name="frg_do_workout_cd_number_of_repetitions">Number of repetitions</string>
+    <string name="frg_do_workout_cd_rounds_of_exercises">Rounds of exercises</string>
+    <string name="frg_do_workout_cd_skip_the_current_exercise">Skip the current exercise</string>
+    <string name="frg_do_workout_cd_go_to_next_step">Go to next step</string>
+    <string name="frg_do_workout_finish_alert">Are you sure to finish this workout.</string>
+    <string name="frg_do_workout_title">EXERCISE</string>
 
 </resources>
