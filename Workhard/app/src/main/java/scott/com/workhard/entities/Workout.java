@@ -30,6 +30,7 @@ import java.util.List;
 public class Workout implements Parcelable {
 
     public static final String WORKOUT_ARG = Workout.class.getName();
+    public static final String CURRENT_ROUND_ARG = "current_round_in_workout";
     @SerializedName("id")
     @Expose
     private String id;
@@ -52,7 +53,14 @@ public class Workout implements Parcelable {
     @Expose
     private List<Exercise> exerciseList = new ArrayList<>();
     private boolean errorMessageInName;
+
+
+    /**
+     * Current elements current workout and current exercise;
+     */
     private String currentExercise;
+    private int currentRound = 1;
+    private boolean recoveryTime;
 
     public String getId() {
         return id;
@@ -94,6 +102,14 @@ public class Workout implements Parcelable {
         this.name = name;
     }
 
+    public String getDateCompleted() {
+        return dateCompleted;
+    }
+
+    public void setDateCompleted(String dateCompleted) {
+        this.dateCompleted = dateCompleted;
+    }
+
     public List<Exercise> getExerciseList() {
         return exerciseList;
     }
@@ -102,9 +118,38 @@ public class Workout implements Parcelable {
         this.exerciseList = exerciseList;
     }
 
-    public void setDateCompleted(String dateCompleted) {
-        this.dateCompleted = dateCompleted;
+    public boolean isErrorMessageInName() {
+        return errorMessageInName;
     }
+
+    public void setErrorMessageInName(boolean errorMessageInName) {
+        this.errorMessageInName = errorMessageInName;
+    }
+
+    public String getCurrentExercise() {
+        return currentExercise;
+    }
+
+    public void setCurrentExercise(String currentExercise) {
+        this.currentExercise = currentExercise;
+    }
+
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
+    public boolean isRecoveryTime() {
+        return recoveryTime;
+    }
+
+    public void setRecoveryTime(boolean recoveryTime) {
+        this.recoveryTime = recoveryTime;
+    }
+
     public Workout withId(String id) {
         setId(id);
         return this;
@@ -140,10 +185,93 @@ public class Workout implements Parcelable {
         return this;
     }
 
-    public String getDateCompleted() {
-        return dateCompleted;
+    public Workout withCurrentExercise(String currentExercise) {
+        setCurrentExercise(currentExercise);
+        return this;
     }
 
+    public Workout withCurrentRound(int currentRound) {
+        setCurrentRound(currentRound);
+        return this;
+    }
+
+
+    public Workout withRecoveryTime(boolean recoveryTime) {
+        setRecoveryTime(recoveryTime);
+        return this;
+    }
+
+    public void updateToNextStep() {
+        Exercise exercise = findNextExercise();
+        if (exercise != null) {
+            setRecoveryTime(getRestBetweenExercise() != 0);
+            setCurrentExercise(exercise.getId());
+        } else if (!isTheLastExercise()) {
+            setCurrentRound(getCurrentRound() + 1);
+            setCurrentExercise(getExerciseList().get(0).getId());
+        }
+    }
+
+    public void completeRecoveryTime() {
+        setRecoveryTime(false);
+    }
+
+    public boolean isTheLastExercise() {
+        return findNextExercise() == null && getCurrentRound() == rounds;
+    }
+
+    public Exercise findCurrentExercise() {
+        return findCurrentExercise(0);
+    }
+
+    public Exercise findNextExercise() {
+        return findNextExercise(0);
+    }
+
+    public Exercise findNextExercise(int position) {
+        if (getExerciseList() != null) {
+            if (getCurrentExercise() == null) {
+                return null;
+            }
+            if (position >= getExerciseList().size()) {
+                return null;
+            }
+
+            if (getExerciseList().get(position).getId().equals(getCurrentExercise())
+                    && position + 1 < getExerciseList().size()) {
+                return getExerciseList().get(position + 1);
+            } else {
+                return findNextExercise(++position);
+            }
+        } else {
+            return null;
+        }
+    }
+
+
+    private Exercise findCurrentExercise(int position) {
+
+        if (getExerciseList() != null) {
+            if (getCurrentExercise() == null) {
+                setCurrentExercise(getExerciseList().get(0).getId());
+                return getExerciseList().get(0);
+            }
+
+            if (position >= getExerciseList().size()) {
+                setCurrentExercise(getExerciseList().get(0).getId());
+                return getExerciseList().get(0);
+            }
+
+            if (getExerciseList().get(position).getId().equals(getCurrentExercise())) {
+                return getExerciseList().get(position);
+            } else {
+                return findCurrentExercise(++position);
+            }
+
+        } else {
+            return null;
+        }
+    }
 
     @Override
     public int describeContents() {
@@ -160,6 +288,8 @@ public class Workout implements Parcelable {
         dest.writeString(this.dateCompleted);
         dest.writeTypedList(this.exerciseList);
         dest.writeByte(this.errorMessageInName ? (byte) 1 : (byte) 0);
+        dest.writeString(this.currentExercise);
+        dest.writeInt(this.currentRound);
     }
 
     public Workout() {
@@ -174,6 +304,8 @@ public class Workout implements Parcelable {
         this.dateCompleted = in.readString();
         this.exerciseList = in.createTypedArrayList(Exercise.CREATOR);
         this.errorMessageInName = in.readByte() != 0;
+        this.currentExercise = in.readString();
+        this.currentRound = in.readInt();
     }
 
     public static final Creator<Workout> CREATOR = new Creator<Workout>() {
@@ -188,7 +320,4 @@ public class Workout implements Parcelable {
         }
     };
 
-    public String getCurrentExercise() {
-        return currentExercise;
-    }
 }

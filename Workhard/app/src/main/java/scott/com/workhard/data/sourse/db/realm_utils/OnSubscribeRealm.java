@@ -70,7 +70,7 @@ abstract class OnSubscribeRealm<T> implements Observable.OnSubscribe<T> {
             }
         } catch (RuntimeException e) {
             realm.cancelTransaction();
-            sendOnError(new RealmException("Error during transaction.", e));
+            sendOnError(new RealmException(e.getMessage(), e));
             withError = true;
         } catch (Error e) {
             realm.cancelTransaction();

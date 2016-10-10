@@ -31,6 +31,7 @@ import scott.com.workhard.data.sourse.db.tables.ExerciseTable;
 public class Exercise implements Parcelable {
 
     public static final String EXERCISE_ARG = Exercise.class.getName();
+    public static final String NEXT_EXERCISE_ARG = Exercise.class.getName();
     @SerializedName("id")
     @Expose
     private String id;
