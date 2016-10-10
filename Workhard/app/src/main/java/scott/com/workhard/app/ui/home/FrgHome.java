@@ -109,7 +109,6 @@ public class FrgHome extends BaseFragment {
         adapter.addOnClickListener(new BaseSimpleAdapter.onItemClickListener<Workout>() {
             @Override
             public void onItemViewsClick(Workout item, int position) {
-
                 switch (getArguments().getInt(TYPE_VIEW_ADAPTER)) {
                     case HISTORY: {
                         WorkoutResumeActivity.newInstance(getActivity(), item, FrgWorkoutResume.RESUME);
@@ -123,17 +122,22 @@ public class FrgHome extends BaseFragment {
             }
         });
         adapter.showEmptyState(true);
+
+
         List<Exercise> exercises = new ArrayList<>();
         exercises.add(new Exercise().withName("Pedro")
-                .withRepetitions(1)
+                .withRepetitions(60)
+                .withId("1")
                 .withDescription(getString(R.string.text_exercise))
                 .withUrl("https://en.wikipedia.org/wiki/Push-up"));
         exercises.add(new Exercise().withName("Marsela")
-                .withRepetitions(1)
+                .withRepetitions(20)
+                .withId("2")
                 .withDescription(getString(R.string.text_exercise))
                 .withUrl("https://en.wikipedia.org/wiki/Push-up"));
 
         workouts.add(new Workout()
+                .withId("342")
                 .withName("Test Name")
                 .withRestBetweenExercise(50)
                 .withRestRoundsExercise(90)
@@ -199,5 +203,7 @@ public class FrgHome extends BaseFragment {
         super.onDetach();
 //        presenter.detachView();
     }
+
+
 
 }
