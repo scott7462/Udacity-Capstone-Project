@@ -9,6 +9,7 @@ import com.facebook.stetho.Stetho;
 import com.karumi.dexter.Dexter;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
@@ -47,11 +48,15 @@ public class App extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         Realm.init(this);
+        globalContext = this.getApplicationContext();
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         facebookInit();
-        Stetho.initializeWithDefaults(this);
-        globalContext = this.getApplicationContext();
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+                        .build());
         Dexter.initialize(this);
     }
 
