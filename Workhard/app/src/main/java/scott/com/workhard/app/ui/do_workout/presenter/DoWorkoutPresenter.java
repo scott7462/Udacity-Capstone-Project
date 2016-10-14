@@ -28,7 +28,7 @@ import scott.com.workhard.entities.Workout;
 
 public class DoWorkoutPresenter extends BasePresenter<DoWorkoutPresenterListeners> {
 
-    public void saveWorkout(Workout workout) {
+    public void doSaveWorkout(Workout workout) {
         setSubscription(Injection.provideCurrentWorkoutRepository()
                 .add(workout)
                 .subscribe(new Subscriber<Workout>() {
@@ -45,28 +45,46 @@ public class DoWorkoutPresenter extends BasePresenter<DoWorkoutPresenterListener
 
                     @Override
                     public void onNext(Workout workout) {
-                        getViewListener().onSavedWorkout(workout);
+                        getViewListener().onGetCurrentWorkout(workout);
                     }
                 }));
     }
 
+    public void doGetCurrentWorkout() {
+        setSubscription(Injection.provideCurrentWorkoutRepository()
+                .findCurrentWorkout().subscribe(new Subscriber<Workout>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Workout workout) {
+                        getViewListener().onGetCurrentWorkout(workout);
+                    }
+                }));
+
+    }
 
     public void doGoToNextExercise(Workout workout) {
         if (workout.isTheLastExercise()) {
-            finishWorkout();
+            doFinishWorkout();
         } else {
             workout.updateToNextStep();
-            saveWorkout(workout);
+            doSaveWorkout(workout);
         }
     }
 
-
     public void doFinishRecoveryTime(Workout workout) {
-        saveWorkout(workout.withRecoveryTime(false));
+        doSaveWorkout(workout.finishRecoveryTime());
     }
 
-    public void finishWorkout() {
-
+    public void doFinishWorkout() {
         setSubscription(Injection.provideCurrentWorkoutRepository()
                 .finishWorkout()
                 .subscribe(new Subscriber<Boolean>() {
@@ -77,15 +95,14 @@ public class DoWorkoutPresenter extends BasePresenter<DoWorkoutPresenterListener
 
                     @Override
                     public void onError(Throwable e) {
-
                         getViewListener().onErrorFinishingWorkout();
                     }
 
                     @Override
                     public void onNext(Boolean aBoolean) {
-                        if(aBoolean){
+                        if (aBoolean) {
                             getViewListener().onFinishWorkout();
-                        }else{
+                        } else {
                             getViewListener().onErrorFinishingWorkout();
                         }
                     }

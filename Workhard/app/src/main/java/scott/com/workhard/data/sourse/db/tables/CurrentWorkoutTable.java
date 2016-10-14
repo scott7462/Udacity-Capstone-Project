@@ -24,7 +24,7 @@ public class CurrentWorkoutTable extends RealmObject {
     private String currentExercise;
     private String name;
     private int currentRound = 1;
-    private boolean recoveryTime;
+    private int status;
     public RealmList<ExerciseTable> exercises;
 
     public CurrentWorkoutTable(Workout workout) {
@@ -35,7 +35,7 @@ public class CurrentWorkoutTable extends RealmObject {
         setRounds(workout.getRounds());
         setCurrentExercise(workout.getCurrentExercise());
         setCurrentRound(workout.getCurrentRound());
-        setRecoveryTime(workout.isRecoveryTime());
+        setStatus(workout.getStatus());
         RealmList<ExerciseTable> exerciseTables = new RealmList<>();
         for (Exercise exercise : workout.getExerciseList()) {
             exerciseTables.add(new ExerciseTable(exercise));
@@ -110,12 +110,12 @@ public class CurrentWorkoutTable extends RealmObject {
         this.currentRound = currentRound;
     }
 
-    public boolean isRecoveryTime() {
-        return recoveryTime;
+    public int getStatus() {
+        return status;
     }
 
-    public void setRecoveryTime(boolean recoveryTime) {
-        this.recoveryTime = recoveryTime;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public Observable<Workout> transformToWorkout() {
@@ -126,7 +126,7 @@ public class CurrentWorkoutTable extends RealmObject {
                 .withRestRoundsExercise(getRestRoundsExercise())
                 .withRounds(getRounds())
                 .withCurrentRound(getCurrentRound())
-                .withRecoveryTime(isRecoveryTime())
+                .withStatus(Workout.getValidStatus(getStatus()))
                 .withExercises(getExercisesList()));
     }
 

@@ -22,18 +22,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
 import scott.com.workhard.app.ui.create_workout.CreateWorkoutActivity;
+import scott.com.workhard.app.ui.do_workout.DoWorkoutActivity;
 import scott.com.workhard.app.ui.home.FrgHome;
 import scott.com.workhard.app.ui.profile.FrgProfile;
 import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.bus.event.EventAlterDialog;
-import scott.com.workhard.entities.Workout;
 
 import static scott.com.workhard.app.ui.home.FrgHome.HISTORY;
 import static scott.com.workhard.app.ui.home.FrgHome.HOME;
 import static scott.com.workhard.app.ui.home.FrgHome.MY_WORKOUTS;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener {
+        implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener, MainActivityPresenterListener {
 
     private static final String CONTENT_FRAGMENT = "content";
     @BindView(R.id.toolbar)
@@ -42,6 +42,7 @@ public class MainActivity extends BaseActivity
     DrawerLayout drawer;
     @BindView(R.id.nVMain)
     NavigationView navigationView;
+    private PresenterMainActivity presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,13 @@ public class MainActivity extends BaseActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         savedFragmentState(savedInstanceState);
+        initPresenter();
         iniViews();
+    }
+
+    private void initPresenter() {
+        presenter = new PresenterMainActivity();
+        presenter.attachView(this);
     }
 
     @Override
@@ -77,6 +84,23 @@ public class MainActivity extends BaseActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         bindHeaderNavigationView();
+        if (presenter.isCurrentWorkoutActive()) {
+            EventBus.getDefault().post(new EventAlterDialog().withMessage("Existe un workout")
+                    .withPositveButton("Continuar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            DoWorkoutActivity.newInstance(MainActivity.this, DoWorkoutActivity.CONTINUE_CURRENT_WORKOUT);
+                            dialog.dismiss();
+                        }
+                    })
+                    .withNegativeButton("Cancel the previews one", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            presenter.doFinishCurrentWorkout();
+                        }
+                    }));
+        }
+
     }
 
     private void bindHeaderNavigationView() {
@@ -87,6 +111,12 @@ public class MainActivity extends BaseActivity
         //TODO get user from present and show information
         tVHomeName.setText("Pedro Scott");
         iVHomeAvatar.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.ic_launcher));
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.detachView();
+        super.onDestroy();
     }
 
     @Override
@@ -166,6 +196,18 @@ public class MainActivity extends BaseActivity
 
     }
 
-    public void goToWorkout(Workout item) {
+    @Override
+    public void showProgressIndicator(String me) {
+
+    }
+
+    @Override
+    public void removeProgressIndicator() {
+
+    }
+
+    @Override
+    public void showMessage(int stringId) {
+
     }
 }

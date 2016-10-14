@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.v7.widget.Toolbar;
 
 import com.karumi.dexter.Dexter;
@@ -15,6 +16,8 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,10 +53,22 @@ import scott.com.workhard.entities.Workout;
 public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresenterListeners,
         MultiplePermissionsListener {
 
+    private static final String TYPE_INIT = "Init_type";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     DoWorkoutPresenter presenter;
     private Workout workout;
+
+    public static final int NEW_WORKOUT = 100;
+    public static final int CONTINUE_CURRENT_WORKOUT = 200;
+
+    @IntDef({NEW_WORKOUT, CONTINUE_CURRENT_WORKOUT})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface InitType {
+    }
+
+    @InitType
+    private int initType;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,24 +101,44 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
 //        getSupportFragmentManager().putFragment(outState, "mContent", getSupportFragmentManager().findFragmentById(R.id.container));
 //    }
 
-    public static void newInstance(Activity activity, Workout workout) {
-        Intent intent = new Intent(activity, DoWorkoutActivity.class);
+    public static void newInstance(Activity activity, @InitType int initType, Workout workout) {
+        Intent intent = setTypeIntent(activity, initType);
         intent.putExtra(Workout.WORKOUT_ARG, workout);
         activity.startActivity(intent);
     }
 
+    public static void newInstance(Activity activity, @InitType int initType) {
+        activity.startActivity(setTypeIntent(activity, initType));
+    }
+
+    private static Intent setTypeIntent(Activity activity, @InitType int initType) {
+        Intent intent = new Intent(activity, DoWorkoutActivity.class);
+        intent.putExtra(TYPE_INIT, initType);
+        return intent;
+    }
+
+
     @Override
-    public void onSavedWorkout(Workout workout) {
+    public void onGetCurrentWorkout(Workout workout) {
         this.workout = workout;
         goToCurrentStep();
     }
 
     private void goToCurrentStep() {
         if (workout != null) {
-            if (!workout.isRecoveryTime()) {
-                navigateMainContent(FrgDoWorkout.newInstance(workout), getString(R.string.frg_do_workout_title));
-            } else {
-                navigateMainContent(FrgDoRestWorkout.newInstance(), getString(R.string.frg_do_rest_workout_title));
+            switch (workout.getStatus()) {
+                case Workout.DOING_EXERCISE:
+                    navigateMainContent(FrgDoWorkout.newInstance(workout), getString(R.string.frg_do_workout_title));
+                    break;
+                case Workout.RECOVERY_TIME:
+                    navigateMainContent(FrgDoRestWorkout.newInstance(), getString(R.string.frg_do_rest_workout_title));
+                    break;
+                case Workout.RECOVERY_TIME_LARGE:
+                    navigateMainContent(FrgDoRestWorkout.newInstance(), getString(R.string.frg_do_rest_large_workout_title));
+                    break;
+                case Workout.COMPLETED:
+                    finish();
+                    break;
             }
         }
     }
@@ -120,7 +155,7 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
 
     @Subscribe
     public void onFinishRecoveryTime(EventFinishWorkout eventFinishWorkout) {
-        presenter.finishWorkout();
+        presenter.doFinishWorkout();
     }
 
     @Override
@@ -139,7 +174,7 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
     }
 
     @Override
-    public void showProgressIndicator() {
+    public void showProgressIndicator(String message) {
 
     }
 
@@ -166,7 +201,14 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
     }
 
     private void initWorkout() {
-        presenter.saveWorkout((Workout) getIntent().getParcelableExtra(Workout.WORKOUT_ARG));
+        switch (getIntent().getIntExtra(TYPE_INIT, NEW_WORKOUT)) {
+            case NEW_WORKOUT:
+                presenter.doSaveWorkout((Workout) getIntent().getParcelableExtra(Workout.WORKOUT_ARG));
+                break;
+            case CONTINUE_CURRENT_WORKOUT:
+                presenter.doGetCurrentWorkout();
+                break;
+        }
     }
 
     private boolean validatePermission(PermissionGrantedResponse permissionGrantedResponse) {

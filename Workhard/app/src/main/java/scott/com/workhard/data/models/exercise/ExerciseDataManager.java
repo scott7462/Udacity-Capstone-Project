@@ -56,11 +56,6 @@ public class ExerciseDataManager extends BaseDataManager<Exercise, ExerciseRepos
     }
 
     @Override
-    public Observable<Exercise> update(Exercise object) {
-        return null;
-    }
-
-    @Override
     public Observable<List<Exercise>> findAll() {
         return getDbRepository().findAll()
                 .flatMap(new Func1<List<Exercise>, Observable<List<Exercise>>>() {

@@ -1,12 +1,10 @@
-package scott.com.workhard.data.models.current_workout;
+package scott.com.workhard.app.ui;
 
-import rx.Observable;
-import scott.com.workhard.base.model.Repository;
-import scott.com.workhard.entities.Workout;
+import scott.com.workhard.base.presenter.BasePresenterListener;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 9/17/16.
+ * @version 10/10/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -24,9 +22,8 @@ import scott.com.workhard.entities.Workout;
  */
 
 
-public interface CurrentWorkoutRepository extends Repository<Workout> {
+public interface MainActivityPresenterListener extends BasePresenterListener{
 
-    Observable<Boolean> finishWorkout();
 
-    Observable<Workout> findCurrentWorkout();
+
 }

@@ -1,12 +1,13 @@
-package scott.com.workhard.data.models.current_workout;
+package scott.com.workhard.data.models.current_workout.preference;
 
-import rx.Observable;
-import scott.com.workhard.base.model.Repository;
-import scott.com.workhard.entities.Workout;
+import android.content.Context;
+
+import scott.com.workhard.app.App;
+import scott.com.workhard.utils.preferences.PreferenceUtils;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 9/17/16.
+ * @version 10/10/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -24,9 +25,18 @@ import scott.com.workhard.entities.Workout;
  */
 
 
-public interface CurrentWorkoutRepository extends Repository<Workout> {
+public class CurrentWorkoutPreference extends PreferenceUtils {
 
-    Observable<Boolean> finishWorkout();
+    public static final String PREFERENCE_CURRENT_WORK_OUT = "preference_current_workout";
 
-    Observable<Workout> findCurrentWorkout();
+    public static void setPreferenceCurrentWorkOut(boolean enabled) {
+        getEditor().putBoolean(PREFERENCE_CURRENT_WORK_OUT, enabled).apply();
+    }
+
+    public static boolean getPreferenceCurrentWorkOut() {
+        return getPreferences().getBoolean(PREFERENCE_CURRENT_WORK_OUT, false);
+    }
+
+
+
 }

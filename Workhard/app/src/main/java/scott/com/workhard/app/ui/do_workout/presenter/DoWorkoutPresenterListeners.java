@@ -23,7 +23,7 @@ import scott.com.workhard.entities.Workout;
  */
 public interface DoWorkoutPresenterListeners extends BasePresenterListener {
 
-    void onSavedWorkout(Workout workout);
+    void onGetCurrentWorkout(Workout workout);
 
     void onErrorSavingWorkout();
 

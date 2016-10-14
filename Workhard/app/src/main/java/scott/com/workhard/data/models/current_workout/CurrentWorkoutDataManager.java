@@ -6,7 +6,7 @@ import java.util.List;
 
 import rx.Observable;
 import scott.com.workhard.base.model.BaseDataManager;
-import scott.com.workhard.data.models.current_workout.local.CurrentWorkoutLocal;
+import scott.com.workhard.data.models.current_workout.preference.CurrentWorkoutPreference;
 import scott.com.workhard.entities.Workout;
 
 /**
@@ -29,7 +29,7 @@ import scott.com.workhard.entities.Workout;
  */
 
 
-public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentWorkoutRepository> implements CurrentWorkoutRepository{
+public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentWorkoutRepository> implements CurrentWorkoutRepository {
 
     private static CurrentWorkoutDataManager INSTANCE = null;
 
@@ -47,6 +47,7 @@ public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentW
 
     @Override
     public Observable<Workout> add(Workout workout) {
+        CurrentWorkoutPreference.setPreferenceCurrentWorkOut(true);
         return getDbRepository().add(workout);
     }
 
@@ -67,9 +68,16 @@ public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentW
 
     @Override
     public Observable<Boolean> finishWorkout() {
+        CurrentWorkoutPreference.setPreferenceCurrentWorkOut(false);
         return getDbRepository().finishWorkout();
     }
 
+    @Override
+    public Observable<Workout> findCurrentWorkout() {
+        return getDbRepository().findCurrentWorkout();
+    }
 
-
+    public boolean isCurrentWorkout() {
+        return CurrentWorkoutPreference.getPreferenceCurrentWorkOut();
+    }
 }

@@ -42,6 +42,21 @@ public class CurrentWorkoutLocal implements CurrentWorkoutRepository {
     }
 
     @Override
+    public Observable<Workout> findCurrentWorkout() {
+        return RealmObservable.object(new Func1<Realm, CurrentWorkoutTable>() {
+            @Override
+            public CurrentWorkoutTable call(Realm realm) {
+                return realm.where(CurrentWorkoutTable.class).findFirst();
+            }
+        }).flatMap(new Func1<CurrentWorkoutTable, Observable<Workout>>() {
+            @Override
+            public Observable<Workout> call(CurrentWorkoutTable currentWorkoutTable) {
+                return currentWorkoutTable.transformToWorkout();
+            }
+        });
+    }
+
+    @Override
     public Observable<Boolean> delete(Workout object) {
         return null;
     }
@@ -55,7 +70,6 @@ public class CurrentWorkoutLocal implements CurrentWorkoutRepository {
     public Observable<List<Workout>> findAll() {
         return null;
     }
-
 
 
 }
