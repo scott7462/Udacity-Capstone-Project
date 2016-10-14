@@ -154,5 +154,6 @@
     <string name="frg_do_workout_cd_go_to_next_step">Go to next step</string>
     <string name="frg_do_workout_finish_alert">Are you sure to finish this workout.</string>
     <string name="frg_do_workout_title">EXERCISE</string>
+    <string name="frg_do_rest_large_workout_title">Rest large</string>
 
 </resources>
