@@ -24,8 +24,6 @@ import scott.com.workhard.base.presenter.BasePresenter;
 public class LoginPresenter extends BasePresenter<LoginPresenterListeners> {
 
     public void doLogin(String email, String password) {
-        getViewListener().showProgressIndicator();
-
     }
 
 

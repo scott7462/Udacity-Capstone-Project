@@ -169,7 +169,7 @@ public class RegisterFragment extends BasePickImageFragment implements LoginPres
     }
 
     @Override
-    public void showProgressIndicator() {
+    public void showProgressIndicator(String message) {
         progress = ProgressDialog.show(getActivity(), "Login",
                 "login message ...", true);
     }

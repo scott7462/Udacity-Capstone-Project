@@ -115,7 +115,7 @@ public class FrgHome extends BaseFragment {
                         break;
                     }
                     default: {
-                        DoWorkoutActivity.newInstance(getActivity(), item);
+                        DoWorkoutActivity.newInstance(getActivity(),DoWorkoutActivity.NEW_WORKOUT ,item);
                         break;
                     }
                 }

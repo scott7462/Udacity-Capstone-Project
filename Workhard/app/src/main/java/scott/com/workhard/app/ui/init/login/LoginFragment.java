@@ -217,7 +217,7 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
     }
 
     @Override
-    public void showProgressIndicator() {
+    public void showProgressIndicator(String message) {
         progress = ProgressDialog.show(getActivity(), "Login",
                 "login message ...", true);
     }

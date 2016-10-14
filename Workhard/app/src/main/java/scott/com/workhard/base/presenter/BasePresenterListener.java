@@ -22,7 +22,7 @@ package scott.com.workhard.base.presenter;
 
 public interface BasePresenterListener {
 
-    void showProgressIndicator();
+    void showProgressIndicator(String message);
 
     void removeProgressIndicator();
 
