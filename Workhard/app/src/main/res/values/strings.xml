@@ -49,14 +49,14 @@
     <string name="image_pick_cd_gallery">Open Camera</string>
 
     <!-- Create Workout -->
-    <string name="frg_create_workout_rounds_number">Rounds:
-        <big>%1$d</big>
+    <string name="frg_create_workout_rounds_number"><![CDATA[Rounds:
+        <b><big>%1$d</big></b>]]>
     </string>
-    <string name="frg_create_workout_rest_between_exercise_number">Rest between exercise:
-        <big>%1$d</big> seg
+    <string name="frg_create_workout_rest_between_exercise_number"><![CDATA[Rest between exercise:
+        <b><big>%1$d</big></b> sec]]>
     </string>
-    <string name="frg_create_workout_rest_between_rounds_number">Rest between rounds:
-        <big>%1$d</big> seg
+    <string name="frg_create_workout_rest_between_rounds_number"><![CDATA[Rest between rounds:
+       <b><big>%1$d</big></b> sec]]>
     </string>
     <string name="frg_create_workout_name">Workout name</string>
     <string name="frg_create_workout_title">Create Workout</string>
@@ -120,20 +120,21 @@
         <big>%1$d</big>
     </string>
     <string name="frg_create_item_rest_between_exercise_number">Rest between exercise:
-        <big>%1$d</big> seg
+        <big>%1$d</big> sec
     </string>
     <string name="frg_create_item_rest_between_rounds_number">Rest between rounds:
-        <big>%1$d</big> seg
+        <big>%1$d</big> sec
     </string>
     <string name="text_exercise"><html><body><p align="justify\">A push-up (or press-up) is a common calisthenics exercise performed in a prone position by raising and lowering the body using the arms. Push-ups exercise the pectoral muscles, triceps, and anterior deltoids, with ancillary benefits to the rest of the deltoids, serratus anterior, coracobrachialis and the midsection as a whole. Push-ups are a basic exercise used in civilian athletic training or physical education and commonly in military physical training. They are also a common form of punishment used in the military, school sport, or in some martial arts disciplines.</p></body></html></string>
     <string name="frg_exercise_source">Source:</string>
     <string name="tree_points">…</string>
     <string name="frg_workout_title">Workout</string>
     <string name="action_finish">Finish Workout</string>
+    <string name="action_complete">Complete</string>
     <string name="action_do_it_again">Do it again</string>
     <string name="frg_workout_rounds">Rounds\n%1$d</string>
-    <string name="frg_workout_rest_rounds">R rounds\n%1$d seg</string>
-    <string name="frg_workout_rest_between_exercise">R exercise\n%1$d seg</string>
+    <string name="frg_workout_rest_rounds">R rounds\n%1$d sec</string>
+    <string name="frg_workout_rest_between_exercise">R exercise\n%1$d sec</string>
     <string name="frg_workout_dates">Date: %1$s</string>
     <string name="nav_drawable_my_workout">My Workout</string>
     <string name="frg_home_empty_my_workouts">You dont save any workout jet.</string>
@@ -152,8 +153,18 @@
     <string name="frg_do_workout_cd_rounds_of_exercises">Rounds of exercises</string>
     <string name="frg_do_workout_cd_skip_the_current_exercise">Skip the current exercise</string>
     <string name="frg_do_workout_cd_go_to_next_step">Go to next step</string>
-    <string name="frg_do_workout_finish_alert">Are you sure to finish this workout.</string>
+    <string name="frg_do_workout_finish_alert">Are you sure to finish this workout?</string>
     <string name="frg_do_workout_title">EXERCISE</string>
     <string name="frg_do_rest_large_workout_title">Rest large</string>
+    <string name="error_loading_exercises">Error loading exercises</string>
+    <string name="frg_do_workout_sec_in_clock"><![CDATA[%1$d <small>seg</small>]]></string>
+    <string name="frg_di_workout_add_ten_sec">Added 10 seconds to this recovery time.</string>
+    <string name="frg_do_workout_next_exercise_name">Next exercise: %1$s</string>
+    <string name="frg_do_workout_next_exercise_description"><![CDATA[
+        <body style=\"text-align:justify \">%1$s</body> ]]></string>
+    <string name="frg_do_workout_complete">Complete</string>
+    <string name="frg_do_workout_do_other_round">Do other round</string>
+    <string name="frg_do_workout_complete_alert">OK! Are you sure that you do not want continue training?</string>
+    <string name="frg_do_workout_other_round_alert">Excellent! Are you sure to do another round?</string>
 
 </resources>
