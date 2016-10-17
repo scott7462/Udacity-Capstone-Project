@@ -18,40 +18,37 @@
             android:name="scott.com.workhard.app.ui.init.launch.LaunchActivity"
             android:label="@string/app_name"
             android:theme="@style/LaunchTheme">
-
         </activity>
         <activity
             android:name="scott.com.workhard.app.ui.init.InitActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="scott.com.workhard.app.ui.MainActivity"
+            android:name="scott.com.workhard.app.ui.ActivityMain"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
-            android:name=".app.ui.create_workout.CreateWorkoutActivity"
+            android:name=".app.ui.workout_create.ActivityCreateWorkout"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
 
         <activity
-            android:name=".app.ui.workout_resume.WorkoutResumeActivity"
+            android:name=".app.ui.workout_resume.ActivityWorkoutResume"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
 
         <activity
-            android:name=".app.ui.do_workout.DoWorkoutActivity"
+            android:name=".app.ui.workout_do.ActivityDoWorkout"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".app.ui.select_exercise.SelectExerciseActivity"
+            android:name=".app.ui.select_exercise.ActivitySelectExercise"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -61,11 +58,11 @@
 
         <activity
             android:name="scott.com.workhard.app.ui.init.register.RegisterActivity"
-            android:parentActivityName=".app.ui.MainActivity"
+            android:parentActivityName=".app.ui.ActivityMain"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".app.ui.MainActivity" />
+                android:value=".app.ui.ActivityMain" />
         </activity>
 
 

@@ -100,8 +100,6 @@ dependencies {
     //Multi Picker
     compile 'com.kbeanie:multipicker:1.1.1@aar'
 
-    compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
-
     //Stetho
     compile 'com.facebook.stetho:stetho:1.4.1'
     compile 'com.facebook.stetho:stetho-okhttp3:1.4.1'
