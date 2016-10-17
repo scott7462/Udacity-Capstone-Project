@@ -11,6 +11,16 @@ import scott.com.workhard.entities.Workout;
  */
 
 public class CurrentWorkoutRemote implements CurrentWorkoutRepository {
+
+    private static CurrentWorkoutRemote instance;
+
+    public static CurrentWorkoutRemote newInstance() {
+        if (instance == null) {
+            instance = new CurrentWorkoutRemote();
+        }
+        return instance;
+    }
+
     @Override
     public Observable<Workout> add(Workout object) {
         return null;

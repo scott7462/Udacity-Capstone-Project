@@ -25,5 +25,4 @@ import scott.com.workhard.entities.Exercise;
 
 public interface ExerciseRepository extends Repository<Exercise> {
 
-
 }

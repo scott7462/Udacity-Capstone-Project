@@ -37,15 +37,15 @@ import scott.com.workhard.entities.Exercise;
 
 public class ExerciseRemoteData implements ExerciseRepository {
 
-    private static ExerciseRemoteData INSTANCE = null;
+    private static ExerciseRemoteData instance = null;
     private RestClient restClientPublic;
 
     @NonNull
     public static ExerciseRemoteData newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ExerciseRemoteData();
+        if (instance == null) {
+            instance = new ExerciseRemoteData();
         }
-        return INSTANCE;
+        return instance;
     }
 
     public ExerciseRemoteData() {
@@ -81,12 +81,6 @@ public class ExerciseRemoteData implements ExerciseRepository {
                     @Override
                     public Observable<List<Exercise>> call(ResponseExercises responseExercises) {
                         return Observable.just(responseExercises.getExercises());
-                    }
-                })
-                .doOnError(new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Observable.error(throwable);
                     }
                 });
     }

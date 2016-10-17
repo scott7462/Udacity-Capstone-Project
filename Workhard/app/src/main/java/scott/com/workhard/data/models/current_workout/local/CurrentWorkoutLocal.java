@@ -6,6 +6,7 @@ import io.realm.Realm;
 import rx.Observable;
 import rx.functions.Func1;
 import scott.com.workhard.data.models.current_workout.CurrentWorkoutRepository;
+import scott.com.workhard.data.models.current_workout.remote.CurrentWorkoutRemote;
 import scott.com.workhard.data.sourse.db.realm_utils.RealmObservable;
 import scott.com.workhard.data.sourse.db.tables.CurrentWorkoutTable;
 import scott.com.workhard.entities.Workout;
@@ -15,6 +16,16 @@ import scott.com.workhard.entities.Workout;
  */
 
 public class CurrentWorkoutLocal implements CurrentWorkoutRepository {
+
+
+    private static CurrentWorkoutLocal instance;
+
+    public static CurrentWorkoutLocal newInstance() {
+        if (instance == null) {
+            instance = new CurrentWorkoutLocal();
+        }
+        return instance;
+    }
 
     @Override
     public Observable<Workout> add(final Workout workout) {

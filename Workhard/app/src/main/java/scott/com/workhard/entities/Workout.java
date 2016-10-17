@@ -92,7 +92,11 @@ public class Workout implements Parcelable {
     private int status = DOING_EXERCISE;
 
     private String currentExercise;
+    private int currentExercisePosition;
     private int currentRound = 1;
+
+    public Workout() {
+    }
 
     public String getId() {
         return id;
@@ -175,6 +179,14 @@ public class Workout implements Parcelable {
         this.status = status;
     }
 
+    public int getCurrentExercisePosition() {
+        return currentExercisePosition;
+    }
+
+    public void setCurrentExercisePosition(int currentExercisePosition) {
+        this.currentExercisePosition = currentExercisePosition;
+    }
+
     public Workout withId(String id) {
         setId(id);
         return this;
@@ -225,6 +237,11 @@ public class Workout implements Parcelable {
         return this;
     }
 
+    public Workout withExercisePosition(int position) {
+        setCurrentExercisePosition(position);
+        return this;
+    }
+
     public Workout finishRecoveryTime() {
         setStatus(DOING_EXERCISE);
         return this;
@@ -235,10 +252,12 @@ public class Workout implements Parcelable {
         if (exercise != null) {
             setStatus(getRestBetweenExercise() != 0 ? RECOVERY_TIME : DOING_EXERCISE);
             setCurrentExercise(exercise.getId());
+            setCurrentExercisePosition(getCurrentExercisePosition() + 1);
         } else if (!isTheLastExercise()) {
             setStatus(getRestBetweenExercise() != 0 ? RECOVERY_TIME_LARGE : DOING_EXERCISE);
             setCurrentRound(getCurrentRound() + 1);
             setCurrentExercise(getExerciseList().get(0).getId());
+            setCurrentExercisePosition(0);
         } else {
             completeRecoveryTime();
         }
@@ -249,7 +268,7 @@ public class Workout implements Parcelable {
     }
 
     public boolean isTheLastExercise() {
-        return findNextExercise() == null && getCurrentRound() == rounds + 1;
+        return findNextExercise() == null && getCurrentRound() == rounds;
     }
 
     public Exercise findCurrentExercise() {
@@ -268,9 +287,8 @@ public class Workout implements Parcelable {
             if (position >= getExerciseList().size()) {
                 return null;
             }
-
             if (getExerciseList().get(position).getId().equals(getCurrentExercise())
-                    && position + 1 < getExerciseList().size()) {
+                    && position + 1 < getExerciseList().size() && position == getCurrentExercisePosition()) {
                 return getExerciseList().get(position + 1);
             } else {
                 return findNextExercise(++position);
@@ -282,7 +300,6 @@ public class Workout implements Parcelable {
 
 
     private Exercise findCurrentExercise(int position) {
-
         if (getExerciseList() != null) {
             if (getCurrentExercise() == null) {
                 setCurrentExercise(getExerciseList().get(0).getId());
@@ -294,7 +311,7 @@ public class Workout implements Parcelable {
                 return getExerciseList().get(0);
             }
 
-            if (getExerciseList().get(position).getId().equals(getCurrentExercise())) {
+            if (getExerciseList().get(position).getId().equals(getCurrentExercise()) && position == getCurrentExercisePosition()) {
                 return getExerciseList().get(position);
             } else {
                 return findCurrentExercise(++position);
@@ -303,9 +320,6 @@ public class Workout implements Parcelable {
         } else {
             return null;
         }
-    }
-
-    public Workout() {
     }
 
 
@@ -326,6 +340,7 @@ public class Workout implements Parcelable {
         dest.writeByte(this.errorMessageInName ? (byte) 1 : (byte) 0);
         dest.writeInt(this.status);
         dest.writeString(this.currentExercise);
+        dest.writeInt(this.currentExercisePosition);
         dest.writeInt(this.currentRound);
     }
 
@@ -340,6 +355,7 @@ public class Workout implements Parcelable {
         this.errorMessageInName = in.readByte() != 0;
         this.status = getValidStatus(in.readInt());
         this.currentExercise = in.readString();
+        this.currentExercisePosition = in.readInt();
         this.currentRound = in.readInt();
     }
 

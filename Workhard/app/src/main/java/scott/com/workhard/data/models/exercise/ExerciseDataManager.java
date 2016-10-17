@@ -2,6 +2,7 @@ package scott.com.workhard.data.models.exercise;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
@@ -57,25 +58,21 @@ public class ExerciseDataManager extends BaseDataManager<Exercise, ExerciseRepos
 
     @Override
     public Observable<List<Exercise>> findAll() {
-        return getDbRepository().findAll()
-                .flatMap(new Func1<List<Exercise>, Observable<List<Exercise>>>() {
-                    @Override
-                    public Observable<List<Exercise>> call(List<Exercise> exercises) {
-                        Observable.just(exercises);
-                        return getRestRepository().findAll();
-                    }
-                })
-                .flatMap(new Func1<List<Exercise>, Observable<Exercise>>() {
-                    @Override
-                    public Observable<Exercise> call(List<Exercise> exercises) {
-                        return Observable.from(exercises);
-                    }
-                })
-                .flatMap(new Func1<Exercise, Observable<Exercise>>() {
-                    @Override
-                    public Observable<Exercise> call(Exercise exercise) {
-                        return getDbRepository().add(exercise);
-                    }
-                }).toList();
+        return Observable.concatEager(getDbRepository().findAll(),
+                getRestRepository().findAll()
+                        .flatMap(new Func1<List<Exercise>, Observable<Exercise>>() {
+                            @Override
+                            public Observable<Exercise> call(List<Exercise> exercises) {
+                                return Observable.from(exercises);
+                            }
+                        })
+                        .flatMap(new Func1<Exercise, Observable<Exercise>>() {
+                            @Override
+                            public Observable<Exercise> call(Exercise exercise) {
+                                return getDbRepository().add(exercise);
+                            }
+                        }).toList())
+                .takeLast(2);
     }
+
 }

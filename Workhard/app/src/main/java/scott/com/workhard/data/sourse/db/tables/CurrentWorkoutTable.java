@@ -26,6 +26,7 @@ public class CurrentWorkoutTable extends RealmObject {
     private int currentRound = 1;
     private int status;
     public RealmList<ExerciseTable> exercises;
+    private int currentExercisePosition;
 
     public CurrentWorkoutTable(Workout workout) {
         setId(workout.getId());
@@ -36,6 +37,7 @@ public class CurrentWorkoutTable extends RealmObject {
         setCurrentExercise(workout.getCurrentExercise());
         setCurrentRound(workout.getCurrentRound());
         setStatus(workout.getStatus());
+        setCurrentExercisePosition(workout.getCurrentExercisePosition());
         RealmList<ExerciseTable> exerciseTables = new RealmList<>();
         for (Exercise exercise : workout.getExerciseList()) {
             exerciseTables.add(new ExerciseTable(exercise));
@@ -118,16 +120,27 @@ public class CurrentWorkoutTable extends RealmObject {
         this.status = status;
     }
 
+    public int getCurrentExercisePosition() {
+        return currentExercisePosition;
+    }
+
+    public void setCurrentExercisePosition(int currentExercisePosition) {
+        this.currentExercisePosition = currentExercisePosition;
+    }
+
     public Observable<Workout> transformToWorkout() {
-        return Observable.just(new Workout().withId(getId())
-                .withName(getName())
-                .withCurrentExercise(getCurrentExercise())
-                .withRestBetweenExercise(getRestBetweenExercise())
-                .withRestRoundsExercise(getRestRoundsExercise())
-                .withRounds(getRounds())
-                .withCurrentRound(getCurrentRound())
-                .withStatus(Workout.getValidStatus(getStatus()))
-                .withExercises(getExercisesList()));
+        return Observable.just(
+                new Workout()
+                        .withId(getId())
+                        .withName(getName())
+                        .withCurrentExercise(getCurrentExercise())
+                        .withRestBetweenExercise(getRestBetweenExercise())
+                        .withRestRoundsExercise(getRestRoundsExercise())
+                        .withRounds(getRounds())
+                        .withCurrentRound(getCurrentRound())
+                        .withStatus(Workout.getValidStatus(getStatus()))
+                        .withExercises(getExercisesList())
+                        .withExercisePosition(getCurrentExercisePosition()));
     }
 
     public List<Exercise> getExercisesList() {

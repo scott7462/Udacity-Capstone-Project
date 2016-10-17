@@ -7,6 +7,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -37,14 +38,14 @@ import scott.com.workhard.entities.Exercise;
 
 public class ExerciseLocalData implements ExerciseRepository {
 
-    private static ExerciseLocalData INSTANCE;
+    private static ExerciseLocalData instance;
 
     @NonNull
     public static ExerciseLocalData newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ExerciseLocalData();
+        if (instance == null) {
+            instance = new ExerciseLocalData();
         }
-        return INSTANCE;
+        return instance;
     }
 
     @Override
@@ -79,7 +80,8 @@ public class ExerciseLocalData implements ExerciseRepository {
                 .results(new Func1<Realm, RealmResults<ExerciseTable>>() {
                     @Override
                     public RealmResults<ExerciseTable> call(Realm realm) {
-                        return realm.where(ExerciseTable.class).findAll();
+                        return realm.where(ExerciseTable.class)
+                                .findAllSorted(ExerciseTable.ID, Sort.ASCENDING);
                     }
                 })
                 .flatMap(new Func1<RealmResults<ExerciseTable>, Observable<List<Exercise>>>() {
@@ -90,11 +92,6 @@ public class ExerciseLocalData implements ExerciseRepository {
                             exercises.add(realmItem.transformToExercise());
                         }
                         return Observable.just(exercises);
-                    }
-                }).doOnError(new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Observable.error(throwable);
                     }
                 });
     }

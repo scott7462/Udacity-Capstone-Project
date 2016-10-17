@@ -2,6 +2,7 @@ package scott.com.workhard.data.sourse.rest.api;
 
 
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import rx.Observable;
 import scott.com.workhard.data.sourse.rest.request.RequestLogin;
@@ -31,6 +32,6 @@ public interface ApiClient {
     @POST("login")
     Observable<ResponseLogin> login(@Body RequestLogin body);
 
-    @POST("exercise")
+    @GET("exercises")
     Observable<ResponseExercises> exercises();
 }
