@@ -12,8 +12,7 @@
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/eTFrgCreateWorkoutName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/Workhard.EditTextFrom"
             android:contentDescription="@string/frg_create_workout_cd_name_of_you_workout"
             android:drawableLeft="@drawable/ic_account"
             android:drawablePadding="@dimen/default_medium_size"
@@ -22,8 +21,7 @@
             android:inputType="textCapSentences"
             android:maxLength="25"
             android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColorHint="@color/accent" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -46,26 +44,17 @@
             android:drawableStart="@drawable/ic_time_laps_rounds"
             android:gravity="center_vertical"
             android:text="@string/frg_create_workout_rounds_number"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@android:color/white" />
 
         <ImageButton
             android:id="@+id/iBFrgCreateWorkoutRoundsMinus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/frg_create_workout_cd_minus_round_to_workout"
-            android:padding="@dimen/default_small_size"
-            android:src="@drawable/selector_minus_button" />
+            style="@style/Workhard.ButtonMinus"
+            android:contentDescription="@string/frg_create_workout_cd_minus_round_to_workout" />
 
         <ImageButton
             android:id="@+id/iBFrgCreateWorkoutRoundsPlus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/frg_create_workout_cd_plus_rounds_to_workout"
-            android:padding="@dimen/default_small_size"
-            android:src="@drawable/selector_plus_button" />
+            style="@style/Workhard.ButtonPlus"
+            android:contentDescription="@string/frg_create_workout_cd_plus_rounds_to_workout" />
     </LinearLayout>
 
     <LinearLayout
@@ -86,26 +75,17 @@
             android:drawableStart="@drawable/ic_timer"
             android:gravity="center_vertical"
             android:text="@string/frg_create_workout_rest_between_exercise_number"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@android:color/white" />
 
         <ImageButton
             android:id="@+id/iBFrgCreateWorkoutRestExerciseMinus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/frg_create_workout_cd_minus_recovery_time_between_exercises_to_workout"
-            android:padding="@dimen/default_small_size"
-            android:src="@drawable/selector_minus_button" />
+            style="@style/Workhard.ButtonMinus"
+            android:contentDescription="@string/frg_create_workout_cd_minus_recovery_time_between_exercises_to_workout" />
 
         <ImageButton
             android:id="@+id/iBFrgCreateWorkoutRestExercisePlus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/frg_create_workout_cd_plus_recovery_time_between_exercises_to_workout"
-            android:padding="@dimen/default_small_size"
-            android:src="@drawable/selector_plus_button" />
+            style="@style/Workhard.ButtonPlus"
+            android:contentDescription="@string/frg_create_workout_cd_plus_recovery_time_between_exercises_to_workout" />
 
     </LinearLayout>
 
@@ -128,26 +108,17 @@
             android:drawableStart="@drawable/ic_timer"
             android:gravity="center_vertical"
             android:text="@string/frg_create_workout_rest_between_rounds_number"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@android:color/white" />
 
         <ImageButton
             android:id="@+id/iBFrgCreateWorkoutRestRoundsMinus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/frg_create_workout_cd_minus_recovery_time_between_rounds_to_workout"
-            android:padding="@dimen/default_small_size"
-            android:src="@drawable/selector_minus_button" />
+            style="@style/Workhard.ButtonMinus"
+            android:contentDescription="@string/frg_create_workout_cd_minus_recovery_time_between_rounds_to_workout" />
 
         <ImageButton
             android:id="@+id/iBFrgCreateWorkoutRestRoundsPlus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/frg_create_workout_cd_plus_recovery_time_between_rounds_to_workout"
-            android:padding="@dimen/default_small_size"
-            android:src="@drawable/selector_plus_button" />
+            style="@style/Workhard.ButtonPlus"
+            android:contentDescription="@string/frg_create_workout_cd_plus_recovery_time_between_rounds_to_workout" />
     </LinearLayout>
 
 </LinearLayout>

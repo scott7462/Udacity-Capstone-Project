@@ -5,63 +5,47 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_medium_size">
+    <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/eTFrgProfileName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/Workhard.EditTextFrom"
             android:contentDescription="@string/frg_profile_cd_first_name"
             android:hint="@string/frg_register_first_name"
-            android:inputType="textCapWords"
-            android:textColor="@color/accent" />
+            android:inputType="textCapWords" />
 
     </android.support.design.widget.TextInputLayout>
 
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_medium_size">
+    <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/eTFrgProfileLastName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/Workhard.EditTextFrom"
             android:contentDescription="@string/frg_profile_cd_last_name"
             android:hint="@string/frg_register_last_name"
-            android:inputType="textCapWords"
-            android:textColor="@color/accent" />
+            android:inputType="textCapWords" />
 
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_medium_size">
+    <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/eTFrgProfileEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/Workhard.EditTextFrom"
             android:contentDescription="@string/frg_profile_cd_email"
             android:enabled="false"
             android:hint="@string/frg_register_email"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/accent" />
+            android:inputType="textEmailAddress" />
 
     </android.support.design.widget.TextInputLayout>
 
     <TextView
         android:id="@+id/tVFrgProfileDate"
-        style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/Workhard.TextViewFrom"
+        android:layout_marginTop="@dimen/default_medium_size"
         android:contentDescription="@string/frg_profile_cd_birthday"
-        android:hint="@string/frg_register_birthday"
-        android:padding="@dimen/default_large_size" />
+        android:hint="@string/frg_register_birthday" />
+
 </LinearLayout>
 

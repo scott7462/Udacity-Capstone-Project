@@ -7,14 +7,12 @@
     android:orientation="vertical"
     android:paddingBottom="@dimen/default_x_large_size">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_medium_size">
+
+    <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/eTFrgLoginEmail"
-            style="@style/EditTextFrom"
+            style="@style/Workhard.EditTextFrom"
             android:contentDescription="@string/frg_login_cd_write_your_email"
             android:drawableLeft="@drawable/ic_account"
             android:drawableStart="@drawable/ic_account"
@@ -23,14 +21,11 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_medium_size">
 
+    <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/eTFrgLoginPassword"
-            style="@style/EditTextFrom"
+            style="@style/Workhard.EditTextFrom"
             android:contentDescription="@string/frg_login_cd_write_your_password"
             android:drawableLeft="@drawable/ic_lock_login"
             android:drawableStart="@drawable/ic_lock_login"

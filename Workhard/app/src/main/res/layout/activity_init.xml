@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="scott.com.workhard.app.ui.MainActivity">
+    tools:context="scott.com.workhard.app.ui.ActivityMain">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
@@ -29,14 +29,12 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fBFrgSingIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_large_size"
-        android:adjustViewBounds="true"
-        android:elevation="@dimen/default_elevation_lvl_two"
+        style="@style/Workhard.FloatingButton"
         android:contentDescription="@string/frg_login_cd_create_a_new_user"
+        android:elevation="@dimen/default_elevation_lvl_two"
         android:src="@drawable/ic_add_user"
         app:layout_anchor="@+id/appBar"
+        app:fabSize="normal"
         app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

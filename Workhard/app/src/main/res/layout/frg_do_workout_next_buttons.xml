@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lLFrgDoWorkoutFooter"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/primary" />
+
+    <TextView
+        android:id="@+id/tVFrgDoWorkoutNextExerciseName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary_dark"
+        android:padding="@dimen/default_large_size"
+        android:text="@string/frg_do_workout_next_exercise"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+        android:textColor="@color/primary_light"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tVFrgDoWorkoutNextExerciseDescription"
+        android:layout_width="match_parent"
+        android:padding="@dimen/default_medium_size"
+        android:textSize="@dimen/default_large_size"
+        android:layout_height="@dimen/frg_do_workout_next_description"
+        android:scrollbars="vertical"
+        tools:text="Push up" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/primary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tVFrgDoWorkoutFinishWorkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_medium_size"
+            android:text="Finish Workout"
+            android:textColor="@color/primary_dark"
+            android:textSize="@dimen/default_large_size"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/bTFrgDoWorkoutNext"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_medium_size"
+            android:contentDescription="@string/frg_do_workout_cd_go_to_next_step"
+            android:gravity="center"
+            android:paddingBottom="@dimen/default_large_size"
+            android:paddingLeft="@dimen/default_x_large_size"
+            android:paddingRight="@dimen/default_x_large_size"
+            android:paddingTop="@dimen/default_large_size"
+            android:text="@string/frg_do_workout_next"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:textColor="@color/primary_dark"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

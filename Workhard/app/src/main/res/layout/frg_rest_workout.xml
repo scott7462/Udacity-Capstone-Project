@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,52 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primary_dark"
+        android:contentDescription="@string/frg_rest_workout_cd_recovery_time"
         android:gravity="center"
         android:padding="@dimen/default_large_size"
         android:text="@string/frg_rest_workout_recovery_time"
-        android:contentDescription="@string/frg_rest_workout_cd_recovery_time"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
         android:textColor="@color/primary_light"
         android:textStyle="bold" />
 
-    <FrameLayout
+    <TextView
+        android:id="@+id/tVFrgDoWorkoutTime"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="@dimen/frg_do_workout_clock_size"
+        tools:text="30 seg" />
 
-        <com.github.lzyzsd.circleprogress.DonutProgress
-            android:id="@+id/donut_progress"
-            android:layout_width="@dimen/frg_do_workout_rest_clock"
-            android:layout_height="@dimen/frg_do_workout_rest_clock"
-            android:layout_gravity="center"
-            android:contentDescription=""
-            custom:donut_progress="0"
-            custom:donut_suffix_text=" seg" />
-
-    </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/primary" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/primary_dark"
-            android:padding="@dimen/default_large_size"
-            android:text="@string/frg_do_workout_next_exercise"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-            android:textColor="@color/primary_light"
-            android:textStyle="bold" />
-
-        <include layout="@layout/frg_skip_next_buttons" />
-    </LinearLayout>
-
+    <include layout="@layout/frg_do_workout_next_buttons" />
 
 </LinearLayout>

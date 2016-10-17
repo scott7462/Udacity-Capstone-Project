@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lLFrgDoWorkoutComplete"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/primary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tVFrgDoWorkoutDoOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_medium_size"
+            android:text="@string/frg_do_workout_do_other_round"
+            android:textColor="@color/primary_dark"
+            android:textSize="@dimen/default_large_size"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/bTFrgDoWorkoutComplete"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_medium_size"
+            android:contentDescription="@string/frg_do_workout_cd_go_to_next_step"
+            android:gravity="center"
+            android:paddingBottom="@dimen/default_large_size"
+            android:paddingLeft="@dimen/default_x_large_size"
+            android:paddingRight="@dimen/default_x_large_size"
+            android:paddingTop="@dimen/default_large_size"
+            android:text="@string/frg_do_workout_complete"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:textColor="@color/primary_dark"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

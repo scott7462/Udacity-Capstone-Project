@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_xx_large_size"
         android:gravity="center"
+        android:text="Empty view"
         android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
 </LinearLayout>
