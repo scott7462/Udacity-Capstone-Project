@@ -16,14 +16,19 @@ import android.view.ViewGroup;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
-import scott.com.workhard.app.ui.create_workout.adapter.AdapterExercise;
+import scott.com.workhard.app.ui.workout_create.adapter.AdapterExercise;
 import scott.com.workhard.app.ui.exercise.ExerciseActivity;
+import scott.com.workhard.app.ui.select_exercise.presenter.ExercisesPresenterListener;
+import scott.com.workhard.app.ui.select_exercise.presenter.PresenterExercises;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.base.view.BaseSimpleAdapter;
 import scott.com.workhard.bus.event.EventAddExercises;
+import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.entities.Exercise;
 import scott.com.workhard.utils.SpacesItemDecoration;
 
@@ -45,13 +50,15 @@ import scott.com.workhard.utils.SpacesItemDecoration;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class FrgSelectExercise extends BaseFragment {
+public class FrgSelectExercise extends BaseFragment implements ExercisesPresenterListener {
 
     @BindView(R.id.rVFrgCreateWorkOut)
     RecyclerView rVFrgCreateWorkOut;
 
     private AdapterExercise adapter = new AdapterExercise(AdapterExercise.ADD_TO_WORKOUT);
     private int numberSelectedItems = 0;
+
+    PresenterExercises presenter;
 
     public static Fragment newInstance() {
         return new FrgSelectExercise();
@@ -65,6 +72,7 @@ public class FrgSelectExercise extends BaseFragment {
 
     private void initVars() {
         setHasOptionsMenu(true);
+        presenter.doGetExercises();
         adapter.showEmptyState(true);
         adapter.addOnExerciseClickListener(new AdapterExercise.onExerciseClickListener() {
             @Override
@@ -95,73 +103,19 @@ public class FrgSelectExercise extends BaseFragment {
         rVFrgCreateWorkOut.addItemDecoration(
                 new SpacesItemDecoration(adapter.haveAdapterHeaderView(), R.dimen.default_medium_size));
         rVFrgCreateWorkOut.setAdapter(adapter);
-        fillDummyData();
-        adapter.showLoadMoreView(true);
-    }
-
-    private void fillDummyData() {
-
-        adapter.addItem(new Exercise().withName("Pedro")
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise))
-                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise)));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise)));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise)));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise)));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise)));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise)));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise)));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise)));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise)));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise)));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise)));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise)));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise)));
-        adapter.addItem(new Exercise().withName("Hola mundo " + adapter.getItemCount())
-                .withRepetitions(adapter.getItemCount() + 1)
-                .withDescription(getString(R.string.text_exercise)));
-
-
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        presenter = new DoWorkoutPresenter();
-//        presenter.attachView(this);
+        presenter = new PresenterExercises();
+        presenter.attachView(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-//        presenter.detachView();
+        presenter.detachView();
     }
 
     @Override
@@ -232,5 +186,26 @@ public class FrgSelectExercise extends BaseFragment {
         EventBus.getDefault().post(new EventAddExercises(adapter.getItemsByCondition()));
         getActivity().finish();
     }
+
+    @Override
+    public void onGetListExercises(List<Exercise> exercises) {
+        adapter.cleanItemsAndUpdate(exercises);
+    }
+
+    @Override
+    public void showProgressIndicator(String message) {
+        adapter.showLoadingState(true);
+    }
+
+    @Override
+    public void removeProgressIndicator() {
+        adapter.showLoadingState(false);
+    }
+
+    @Override
+    public void showMessage(int stringId) {
+        EventBus.getDefault().post(new EventSnackBar().withMessage(getString(stringId)));
+    }
+
 
 }

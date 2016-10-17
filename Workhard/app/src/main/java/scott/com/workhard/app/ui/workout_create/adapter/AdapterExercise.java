@@ -1,9 +1,10 @@
-package scott.com.workhard.app.ui.create_workout.adapter;
+package scott.com.workhard.app.ui.workout_create.adapter;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -192,15 +193,15 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
         }
 
         private void updateViewsTimes() {
-            tVFrgCreateWorkoutRounds.setText(
+            tVFrgCreateWorkoutRounds.setText(Html.fromHtml(
                     itemView.getContext().getString(R.string.frg_create_workout_rounds_number,
-                            workout.getRounds()));
-            tVFrgCreateWorkoutRestExercise.setText(
+                            workout.getRounds())));
+            tVFrgCreateWorkoutRestExercise.setText(Html.fromHtml(
                     itemView.getContext().getString(R.string.frg_create_workout_rest_between_exercise_number,
-                            workout.getRestBetweenExercise()));
-            tVFrgCreateWorkoutRestRounds.setText(
+                            workout.getRestBetweenExercise())));
+            tVFrgCreateWorkoutRestRounds.setText(Html.fromHtml(
                     itemView.getContext().getString(R.string.frg_create_workout_rest_between_rounds_number,
-                            workout.getRestRoundsExercise()));
+                            workout.getRestRoundsExercise())));
         }
 
         HeaderHolder(View itemView) {

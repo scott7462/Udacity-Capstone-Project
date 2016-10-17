@@ -32,8 +32,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
+import scott.com.workhard.app.ui.ActivityMain;
 import scott.com.workhard.base.view.BasePickImageFragment;
-import scott.com.workhard.app.ui.MainActivity;
 import scott.com.workhard.app.ui.init.login.presenter.LoginPresenter;
 import scott.com.workhard.app.ui.init.login.presenter.LoginPresenterListeners;
 import scott.com.workhard.bus.event.EventCallPickPhoto;
@@ -181,7 +181,7 @@ public class RegisterFragment extends BasePickImageFragment implements LoginPres
 
     @Override
     public void navigateToMain() {
-        MainActivity.newInstance(getActivity());
+        ActivityMain.newInstance(getActivity());
     }
 
     public void showDatePickerDialog(TextView v) {

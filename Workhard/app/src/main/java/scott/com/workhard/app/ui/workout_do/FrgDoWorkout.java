@@ -1,10 +1,11 @@
-package scott.com.workhard.app.ui.do_workout;
+package scott.com.workhard.app.ui.workout_do;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -21,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
 import scott.com.workhard.base.view.BaseFragment;
+import scott.com.workhard.bus.event.EventAddRoundToWorkout;
 import scott.com.workhard.bus.event.EventAlterDialog;
 import scott.com.workhard.bus.event.EventFinishWorkout;
 import scott.com.workhard.bus.event.EventNextExercise;
@@ -53,12 +56,17 @@ public class FrgDoWorkout extends BaseFragment {
     TextView tVFrgDoWorkoutReps;
     @BindView(R.id.tVFrgDoWorkoutRounds)
     TextView tVFrgDoWorkoutRounds;
-    @BindView(R.id.tVFrgDoWorkoutNextExercise)
-    TextView tVFrgDoWorkoutNextExercise;
-    @BindView(R.id.bTFrgDoWorkoutSkip)
-    Button bTFrgDoWorkoutSkip;
     @BindView(R.id.bTFrgDoWorkoutNext)
     Button bTFrgDoWorkoutNext;
+    @BindView(R.id.tVFrgDoWorkoutNextExerciseName)
+    TextView tVFrgDoWorkoutNextExerciseName;
+    @BindView(R.id.tVFrgDoWorkoutNextExerciseDescription)
+    TextView tVFrgDoWorkoutNextExerciseDescription;
+    @BindView(R.id.lLFrgDoWorkoutComplete)
+    LinearLayout lLFrgDoWorkoutComplete;
+
+    @BindView(R.id.lLFrgDoWorkoutFooter)
+    LinearLayout lLFrgDoWorkoutFooter;
     private Workout workout;
     private Exercise exercise;
 
@@ -93,19 +101,33 @@ public class FrgDoWorkout extends BaseFragment {
 
     private void intViews() {
         tVFrgDoWorkoutName.setText(exercise.getName());
-        tVFrgDoWorkoutNextExercise.setText(workout.findNextExercise() != null ? workout.findNextExercise().getName() : "None");
+        loadNextExercise();
         tVFrgDoWorkoutReps.setText(getString(R.string.frg_do_workout_number_of_repetitions, exercise.getRepetition()));
-        tVFrgDoWorkoutRounds.setText(getString(R.string.frg_do_workout_rounds_of_exercises, workout.getCurrentRound(), 5));
+        tVFrgDoWorkoutRounds.setText(getString(R.string.frg_do_workout_rounds_of_exercises, workout.getCurrentRound(), workout.getRounds()));
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
+    private void loadNextExercise() {
+        if (workout.isTheLastExercise()) {
+            lLFrgDoWorkoutFooter.setVisibility(View.GONE);
+            lLFrgDoWorkoutComplete.setVisibility(View.VISIBLE);
+        } else {
+            lLFrgDoWorkoutFooter.setVisibility(View.VISIBLE);
+            tVFrgDoWorkoutNextExerciseDescription.setMovementMethod(new ScrollingMovementMethod());
+            if (workout.findNextExercise() != null) {
+                tVFrgDoWorkoutNextExerciseName.setText(getString(R.string.frg_do_workout_next_exercise_name,
+                        workout.findNextExercise().getName()));
+                tVFrgDoWorkoutNextExerciseDescription.setText(
+                        Html.fromHtml(getString(R.string.frg_do_workout_next_exercise_description,
+                                workout.findNextExercise().getDescription())));
+            } else {
+                tVFrgDoWorkoutNextExerciseName.setText(getString(R.string.frg_do_workout_next_exercise_name,
+                        workout.getExerciseList().get(0).getName()));
+                tVFrgDoWorkoutNextExerciseDescription.setText(
+                        Html.fromHtml(getString(R.string.frg_do_workout_next_exercise_description,
+                                workout.getExerciseList().get(0).getDescription())));
+            }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
+        }
     }
 
     @Override
@@ -117,11 +139,51 @@ public class FrgDoWorkout extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_menu_finish:
-                EventBus.getDefault().post(new EventAlterDialog().withMessage(getString(R.string.frg_do_workout_finish_alert))
+                finishWorkout(false);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void finishWorkout(boolean isCompleted) {
+        EventBus.getDefault().post(new EventAlterDialog().withMessage(!isCompleted ?
+                getString(R.string.frg_do_workout_finish_alert) : getString(R.string.frg_do_workout_complete_alert))
+                .withPositveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EventBus.getDefault().post(new EventFinishWorkout());
+                        dialog.dismiss();
+                    }
+                })
+                .withNegativeButton(getString(R.string.action_not), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }));
+    }
+
+    @OnClick(R.id.bTFrgDoWorkoutNext)
+    public void onClick() {
+        EventBus.getDefault().post(new EventNextExercise());
+    }
+
+    @OnClick(R.id.tVFrgDoWorkoutFinishWorkout)
+    public void onClickFinish() {
+        finishWorkout(true);
+    }
+
+    @OnClick({R.id.tVFrgDoWorkoutDoOther, R.id.bTFrgDoWorkoutComplete})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tVFrgDoWorkoutDoOther:
+
+                EventBus.getDefault().post(new EventAlterDialog().withMessage(getString(R.string.frg_do_workout_other_round_alert))
                         .withPositveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                EventBus.getDefault().post(new EventFinishWorkout());
+                                EventBus.getDefault().post(new EventAddRoundToWorkout());
+                                dialog.dismiss();
                             }
                         })
                         .withNegativeButton(getString(R.string.action_not), new DialogInterface.OnClickListener() {
@@ -130,18 +192,10 @@ public class FrgDoWorkout extends BaseFragment {
                                 dialog.dismiss();
                             }
                         }));
-
                 break;
-            case android.R.id.home: {
-                getActivity().onBackPressed();
+            case R.id.bTFrgDoWorkoutComplete:
+                finishWorkout(true);
                 break;
-            }
         }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @OnClick(R.id.bTFrgDoWorkoutNext)
-    public void onClick() {
-        EventBus.getDefault().post(new EventNextExercise());
     }
 }

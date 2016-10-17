@@ -21,8 +21,8 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
-import scott.com.workhard.app.ui.create_workout.CreateWorkoutActivity;
-import scott.com.workhard.app.ui.do_workout.DoWorkoutActivity;
+import scott.com.workhard.app.ui.workout_create.ActivityCreateWorkout;
+import scott.com.workhard.app.ui.workout_do.ActivityDoWorkout;
 import scott.com.workhard.app.ui.home.FrgHome;
 import scott.com.workhard.app.ui.profile.FrgProfile;
 import scott.com.workhard.base.view.BaseActivity;
@@ -32,7 +32,7 @@ import static scott.com.workhard.app.ui.home.FrgHome.HISTORY;
 import static scott.com.workhard.app.ui.home.FrgHome.HOME;
 import static scott.com.workhard.app.ui.home.FrgHome.MY_WORKOUTS;
 
-public class MainActivity extends BaseActivity
+public class ActivityMain extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener, MainActivityPresenterListener {
 
     private static final String CONTENT_FRAGMENT = "content";
@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity
                     .withPositveButton("Continuar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            DoWorkoutActivity.newInstance(MainActivity.this, DoWorkoutActivity.CONTINUE_CURRENT_WORKOUT);
+                            ActivityDoWorkout.newInstance(ActivityMain.this, ActivityDoWorkout.CONTINUE_CURRENT_WORKOUT);
                             dialog.dismiss();
                         }
                     })
@@ -146,7 +146,7 @@ public class MainActivity extends BaseActivity
                 navigateMainContent(FrgProfile.newInstance(), getString(R.string.frg_profile_title));
                 break;
             case R.id.nav_create:
-                CreateWorkoutActivity.newInstance(this, null);
+                ActivityCreateWorkout.newInstance(this, null);
                 break;
             case R.id.nav_logout:
                 doLogout();
@@ -173,7 +173,7 @@ public class MainActivity extends BaseActivity
     }
 
     public static void newInstance(Activity activity) {
-        activity.startActivity(new Intent(activity, MainActivity.class));
+        activity.startActivity(new Intent(activity, ActivityMain.class));
     }
 
     @Override

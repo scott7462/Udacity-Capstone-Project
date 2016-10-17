@@ -21,11 +21,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
-import scott.com.workhard.app.ui.create_workout.CreateWorkoutActivity;
-import scott.com.workhard.app.ui.do_workout.DoWorkoutActivity;
+import scott.com.workhard.app.ui.workout_create.ActivityCreateWorkout;
+import scott.com.workhard.app.ui.workout_do.ActivityDoWorkout;
 import scott.com.workhard.app.ui.home.adapter.AdapterWorkout;
 import scott.com.workhard.app.ui.workout_resume.FrgWorkoutResume;
-import scott.com.workhard.app.ui.workout_resume.WorkoutResumeActivity;
+import scott.com.workhard.app.ui.workout_resume.ActivityWorkoutResume;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.base.view.BaseSimpleAdapter;
 import scott.com.workhard.entities.Exercise;
@@ -111,11 +111,11 @@ public class FrgHome extends BaseFragment {
             public void onItemViewsClick(Workout item, int position) {
                 switch (getArguments().getInt(TYPE_VIEW_ADAPTER)) {
                     case HISTORY: {
-                        WorkoutResumeActivity.newInstance(getActivity(), item, FrgWorkoutResume.RESUME);
+                        ActivityWorkoutResume.newInstance(getActivity(), item, FrgWorkoutResume.RESUME);
                         break;
                     }
                     default: {
-                        DoWorkoutActivity.newInstance(getActivity(),DoWorkoutActivity.NEW_WORKOUT ,item);
+                        ActivityDoWorkout.newInstance(getActivity(), ActivityDoWorkout.NEW_WORKOUT ,item);
                         break;
                     }
                 }
@@ -125,23 +125,52 @@ public class FrgHome extends BaseFragment {
 
 
         List<Exercise> exercises = new ArrayList<>();
-        exercises.add(new Exercise().withName("Pedro")
+        exercises.add(new Exercise().withName("1")
                 .withRepetitions(60)
                 .withId("1")
                 .withDescription(getString(R.string.text_exercise))
                 .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-        exercises.add(new Exercise().withName("Marsela")
+        exercises.add(new Exercise().withName("2")
                 .withRepetitions(20)
                 .withId("2")
                 .withDescription(getString(R.string.text_exercise))
                 .withUrl("https://en.wikipedia.org/wiki/Push-up"));
 
+        exercises.add(new Exercise().withName("3")
+                .withRepetitions(20)
+                .withId("3")
+                .withDescription(getString(R.string.text_exercise))
+                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
+
+        exercises.add(new Exercise().withName("4")
+                .withRepetitions(20)
+                .withId("4")
+                .withDescription(getString(R.string.text_exercise))
+                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
+
+        exercises.add(new Exercise().withName("5")
+                .withRepetitions(20)
+                .withId("5")
+                .withDescription(getString(R.string.text_exercise))
+                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
+
+        exercises.add(new Exercise().withName("6")
+                .withRepetitions(20)
+                .withId("6")
+                .withDescription(getString(R.string.text_exercise))
+                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
+
+        exercises.add(new Exercise().withName("7")
+                .withRepetitions(20)
+                .withId("7")
+                .withDescription(getString(R.string.text_exercise))
+                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
         workouts.add(new Workout()
                 .withId("342")
                 .withName("Test Name")
-                .withRestBetweenExercise(50)
-                .withRestRoundsExercise(90)
-                .withRounds(4)
+                .withRestBetweenExercise(10)
+                .withRestRoundsExercise(15)
+                .withRounds(2)
                 .withDateCompleted("07 Nov 2016")
                 .withExercises(exercises));
         workouts.add(new Workout());
@@ -188,7 +217,7 @@ public class FrgHome extends BaseFragment {
 
     @OnClick(R.id.fBHomeAddWorkout)
     public void createWorkout() {
-        CreateWorkoutActivity.newInstance(getActivity(), null);
+        ActivityCreateWorkout.newInstance(getActivity(), null);
     }
 
     @Override

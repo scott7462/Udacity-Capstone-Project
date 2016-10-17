@@ -1,9 +1,8 @@
-package scott.com.workhard.app.ui.create_workout;
+package scott.com.workhard.app.ui.workout_create;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +22,7 @@ import scott.com.workhard.R;
 import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.base.view.BaseSimpleAdapter;
-import scott.com.workhard.app.ui.create_workout.adapter.AdapterExercise;
+import scott.com.workhard.app.ui.workout_create.adapter.AdapterExercise;
 import scott.com.workhard.bus.event.EventAddExercises;
 import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.entities.Exercise;

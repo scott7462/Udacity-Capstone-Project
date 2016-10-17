@@ -1,11 +1,13 @@
-package scott.com.workhard.app.ui.do_workout.presenter;
+package scott.com.workhard.app.ui.select_exercise.presenter;
+
+import java.util.List;
 
 import scott.com.workhard.base.presenter.BasePresenterListener;
-import scott.com.workhard.entities.Workout;
+import scott.com.workhard.entities.Exercise;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 7/14/16.
+ * @version 10/10/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -21,13 +23,9 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public interface DoWorkoutPresenterListeners extends BasePresenterListener {
 
-    void onGetCurrentWorkout(Workout workout);
 
-    void onErrorSavingWorkout();
+public interface ExercisesPresenterListener extends BasePresenterListener{
 
-    void onErrorFinishingWorkout();
-
-    void onFinishWorkout();
+    void onGetListExercises(List<Exercise> exercises);
 }

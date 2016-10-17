@@ -14,18 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
-import scott.com.workhard.app.ui.create_workout.CreateWorkoutActivity;
+import scott.com.workhard.app.ui.workout_create.ActivityCreateWorkout;
 import scott.com.workhard.app.ui.workout_resume.adapter.AdapterExerciseResume;
+import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.base.view.BaseFragment;
-import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.entities.Workout;
 
 /**
@@ -107,6 +105,10 @@ public class FrgWorkoutResume extends BaseFragment {
                 viewType = RESUME;
                 break;
         }
+        if (viewType == FINISH) {
+            ((BaseActivity) getActivity()).getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
+            ((BaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
     }
 
     @Override
@@ -122,15 +124,15 @@ public class FrgWorkoutResume extends BaseFragment {
         rVFrgWorkoutResume.setLayoutManager(new LinearLayoutManager(getActivity()));
         rVFrgWorkoutResume.setAdapter(adapter);
         rVFrgWorkoutResume.setHasFixedSize(true);
+        tVFrgWorkoutDate.setVisibility(viewType == FINISH ? View.GONE : View.VISIBLE);
         if (workout != null) {
             tVFrgWorkoutName.setText(workout.getName());
-            tVFrgWorkoutRounds.setText(getString(R.string.frg_workout_rounds, workout.getRounds()));
+            tVFrgWorkoutRounds.setText(getString(R.string.frg_do_workout_rounds_of_exercises, workout.getCurrentRound(), workout.getRounds()));
             tVFrgWorkoutRestExercise.setText(getString(R.string.frg_workout_rest_between_exercise, workout.getRestBetweenExercise()));
             tVFrgWorkoutRestRounds.setText(getString(R.string.frg_workout_rest_rounds, workout.getRestRoundsExercise()));
             tVFrgWorkoutDate.setText(getString(R.string.frg_workout_dates, workout.getDateCompleted()));
         }
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -164,10 +166,10 @@ public class FrgWorkoutResume extends BaseFragment {
                 getActivity().onBackPressed();
                 break;
             case R.id.item_menu_finish:
-                EventBus.getDefault().post(new EventSnackBar().withMessage("Finish workout"));
+                getActivity().finish();
                 break;
             case R.id.item_menu_do_it_again:
-                CreateWorkoutActivity.newInstance(getActivity(), workout);
+                ActivityCreateWorkout.newInstance(getActivity(), workout);
                 break;
         }
         return super.onOptionsItemSelected(item);

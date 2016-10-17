@@ -1,13 +1,8 @@
-package scott.com.workhard.app.ui.init.launch;
-
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
-import scott.com.workhard.R;
+package scott.com.workhard.bus.event;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 7/12/16.
+ * @version 10/16/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -24,13 +19,5 @@ import scott.com.workhard.R;
  * limitations under the License.
  */
 
-public class LaunchActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_launch);
-        finish();
-    }
-
+public class EventAddRoundToWorkout {
 }

@@ -30,7 +30,7 @@ import scott.com.workhard.entities.Workout;
  * limitations under the License.
  */
 
-public class WorkoutResumeActivity extends BaseActivity {
+public class ActivityWorkoutResume extends BaseActivity {
 
     private static final String CONTENT_FRAGMENT = "content";
     @BindView(R.id.toolbar)
@@ -65,7 +65,7 @@ public class WorkoutResumeActivity extends BaseActivity {
     }
 
     public static void newInstance(Activity activity, Workout workout, @FrgWorkoutResume.typeToView int viewType) {
-        Intent intent = new Intent(activity, WorkoutResumeActivity.class);
+        Intent intent = new Intent(activity, ActivityWorkoutResume.class);
         intent.putExtra(Workout.WORKOUT_ARG, workout);
         intent.putExtra(FrgWorkoutResume.VIEW_TYPE_ARG, viewType);
         activity.startActivity(intent);

@@ -29,7 +29,7 @@ import scott.com.workhard.base.view.BaseActivity;
  * limitations under the License.
  */
 
-public class SelectExerciseActivity extends BaseActivity {
+public class ActivitySelectExercise extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -62,7 +62,7 @@ public class SelectExerciseActivity extends BaseActivity {
     }
 
     public static void newInstance(Activity activity) {
-        activity.startActivity(new Intent(activity, SelectExerciseActivity.class));
+        activity.startActivity(new Intent(activity, ActivitySelectExercise.class));
     }
 
 }

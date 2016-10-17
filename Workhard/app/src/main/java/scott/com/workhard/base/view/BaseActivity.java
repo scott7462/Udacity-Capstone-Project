@@ -17,9 +17,9 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 
 import scott.com.workhard.R;
-import scott.com.workhard.app.ui.MainActivity;
+import scott.com.workhard.app.ui.ActivityMain;
 import scott.com.workhard.app.ui.init.register.RegisterActivity;
-import scott.com.workhard.app.ui.select_exercise.SelectExerciseActivity;
+import scott.com.workhard.app.ui.select_exercise.ActivitySelectExercise;
 import scott.com.workhard.bus.event.EventAlterDialog;
 import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.bus.util.SnackBarUtils;
@@ -137,7 +137,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void navigateToMain() {
-        MainActivity.newInstance(this);
+        ActivityMain.newInstance(this);
     }
 
 
@@ -200,7 +200,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
     public void goToSelectExercise() {
-        SelectExerciseActivity.newInstance(this);
+        ActivitySelectExercise.newInstance(this);
     }
 
 

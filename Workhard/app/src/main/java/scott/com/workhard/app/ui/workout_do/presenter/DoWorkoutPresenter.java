@@ -1,4 +1,4 @@
-package scott.com.workhard.app.ui.do_workout.presenter;
+package scott.com.workhard.app.ui.workout_do.presenter;
 
 import android.util.Log;
 

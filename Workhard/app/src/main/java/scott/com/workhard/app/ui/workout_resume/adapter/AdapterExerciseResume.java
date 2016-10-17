@@ -57,7 +57,6 @@ public class AdapterExerciseResume extends BaseSimpleAdapter<Exercise, RecyclerV
         ((ExerciseHolder) holder).bindView(getItem(position));
     }
 
-
     public class ExerciseHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tVItemExerciseName)
         TextView tVItemExerciseName;
@@ -82,7 +81,9 @@ public class AdapterExerciseResume extends BaseSimpleAdapter<Exercise, RecyclerV
         void bindView(Exercise exercise) {
             tVItemExerciseName.setText(exercise.getName());
             tVItemExerciseRepetitions.setText(tVItemExerciseRepetitions.getContext()
-                    .getString(R.string.frg_create_workout_item_exercise, exercise.getRepetition() * workout.getRounds()));
+                    .getString(R.string.frg_create_workout_item_exercise, exercise.getRepetition() *
+                            (getAdapterPosition() <= workout.getCurrentExercisePosition() ?
+                                    workout.getCurrentRound() : workout.getCurrentRound() - 1)));
         }
     }
 

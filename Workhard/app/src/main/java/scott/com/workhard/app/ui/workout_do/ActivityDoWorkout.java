@@ -1,4 +1,4 @@
-package scott.com.workhard.app.ui.do_workout;
+package scott.com.workhard.app.ui.workout_do;
 
 import android.Manifest;
 import android.app.Activity;
@@ -23,9 +23,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
-import scott.com.workhard.app.ui.do_workout.presenter.DoWorkoutPresenter;
-import scott.com.workhard.app.ui.do_workout.presenter.DoWorkoutPresenterListeners;
+import scott.com.workhard.app.ui.workout_do.presenter.DoWorkoutPresenter;
+import scott.com.workhard.app.ui.workout_do.presenter.DoWorkoutPresenterListeners;
+import scott.com.workhard.app.ui.workout_resume.ActivityWorkoutResume;
+import scott.com.workhard.app.ui.workout_resume.FrgWorkoutResume;
 import scott.com.workhard.base.view.BaseActivity;
+import scott.com.workhard.bus.event.EventAddRoundToWorkout;
 import scott.com.workhard.bus.event.EventFinishRecoveryTime;
 import scott.com.workhard.bus.event.EventFinishWorkout;
 import scott.com.workhard.bus.event.EventNextExercise;
@@ -50,7 +53,7 @@ import scott.com.workhard.entities.Workout;
  * limitations under the License.
  */
 
-public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresenterListeners,
+public class ActivityDoWorkout extends BaseActivity implements DoWorkoutPresenterListeners,
         MultiplePermissionsListener {
 
     private static final String TYPE_INIT = "Init_type";
@@ -95,12 +98,6 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
         super.onDestroy();
     }
 
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        getSupportFragmentManager().putFragment(outState, "mContent", getSupportFragmentManager().findFragmentById(R.id.container));
-//    }
-
     public static void newInstance(Activity activity, @InitType int initType, Workout workout) {
         Intent intent = setTypeIntent(activity, initType);
         intent.putExtra(Workout.WORKOUT_ARG, workout);
@@ -112,7 +109,7 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
     }
 
     private static Intent setTypeIntent(Activity activity, @InitType int initType) {
-        Intent intent = new Intent(activity, DoWorkoutActivity.class);
+        Intent intent = new Intent(activity, ActivityDoWorkout.class);
         intent.putExtra(TYPE_INIT, initType);
         return intent;
     }
@@ -128,13 +125,13 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
         if (workout != null) {
             switch (workout.getStatus()) {
                 case Workout.DOING_EXERCISE:
-                    navigateMainContent(FrgDoWorkout.newInstance(workout), getString(R.string.frg_do_workout_title));
+                    navigateMainContent(FrgDoWorkout.newInstance(workout),workout.getName());
                     break;
                 case Workout.RECOVERY_TIME:
-                    navigateMainContent(FrgDoRestWorkout.newInstance(), getString(R.string.frg_do_rest_workout_title));
+                    navigateMainContent(FrgDoRestWorkout.newInstance(workout, workout.getRestBetweenExercise()),workout.getName());
                     break;
                 case Workout.RECOVERY_TIME_LARGE:
-                    navigateMainContent(FrgDoRestWorkout.newInstance(), getString(R.string.frg_do_rest_large_workout_title));
+                    navigateMainContent(FrgDoRestWorkout.newInstance(workout, workout.getRestRoundsExercise()),workout.getName());
                     break;
                 case Workout.COMPLETED:
                     finish();
@@ -165,11 +162,11 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
 
     @Override
     public void onErrorFinishingWorkout() {
-
     }
 
     @Override
     public void onFinishWorkout() {
+        ActivityWorkoutResume.newInstance(this, workout, FrgWorkoutResume.FINISH);
         finish();
     }
 
@@ -223,5 +220,11 @@ public class DoWorkoutActivity extends BaseActivity implements DoWorkoutPresente
 
     @Override
     public void onBackPressed() {
+    }
+
+    @Subscribe
+    public void addRound(EventAddRoundToWorkout eventAddRoundToWorkout) {
+        workout.setRounds(workout.getRounds() + 1);
+        presenter.doGoToNextExercise(workout);
     }
 }

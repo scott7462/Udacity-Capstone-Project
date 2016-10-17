@@ -48,7 +48,7 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
 
     private boolean headerView;
     private boolean isLoadMore;
-    private boolean entryState;
+    private boolean entryState = true;
     private boolean loadingState;
 
     public List<T> getItems() {
@@ -325,6 +325,7 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
      */
     public void showLoadingState(boolean loadingState) {
         this.loadingState = loadingState;
+        notifyDataSetChanged();
     }
 
     /**

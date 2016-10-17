@@ -1,4 +1,4 @@
-package scott.com.workhard.app.ui.create_workout;
+package scott.com.workhard.app.ui.workout_create;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -31,7 +31,7 @@ import scott.com.workhard.entities.Workout;
  * limitations under the License.
  */
 
-public class CreateWorkoutActivity extends BaseActivity {
+public class ActivityCreateWorkout extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -63,7 +63,7 @@ public class CreateWorkoutActivity extends BaseActivity {
     }
 
     public static void newInstance(Activity activity, @Nullable Workout workout) {
-        Intent intent = new Intent(activity, CreateWorkoutActivity.class);
+        Intent intent = new Intent(activity, ActivityCreateWorkout.class);
         if (workout != null) {
             intent.putExtra(Workout.WORKOUT_ARG, workout);
         }
