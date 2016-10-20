@@ -5,8 +5,10 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import rx.Observable;
+import rx.Subscription;
 import scott.com.workhard.base.model.BaseDataManager;
 import scott.com.workhard.data.models.current_workout.preference.CurrentWorkoutPreference;
+import scott.com.workhard.entities.User;
 import scott.com.workhard.entities.Workout;
 
 /**
@@ -80,4 +82,5 @@ public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentW
     public boolean isCurrentWorkout() {
         return CurrentWorkoutPreference.getPreferenceCurrentWorkOut();
     }
+
 }

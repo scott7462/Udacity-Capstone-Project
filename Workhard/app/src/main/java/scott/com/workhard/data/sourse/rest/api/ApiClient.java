@@ -29,7 +29,7 @@ import scott.com.workhard.data.sourse.rest.response.ResponseLogin;
  */
 public interface ApiClient {
 
-    @POST("login")
+    @POST("user/login")
     Observable<ResponseLogin> login(@Body RequestLogin body);
 
     @GET("exercises")

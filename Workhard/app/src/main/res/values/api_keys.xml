@@ -2,5 +2,4 @@
 <resources>
     <string name="facebook_app_id" translatable="false" >269165066792083</string>
     <string name="fb_login_protocol_scheme" translatable="false" >fb269165066792083</string>
-
 </resources>

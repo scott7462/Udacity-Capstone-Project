@@ -32,8 +32,7 @@ public class PublicService {
         this.apiService = apiService;
     }
 
-    public Observable<ResponseLogin> login(String email, String password) {
-        RequestLogin requestLogin = new RequestLogin(email, password);
+    public Observable<ResponseLogin> login(RequestLogin requestLogin) {
         return apiService.login(requestLogin);
     }
 

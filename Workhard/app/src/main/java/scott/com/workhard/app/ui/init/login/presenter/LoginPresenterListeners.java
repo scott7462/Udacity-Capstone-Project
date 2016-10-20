@@ -22,6 +22,6 @@ import scott.com.workhard.base.presenter.BasePresenterListener;
  */
 public interface LoginPresenterListeners extends BasePresenterListener {
 
-    void navigateToMain();
+    void onLoginSuccessful();
 
 }

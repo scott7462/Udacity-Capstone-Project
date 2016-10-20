@@ -2,6 +2,8 @@ package scott.com.workhard.data.sourse.db.tables;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import rx.Observable;
+import scott.com.workhard.entities.Token;
 import scott.com.workhard.entities.User;
 
 /**
@@ -32,6 +34,7 @@ public class UserTable extends RealmObject {
     private String lastName;
     private String email;
     private long birthday;
+    private TokenTable token;
 
     public UserTable() {
     }
@@ -41,6 +44,7 @@ public class UserTable extends RealmObject {
         setBirthday(user.getBirthday());
         setEmail(user.getEmail());
         setName(user.getName());
+        setToken(new TokenTable(user.getToken().getAccessToken()));
         setLastName(user.getLastName());
     }
 
@@ -84,4 +88,20 @@ public class UserTable extends RealmObject {
         this.birthday = birthday;
     }
 
+    public TokenTable getToken() {
+        return token;
+    }
+
+    public void setToken(TokenTable token) {
+        this.token = token;
+    }
+
+    public Observable<User> transformToUser() {
+        return Observable.just(new User().withId(getId())
+                .withName(getName())
+                .withLastName(getLastName())
+                .withEmail(getEmail())
+                .withBirthday(getBirthday())
+                .withToken(new Token(getToken().getAccessToken())));
+    }
 }

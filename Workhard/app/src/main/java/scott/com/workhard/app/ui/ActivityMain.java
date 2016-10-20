@@ -21,19 +21,21 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
+import scott.com.workhard.app.ui.home.FrgHome;
+import scott.com.workhard.app.ui.init.launch.LaunchActivity;
+import scott.com.workhard.app.ui.profile.FrgProfile;
 import scott.com.workhard.app.ui.workout_create.ActivityCreateWorkout;
 import scott.com.workhard.app.ui.workout_do.ActivityDoWorkout;
-import scott.com.workhard.app.ui.home.FrgHome;
-import scott.com.workhard.app.ui.profile.FrgProfile;
 import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.bus.event.EventAlterDialog;
+import scott.com.workhard.entities.User;
 
 import static scott.com.workhard.app.ui.home.FrgHome.HISTORY;
 import static scott.com.workhard.app.ui.home.FrgHome.HOME;
 import static scott.com.workhard.app.ui.home.FrgHome.MY_WORKOUTS;
 
 public class ActivityMain extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener, MainActivityPresenterListener {
+        implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener, MainPresenterListener {
 
     private static final String CONTENT_FRAGMENT = "content";
     @BindView(R.id.toolbar)
@@ -42,7 +44,7 @@ public class ActivityMain extends BaseActivity
     DrawerLayout drawer;
     @BindView(R.id.nVMain)
     NavigationView navigationView;
-    private PresenterMainActivity presenter;
+    private PresenterMain presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class ActivityMain extends BaseActivity
     }
 
     private void initPresenter() {
-        presenter = new PresenterMainActivity();
+        presenter = new PresenterMain();
         presenter.attachView(this);
     }
 
@@ -167,7 +169,7 @@ public class ActivityMain extends BaseActivity
                 .withPositveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
+                        presenter.doLogout();
                     }
                 }));
     }
@@ -208,6 +210,27 @@ public class ActivityMain extends BaseActivity
 
     @Override
     public void showMessage(int stringId) {
+
+    }
+
+    @Override
+    public void onLogoutSuccessful() {
+        LaunchActivity.newInstance(this);
+        finish();
+    }
+
+    @Override
+    public void onLogoutError() {
+
+    }
+
+    @Override
+    public void onNotCurrentSession() {
+
+    }
+
+    @Override
+    public void onCurrentSession(User user) {
 
     }
 }

@@ -34,7 +34,7 @@ public class PresenterExercises extends BasePresenter<ExercisesPresenterListener
 
     public void doGetExercises() {
         getViewListener().showProgressIndicator("");
-        setSubscription(Injection.provideExercisesRepositoty()
+        setSubscription(Injection.provideExercisesRepository()
                 .findAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

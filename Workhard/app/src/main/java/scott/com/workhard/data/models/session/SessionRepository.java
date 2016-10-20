@@ -1,10 +1,9 @@
-package scott.com.workhard.data.models.user.sourse.local;
-
-import java.util.List;
+package scott.com.workhard.data.models.session;
 
 import rx.Observable;
+import rx.Subscription;
+import scott.com.workhard.base.model.Repository;
 import scott.com.workhard.entities.User;
-import scott.com.workhard.data.models.user.UserRepository;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -26,26 +25,9 @@ import scott.com.workhard.data.models.user.UserRepository;
  */
 
 
-public class UserLocalData implements UserRepository {
+public interface SessionRepository extends Repository<User> {
 
-
-    @Override
-    public Observable<User> add(User object) {
-        return null;
-    }
-
-    @Override
-    public Observable<Boolean> delete(User object) {
-        return null;
-    }
-
-    @Override
-    public Observable<User> update(User object) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<User>> findAll() {
-        return null;
-    }
+    Observable<User> login(String email, String password);
+    Observable<Boolean> logout();
+    Observable<User> getSessionUser();
 }

@@ -185,17 +185,7 @@ public class ActivityDoWorkout extends BaseActivity implements DoWorkoutPresente
 
     }
 
-    @Override
-    public void onPermissionsChecked(MultiplePermissionsReport report) {
-        if (report.areAllPermissionsGranted() && report.getGrantedPermissionResponses().size() == 2) {
-            for (PermissionGrantedResponse permissionGrantedResponse : report.getGrantedPermissionResponses()) {
-                if (!validatePermission(permissionGrantedResponse)) {
-                    return;
-                }
-            }
-        }
-        initWorkout();
-    }
+
 
     private void initWorkout() {
         switch (getIntent().getIntExtra(TYPE_INIT, NEW_WORKOUT)) {
@@ -206,6 +196,18 @@ public class ActivityDoWorkout extends BaseActivity implements DoWorkoutPresente
                 presenter.doGetCurrentWorkout();
                 break;
         }
+    }
+
+    @Override
+    public void onPermissionsChecked(MultiplePermissionsReport report) {
+        if (report.areAllPermissionsGranted() && report.getGrantedPermissionResponses().size() == 2) {
+            for (PermissionGrantedResponse permissionGrantedResponse : report.getGrantedPermissionResponses()) {
+                if (!validatePermission(permissionGrantedResponse)) {
+                    return;
+                }
+            }
+        }
+        initWorkout();
     }
 
     private boolean validatePermission(PermissionGrantedResponse permissionGrantedResponse) {

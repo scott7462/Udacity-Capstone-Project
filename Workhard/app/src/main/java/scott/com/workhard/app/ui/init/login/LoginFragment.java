@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.google.android.gms.common.SignInButton;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.Min;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.twitter.sdk.android.core.Callback;
@@ -28,17 +28,19 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnFocusChange;
 import scott.com.workhard.R;
-import scott.com.workhard.base.view.BaseFragment;
-import scott.com.workhard.app.ui.init.InitActivity;
+import scott.com.workhard.app.ui.init.ActivityInit;
 import scott.com.workhard.app.ui.init.login.presenter.LoginPresenter;
 import scott.com.workhard.app.ui.init.login.presenter.LoginPresenterListeners;
+import scott.com.workhard.base.view.BaseFragment;
+import scott.com.workhard.bus.event.EventSnackBar;
 import timber.log.Timber;
 
 /**
@@ -62,11 +64,12 @@ import timber.log.Timber;
 
 public class LoginFragment extends BaseFragment implements LoginPresenterListeners, Validator.ValidationListener {
 
-    @Email
+    @Email(messageResId = R.string.error_invalid_email)
     @BindView(R.id.eTFrgLoginEmail)
     AppCompatEditText eTFrgLoginEmail;
 
-    @Password
+    @Password(messageResId = R.string.error_invalid_password)
+    @Min(value = 6, messageResId = R.string.error_invalid_password_min)
     @NotEmpty
     @BindView(R.id.eTFrgLoginPassword)
     AppCompatEditText eTFrgLoginPassword;
@@ -79,10 +82,6 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
 
     @BindView(R.id.lBFrgLoginGooglePlus)
     SignInButton lBFrgLoginGooglePlus;
-//
-//    @BindView(R.id.fBFrgSingInBUU)
-//    FloatingActionButton fBFrgSingInBUU;
-
 
     private LoginPresenter presenter;
     private Validator validator;
@@ -114,18 +113,7 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
     }
 
     private void iniListeners() {
-        eTFrgLoginPassword.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent event) {
-                if (event.getKeyCode() == KeyEvent.FLAG_EDITOR_ACTION) {
-                    cleanValidations();
-                    validator.validate();
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
+
     }
 
     private void intViews() {
@@ -144,11 +132,12 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
                 TwitterSession session = result.data;
                 String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
                 Timber.e(msg);
+                presenter.doLoginWithTwitter(session.getUserName(), session.getUserId());
             }
 
             @Override
             public void failure(TwitterException exception) {
-                Timber.e("TwitterKit Login with Twitter failure " + exception);
+                EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.error_twitter_connection)));
             }
         });
 
@@ -156,20 +145,6 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
 
     @OnClick(R.id.lBFrgLoginGooglePlus)
     public void onClickToSingInGoogle() {
-        if (getActivity() instanceof InitActivity) {
-            ((InitActivity) getActivity()).startLoginGooglePlus();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
     }
 
     @Override
@@ -188,7 +163,7 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
     private void facebookManger() {
         lBFrgLoginFacebook.setReadPermissions("email");
         lBFrgLoginFacebook.setFragment(this);
-        lBFrgLoginFacebook.registerCallback(((InitActivity) getActivity()).getCallbackManager(),
+        lBFrgLoginFacebook.registerCallback(((ActivityInit) getActivity()).getCallbackManager(),
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
@@ -213,7 +188,7 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
 
     @Override
     public void showMessage(int stringId) {
-
+        EventBus.getDefault().post(new EventSnackBar().withMessage(getString(stringId)));
     }
 
     @Override
@@ -228,20 +203,22 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
     }
 
     @Override
-    public void navigateToMain() {
-        ((InitActivity) getActivity()).navigateToMain();
+    public void onLoginSuccessful() {
+        ((ActivityInit) getActivity()).navigateToMain();
     }
 
     @OnClick({R.id.bTFrgLoginButton, R.id.bTFrgLoginGoogleButton, R.id.bTFrgLoginFacebookButton, R.id.bTFrgLoginTwitterButton})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bTFrgLoginButton: {
-                cleanValidations();
+                cleanErrors();
                 validator.validate();
                 break;
             }
             case R.id.bTFrgLoginGoogleButton: {
-                lBFrgLoginGooglePlus.callOnClick();
+                if (getActivity() instanceof ActivityInit) {
+                    ((ActivityInit) getActivity()).startLoginGooglePlus();
+                }
                 break;
             }
             case R.id.bTFrgLoginFacebookButton: {
@@ -257,8 +234,14 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
 
     @Override
     public void onValidationSucceeded() {
+        cleanErrors();
         presenter.doLogin(eTFrgLoginEmail.getText().toString(),
                 eTFrgLoginPassword.getText().toString());
+    }
+
+    private void cleanErrors() {
+        ((TextInputLayout) eTFrgLoginEmail.getParent().getParent()).setErrorEnabled(false);
+        ((TextInputLayout) eTFrgLoginPassword.getParent().getParent()).setError(null);
     }
 
     @Override
@@ -267,22 +250,13 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
             View view = error.getView();
             String message = error.getCollatedErrorMessage(getActivity());
             if (view instanceof AppCompatEditText) {
-                ((TextInputLayout) view.getParent()).setError(message);
+                ((TextInputLayout) view.getParent().getParent()).setErrorEnabled(true);
+                ((TextInputLayout) view.getParent().getParent()).setError(message);
             }
         }
     }
 
-    private void cleanValidations() {
-        ((TextInputLayout) eTFrgLoginEmail.getParent()).setError(null);
-        ((TextInputLayout) eTFrgLoginPassword.getParent()).setError(null);
+    public void loginWithGoogle(String email, String name, String lastName, String acctId) {
+        presenter.doLoginWithGoogle(email,name,lastName,acctId);
     }
-
-    @OnFocusChange(R.id.eTFrgLoginEmail)
-    public void checkWithFocus(boolean focus) {
-        if (!focus) {
-            cleanValidations();
-            validator.validate();
-        }
-    }
-
 }

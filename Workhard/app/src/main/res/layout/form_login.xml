@@ -18,11 +18,11 @@
             android:drawableStart="@drawable/ic_account"
             android:hint="@string/frg_login_email"
             android:inputType="textEmailAddress" />
-
     </android.support.design.widget.TextInputLayout>
 
 
     <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
+
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/eTFrgLoginPassword"
             style="@style/Workhard.EditTextFrom"
@@ -72,19 +72,12 @@
             android:padding="@dimen/default_medium_size"
             android:src="@drawable/twitter" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
-
         <com.google.android.gms.common.SignInButton
             android:id="@+id/lBFrgLoginGooglePlus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_small_size"
+            android:clickable="true"
             android:visibility="gone" />
 
         <com.facebook.login.widget.LoginButton
@@ -92,14 +85,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/default_small_size" />
+            android:layout_margin="@dimen/default_small_size"
+            android:clickable="true"
+            android:visibility="gone" />
 
         <com.twitter.sdk.android.core.identity.TwitterLoginButton
             android:id="@+id/lBFrgLoginTwitter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_small_size" />
-
+            android:layout_margin="@dimen/default_small_size"
+            android:clickable="true"
+            android:visibility="gone" />
     </LinearLayout>
 
     <Button

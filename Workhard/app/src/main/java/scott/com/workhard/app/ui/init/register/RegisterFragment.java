@@ -70,6 +70,7 @@ public class RegisterFragment extends BasePickImageFragment implements LoginPres
     private ProgressDialog progress;
     private String avatarFilePath;
 
+
     public static Fragment newInstance() {
         return new RegisterFragment();
     }
@@ -179,11 +180,6 @@ public class RegisterFragment extends BasePickImageFragment implements LoginPres
         progress.dismiss();
     }
 
-    @Override
-    public void navigateToMain() {
-        ActivityMain.newInstance(getActivity());
-    }
-
     public void showDatePickerDialog(TextView v) {
         DatePickerFragment.showDatePickerDialog(getActivity().getSupportFragmentManager(), v);
     }
@@ -211,4 +207,8 @@ public class RegisterFragment extends BasePickImageFragment implements LoginPres
         showPikerGallery(0);
     }
 
+    @Override
+    public void onLoginSuccessful() {
+        ActivityMain.newInstance(getActivity());
+    }
 }

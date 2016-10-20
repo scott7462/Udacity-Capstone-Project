@@ -12,14 +12,14 @@ import io.realm.annotations.PrimaryKey;
 /**
  * @author pedroscott. scott7462@gmail.com
  * @version 7/14/16.
- * <p>
- * Copyright (C) 2015 The Android Open Source Project
- * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- *  @see <a href = "http://www.aprenderaprogramar.com" /> http://www.apache.org/licenses/LICENSE-2.0 </a>
+ *          <p>
+ *          Copyright (C) 2015 The Android Open Source Project
+ *          <p/>
+ *          Licensed under the Apache License, Version 2.0 (the "License");
+ *          you may not use this file except in compliance with the License.
+ *          You may obtain a copy of the License at
+ *          <p/>
+ * @see <a href = "http://www.aprenderaprogramar.com" /> http://www.apache.org/licenses/LICENSE-2.0 </a>
  * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,7 +28,7 @@ import io.realm.annotations.PrimaryKey;
  * limitations under the License.
  */
 
-public class User extends RealmObject implements Parcelable {
+public class User implements Parcelable {
 
     @PrimaryKey
     @SerializedName("id")
@@ -46,6 +46,9 @@ public class User extends RealmObject implements Parcelable {
     @SerializedName("birthday")
     @Expose
     private long birthday;
+    @SerializedName("toke")
+    @Expose
+    private Token token;
 
     public String getId() {
         return id;
@@ -87,6 +90,47 @@ public class User extends RealmObject implements Parcelable {
         this.birthday = birthday;
     }
 
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
+    }
+
+    public User withId(String id) {
+        setId(id);
+        return this;
+    }
+
+
+    public User withName(String name) {
+        setName(name);
+        return this;
+    }
+
+
+    public User withLastName(String lastName) {
+        setLastName(lastName);
+        return this;
+    }
+
+
+    public User withEmail(String email) {
+        setEmail(email);
+        return this;
+    }
+
+    public User withBirthday(long birthday) {
+        setBirthday(birthday);
+        return this;
+    }
+
+    public User withToken(Token token) {
+        setToken(token);
+        return this;
+    }
+
 
     @Override
     public int describeContents() {
@@ -100,17 +144,19 @@ public class User extends RealmObject implements Parcelable {
         dest.writeString(this.lastName);
         dest.writeString(this.email);
         dest.writeLong(this.birthday);
+        dest.writeParcelable(this.token, flags);
     }
 
     public User() {
     }
 
-    private User(Parcel in) {
+    protected User(Parcel in) {
         this.id = in.readString();
         this.name = in.readString();
         this.lastName = in.readString();
         this.email = in.readString();
         this.birthday = in.readLong();
+        this.token = in.readParcelable(Token.class.getClassLoader());
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

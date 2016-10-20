@@ -16,6 +16,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 import scott.com.workhard.R;
 import scott.com.workhard.app.ui.ActivityMain;
 import scott.com.workhard.app.ui.init.register.RegisterActivity;
@@ -45,7 +47,15 @@ public class BaseActivity extends AppCompatActivity {
     private final ArrayList<String> titleStack = new ArrayList<>();
     private Toolbar toolbar;
     private ProgressDialog progress;
+    private CompositeSubscription subscription;
 
+    public CompositeSubscription getSubscription() {
+        return subscription;
+    }
+
+    public void addSubscription(Subscription subscription) {
+        getSubscription().add(subscription);
+    }
     /**
      * Get the toolbar in the baseActivity instance.
      */
@@ -56,6 +66,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        subscription = new CompositeSubscription();
         EventBus.getDefault().register(this);
         progress = new ProgressDialog(this);
     }
@@ -63,6 +74,9 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
+        if (subscription != null) {
+            subscription.unsubscribe();
+        }
         super.onDestroy();
     }
 

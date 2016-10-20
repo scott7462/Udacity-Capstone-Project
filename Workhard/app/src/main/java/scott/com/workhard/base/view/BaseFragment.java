@@ -58,10 +58,10 @@ public class BaseFragment extends Fragment {
     @Override
     public void onDetach() {
         EventBus.getDefault().unregister(this);
-        super.onDetach();
         if (subscription != null) {
             subscription.unsubscribe();
         }
+        super.onDetach();
     }
 
     @Subscribe

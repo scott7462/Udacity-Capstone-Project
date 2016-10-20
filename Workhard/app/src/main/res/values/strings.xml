@@ -166,5 +166,11 @@
     <string name="frg_do_workout_do_other_round">Do other round</string>
     <string name="frg_do_workout_complete_alert">OK! Are you sure that you do not want continue training?</string>
     <string name="frg_do_workout_other_round_alert">Excellent! Are you sure to do another round?</string>
+    <string name="error_invalid_email">Invalid email</string>
+    <string name="error_invalid_password">Invalid password</string>
+    <string name="error_invalid_password_min">Password need 6 characters</string>
+    <string name="error_twitter_connection">Imposible login with twitter now please try late.</string>
+    <string name="error_login_with_google_email">The email is requiered to login with google account.</string>
+    <string name="error_login_with_google">Error trying to login with Google please try later.</string>
 
 </resources>

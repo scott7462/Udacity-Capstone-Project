@@ -1,5 +1,6 @@
 package scott.com.workhard.app.ui.init;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,13 +17,24 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
-import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.app.ui.init.login.LoginFragment;
+import scott.com.workhard.base.view.BaseActivity;
+import scott.com.workhard.bus.event.EventSnackBar;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -43,8 +55,9 @@ import scott.com.workhard.app.ui.init.login.LoginFragment;
  * limitations under the License.
  */
 
-public class InitActivity extends BaseActivity implements
-        GoogleApiClient.OnConnectionFailedListener {
+public class ActivityInit extends BaseActivity implements
+        GoogleApiClient.OnConnectionFailedListener,
+        MultiplePermissionsListener {
 
     private static final int RC_SIGN_IN = 9001;
 
@@ -63,6 +76,7 @@ public class InitActivity extends BaseActivity implements
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         setToolbar(toolbar);
+        Dexter.checkPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         savedFragmentState(savedInstanceState);
         googleSingIn();
         facebookInit();
@@ -79,10 +93,7 @@ public class InitActivity extends BaseActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         getCallbackManager().onActivityResult(requestCode, resultCode, data);
         getCurrentFrgToTwitter(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
-        }
+        handleSignInResult(resultCode, data);
     }
 
     public CallbackManager getCallbackManager() {
@@ -90,7 +101,7 @@ public class InitActivity extends BaseActivity implements
     }
 
     public static void newInstance(Activity activity) {
-        activity.startActivity(new Intent(activity, InitActivity.class));
+        activity.startActivity(new Intent(activity, ActivityInit.class));
     }
 
     private void googleSingIn() {
@@ -117,11 +128,20 @@ public class InitActivity extends BaseActivity implements
         }
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
-        if (result.isSuccess()) {
-            GoogleSignInAccount acct = result.getSignInAccount();
-            if (getCurrentFrg() instanceof LoginFragment) {
-
+    private void handleSignInResult(int requestCode, Intent data) {
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                GoogleSignInAccount acct = result.getSignInAccount();
+                if (getCurrentFrg() instanceof LoginFragment) {
+                    if (acct != null && acct.getEmail() != null) {
+                        ((LoginFragment) getCurrentFrg()).loginWithGoogle(acct.getEmail(), acct.getGivenName(), acct.getFamilyName(), acct.getId());
+                    }
+                } else {
+                    EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.error_login_with_google_email)));
+                }
+            } else {
+                EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.error_login_with_google)));
             }
         }
     }
@@ -146,6 +166,27 @@ public class InitActivity extends BaseActivity implements
     @OnClick(R.id.fBFrgSingIn)
     public void goToRegister() {
         goToRegister(fBFrgSingIn);
+    }
+
+    @Override
+    public void onPermissionsChecked(MultiplePermissionsReport report) {
+        if (report.areAllPermissionsGranted() && report.getGrantedPermissionResponses().size() == 2) {
+            for (PermissionGrantedResponse permissionGrantedResponse : report.getGrantedPermissionResponses()) {
+                if (!validatePermission(permissionGrantedResponse)) {
+                    finish();
+                }
+            }
+        }
+    }
+
+    private boolean validatePermission(PermissionGrantedResponse permissionGrantedResponse) {
+        return permissionGrantedResponse.getPermissionName().equals(Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                permissionGrantedResponse.getPermissionName().equals(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    @Override
+    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+        token.continuePermissionRequest();
     }
 
 }

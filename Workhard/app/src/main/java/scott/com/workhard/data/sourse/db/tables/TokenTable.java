@@ -1,10 +1,10 @@
-package scott.com.workhard.app.ui;
+package scott.com.workhard.data.sourse.db.tables;
 
-import scott.com.workhard.base.presenter.BasePresenterListener;
+import io.realm.RealmObject;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 10/10/16.
+ * @version 10/17/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -22,8 +22,22 @@ import scott.com.workhard.base.presenter.BasePresenterListener;
  */
 
 
-public interface MainActivityPresenterListener extends BasePresenterListener{
+public class TokenTable extends RealmObject{
 
+    private String accessToken;
 
+    public TokenTable(String accessToken) {
+        this.accessToken = accessToken;
+    }
 
+    public TokenTable() {
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 }
