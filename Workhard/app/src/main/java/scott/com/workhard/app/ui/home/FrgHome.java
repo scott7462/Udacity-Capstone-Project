@@ -21,14 +21,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
+import scott.com.workhard.app.ui.home.adapter.AdapterWorkout;
+import scott.com.workhard.app.ui.home.presenter.PresenterWorkouts;
+import scott.com.workhard.app.ui.home.presenter.WorkoutsPresenterListener;
 import scott.com.workhard.app.ui.workout_create.ActivityCreateWorkout;
 import scott.com.workhard.app.ui.workout_do.ActivityDoWorkout;
-import scott.com.workhard.app.ui.home.adapter.AdapterWorkout;
-import scott.com.workhard.app.ui.workout_resume.FrgWorkoutResume;
 import scott.com.workhard.app.ui.workout_resume.ActivityWorkoutResume;
+import scott.com.workhard.app.ui.workout_resume.FrgWorkoutResume;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.base.view.BaseSimpleAdapter;
-import scott.com.workhard.entities.Exercise;
 import scott.com.workhard.entities.Workout;
 import scott.com.workhard.utils.SpacesItemDecoration;
 
@@ -50,13 +51,14 @@ import scott.com.workhard.utils.SpacesItemDecoration;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class FrgHome extends BaseFragment {
+public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
 
     private static final String TYPE_VIEW_ADAPTER = "type_view_adapter";
     @BindView(R.id.rVFrgHome)
     RecyclerView rVFrgHome;
     @BindView(R.id.fBHomeAddWorkout)
     FloatingActionButton fBHomeAddWorkout;
+    PresenterWorkouts presenter;
 
     private List<Workout> workouts = new ArrayList<>();
     private AdapterWorkout adapter;
@@ -65,11 +67,30 @@ public class FrgHome extends BaseFragment {
     public static final int HISTORY = 4321;
     public static final int MY_WORKOUTS = 1987;
 
+    @Override
+    public void showProgressIndicator(String message) {
+
+    }
+
+    @Override
+    public void removeProgressIndicator() {
+
+    }
+
+    @Override
+    public void showMessage(int stringId) {
+
+    }
+
+    @Override
+    public void onLoadWorkoutLoad(List<Workout> workouts) {
+        adapter.cleanItemsAndUpdate(workouts);
+    }
+
     @IntDef({HOME, HISTORY, MY_WORKOUTS})
     @Retention(RetentionPolicy.SOURCE)
     public @interface typeToView {
     }
-
 
     public static Fragment newInstance(@typeToView int typeView) {
         FrgHome frgHome = new FrgHome();
@@ -87,6 +108,7 @@ public class FrgHome extends BaseFragment {
 
     private void initVars() {
         setHasOptionsMenu(true);
+        presenter.doGetWorkouts();
         if (getArguments() != null) {
             switch (getArguments().getInt(TYPE_VIEW_ADAPTER)) {
                 case HISTORY: {
@@ -115,7 +137,7 @@ public class FrgHome extends BaseFragment {
                         break;
                     }
                     default: {
-                        ActivityDoWorkout.newInstance(getActivity(), ActivityDoWorkout.NEW_WORKOUT ,item);
+                        ActivityDoWorkout.newInstance(getActivity(), ActivityDoWorkout.NEW_WORKOUT, item);
                         break;
                     }
                 }
@@ -123,62 +145,62 @@ public class FrgHome extends BaseFragment {
         });
         adapter.showEmptyState(true);
 
-
-        List<Exercise> exercises = new ArrayList<>();
-        exercises.add(new Exercise().withName("1")
-                .withRepetitions(60)
-                .withId("1")
-                .withDescription(getString(R.string.text_exercise))
-                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-        exercises.add(new Exercise().withName("2")
-                .withRepetitions(20)
-                .withId("2")
-                .withDescription(getString(R.string.text_exercise))
-                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-
-        exercises.add(new Exercise().withName("3")
-                .withRepetitions(20)
-                .withId("3")
-                .withDescription(getString(R.string.text_exercise))
-                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-
-        exercises.add(new Exercise().withName("4")
-                .withRepetitions(20)
-                .withId("4")
-                .withDescription(getString(R.string.text_exercise))
-                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-
-        exercises.add(new Exercise().withName("5")
-                .withRepetitions(20)
-                .withId("5")
-                .withDescription(getString(R.string.text_exercise))
-                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-
-        exercises.add(new Exercise().withName("6")
-                .withRepetitions(20)
-                .withId("6")
-                .withDescription(getString(R.string.text_exercise))
-                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-
-        exercises.add(new Exercise().withName("7")
-                .withRepetitions(20)
-                .withId("7")
-                .withDescription(getString(R.string.text_exercise))
-                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-        workouts.add(new Workout()
-                .withId("342")
-                .withName("Test Name")
-                .withRestBetweenExercise(10)
-                .withRestRoundsExercise(15)
-                .withRounds(2)
-                .withDateCompleted("07 Nov 2016")
-                .withExercises(exercises));
-        workouts.add(new Workout());
-        workouts.add(new Workout());
-        workouts.add(new Workout());
-        workouts.add(new Workout());
-        workouts.add(new Workout());
-        workouts.add(new Workout());
+//
+//        List<Exercise> exercises = new ArrayList<>();
+//        exercises.add(new Exercise().withName("1")
+//                .withRepetitions(60)
+//                .withId("1")
+//                .withDescription(getString(R.string.text_exercise))
+//                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
+//        exercises.add(new Exercise().withName("2")
+//                .withRepetitions(20)
+//                .withId("2")
+//                .withDescription(getString(R.string.text_exercise))
+//                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
+//
+//        exercises.add(new Exercise().withName("3")
+//                .withRepetitions(20)
+//                .withId("3")
+//                .withDescription(getString(R.string.text_exercise))
+//                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
+//
+//        exercises.add(new Exercise().withName("4")
+//                .withRepetitions(20)
+//                .withId("4")
+//                .withDescription(getString(R.string.text_exercise))
+//                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
+//
+//        exercises.add(new Exercise().withName("5")
+//                .withRepetitions(20)
+//                .withId("5")
+//                .withDescription(getString(R.string.text_exercise))
+//                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
+//
+//        exercises.add(new Exercise().withName("6")
+//                .withRepetitions(20)
+//                .withId("6")
+//                .withDescription(getString(R.string.text_exercise))
+//                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
+//
+//        exercises.add(new Exercise().withName("7")
+//                .withRepetitions(20)
+//                .withId("7")
+//                .withDescription(getString(R.string.text_exercise))
+//                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
+//        workouts.add(new Workout()
+//                .withId("342")
+//                .withName("Test Name")
+//                .withRestBetweenExercise(10)
+//                .withRestRoundsExercise(15)
+//                .withRounds(2)
+//                .withDateCompleted("07 Nov 2016")
+//                .withExercises(exercises));
+//        workouts.add(new Workout());
+//        workouts.add(new Workout());
+//        workouts.add(new Workout());
+//        workouts.add(new Workout());
+//        workouts.add(new Workout());
+//        workouts.add(new Workout());
         adapter.addItems(workouts);
 
     }
@@ -223,16 +245,14 @@ public class FrgHome extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        presenter = new DoWorkoutPresenter();
-//        presenter.attachView(this);
+        presenter = new PresenterWorkouts();
+        presenter.attachView(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-//        presenter.detachView();
+        presenter.detachView();
     }
-
-
 
 }

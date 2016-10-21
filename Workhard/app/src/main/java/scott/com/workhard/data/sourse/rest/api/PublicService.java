@@ -4,6 +4,7 @@ import rx.Observable;
 import scott.com.workhard.data.sourse.rest.request.RequestLogin;
 import scott.com.workhard.data.sourse.rest.response.ResponseExercises;
 import scott.com.workhard.data.sourse.rest.response.ResponseLogin;
+import scott.com.workhard.data.sourse.rest.response.ResponseWorkout;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -27,6 +28,7 @@ import scott.com.workhard.data.sourse.rest.response.ResponseLogin;
 public class PublicService {
 
     private final ApiClient apiService;
+    private Observable workouts;
 
     public PublicService(ApiClient apiService) {
         this.apiService = apiService;
@@ -41,4 +43,7 @@ public class PublicService {
     }
 
 
+    public Observable<ResponseWorkout> getWorkouts() {
+        return apiService.workouts();
+    }
 }

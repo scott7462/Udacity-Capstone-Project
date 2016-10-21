@@ -8,9 +8,10 @@ import rx.Observable;
 import scott.com.workhard.data.sourse.rest.request.RequestLogin;
 import scott.com.workhard.data.sourse.rest.response.ResponseExercises;
 import scott.com.workhard.data.sourse.rest.response.ResponseLogin;
+import scott.com.workhard.data.sourse.rest.response.ResponseWorkout;
 
 /**
- * @author  pedroscott
+ * @author pedroscott
  * @version: 7/14/16.
  * <p>
  * Copyright (C) 2015 The Android Open Source Project
@@ -19,7 +20,7 @@ import scott.com.workhard.data.sourse.rest.response.ResponseLogin;
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * <p/>
- *  @see <a href = "http://www.aprenderaprogramar.com" /> http://www.apache.org/licenses/LICENSE-2.0 </a>
+ * @see <a href = "http://www.aprenderaprogramar.com" /> http://www.apache.org/licenses/LICENSE-2.0 </a>
  * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,4 +35,7 @@ public interface ApiClient {
 
     @GET("exercises")
     Observable<ResponseExercises> exercises();
+
+    @GET("workouts")
+    Observable<ResponseWorkout> workouts();
 }

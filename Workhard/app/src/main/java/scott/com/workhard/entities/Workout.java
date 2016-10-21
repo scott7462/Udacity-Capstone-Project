@@ -80,7 +80,7 @@ public class Workout implements Parcelable {
     @SerializedName("date_completed")
     @Expose
     private String dateCompleted;
-    @SerializedName("list_exercise")
+    @SerializedName("exercises")
     @Expose
     private List<Exercise> exerciseList = new ArrayList<>();
     private boolean errorMessageInName;

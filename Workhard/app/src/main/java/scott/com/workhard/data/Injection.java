@@ -9,6 +9,9 @@ import scott.com.workhard.data.models.exercise.remote.ExerciseRemoteData;
 import scott.com.workhard.data.models.session.SessionDataManager;
 import scott.com.workhard.data.models.session.sourse.local.SessionLocalData;
 import scott.com.workhard.data.models.session.sourse.remote.SessionRemoteData;
+import scott.com.workhard.data.models.workout.WorkoutDataManager;
+import scott.com.workhard.data.models.workout.local.WorkoutLocal;
+import scott.com.workhard.data.models.workout.remote.WorkoutRemote;
 
 /**
  * Created by androiddev3 on 10/5/16.
@@ -18,6 +21,10 @@ public class Injection {
 
     public static CurrentWorkoutDataManager provideCurrentWorkoutRepository() {
         return CurrentWorkoutDataManager.newInstance(CurrentWorkoutRemote.newInstance(), CurrentWorkoutLocal.newInstance());
+    }
+
+    public static WorkoutDataManager provideWorkoutsRepository() {
+        return WorkoutDataManager.newInstance(WorkoutRemote.newInstance(), WorkoutLocal.newInstance());
     }
 
     public static ExerciseDataManager provideExercisesRepository() {
