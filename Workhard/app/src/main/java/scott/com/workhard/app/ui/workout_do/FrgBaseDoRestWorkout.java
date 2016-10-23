@@ -53,7 +53,7 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class FrgDoRestWorkout extends BaseFragment {
+public class FrgBaseDoRestWorkout extends BaseFragment {
 
     private static final String TIMER = "timer_to_rest";
     @BindView(R.id.tVFrgDoWorkoutTime)
@@ -66,11 +66,11 @@ public class FrgDoRestWorkout extends BaseFragment {
     private int currentTimer = 0;
     private Workout workout;
 
-    public static FrgDoRestWorkout newInstance(Workout workout, int timer) {
+    public static FrgBaseDoRestWorkout newInstance(Workout workout, int timer) {
         Bundle args = new Bundle();
         args.putInt(TIMER, timer);
         args.putParcelable(Workout.WORKOUT_ARG, workout);
-        FrgDoRestWorkout fragment = new FrgDoRestWorkout();
+        FrgBaseDoRestWorkout fragment = new FrgBaseDoRestWorkout();
         fragment.setArguments(args);
         return fragment;
     }
@@ -90,7 +90,7 @@ public class FrgDoRestWorkout extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frg_rest_workout, container, false);
+        View view = inflater.inflate(R.layout.frg_do_rest_workout, container, false);
         ButterKnife.bind(this, view);
         intViews();
         return view;
@@ -208,4 +208,6 @@ public class FrgDoRestWorkout extends BaseFragment {
     public void onClickFinish() {
         finishWorkout();
     }
+
+
 }

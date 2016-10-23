@@ -2,7 +2,6 @@ package scott.com.workhard.app.ui.workout_do;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
@@ -48,7 +47,7 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class FrgDoWorkout extends BaseFragment {
+public abstract class FrgBaseDoWorkout extends BaseFragment {
 
     @BindView(R.id.tVFrgDoWorkoutName)
     TextView tVFrgDoWorkoutName;
@@ -70,14 +69,6 @@ public class FrgDoWorkout extends BaseFragment {
     private Workout workout;
     private Exercise exercise;
 
-    public static FrgDoWorkout newInstance(@NonNull Workout workout) {
-        Bundle args = new Bundle();
-        args.putParcelable(Workout.WORKOUT_ARG, workout);
-        FrgDoWorkout fragment = new FrgDoWorkout();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,11 +86,12 @@ public class FrgDoWorkout extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frg_do_workout, container, false);
         ButterKnife.bind(this, view);
-        intViews();
+        initBaseViews();
+        initViews();
         return view;
     }
 
-    private void intViews() {
+    protected void initBaseViews() {
         tVFrgDoWorkoutName.setText(exercise.getName());
         loadNextExercise();
         tVFrgDoWorkoutReps.setText(getString(R.string.frg_do_workout_number_of_repetitions, exercise.getRepetition()));
@@ -198,4 +190,7 @@ public class FrgDoWorkout extends BaseFragment {
                 break;
         }
     }
+
+    abstract protected void initViews();
+
 }

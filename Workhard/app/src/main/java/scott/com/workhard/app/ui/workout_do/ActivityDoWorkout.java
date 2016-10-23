@@ -125,13 +125,13 @@ public class ActivityDoWorkout extends BaseActivity implements DoWorkoutPresente
         if (workout != null) {
             switch (workout.getStatus()) {
                 case Workout.DOING_EXERCISE:
-                    navigateMainContent(FrgDoWorkout.newInstance(workout),workout.getName());
+                    navigateMainContent(FrgDoWorkout.newInstance(workout), workout.getName());
                     break;
                 case Workout.RECOVERY_TIME:
-                    navigateMainContent(FrgDoRestWorkout.newInstance(workout, workout.getRestBetweenExercise()),workout.getName());
+                    navigateMainContent(FrgDoRestWorkout.newInstance(workout, workout.getRestBetweenExercise()), workout.getName());
                     break;
                 case Workout.RECOVERY_TIME_LARGE:
-                    navigateMainContent(FrgDoRestWorkout.newInstance(workout, workout.getRestRoundsExercise()),workout.getName());
+                    navigateMainContent(FrgDoRestWorkout.newInstance(workout, workout.getRestRoundsExercise()), workout.getName());
                     break;
                 case Workout.COMPLETED:
                     finish();
@@ -184,7 +184,6 @@ public class ActivityDoWorkout extends BaseActivity implements DoWorkoutPresente
     public void showMessage(int stringId) {
 
     }
-
 
 
     private void initWorkout() {

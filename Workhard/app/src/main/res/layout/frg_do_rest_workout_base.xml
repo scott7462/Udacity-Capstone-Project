@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary_dark"
+        android:contentDescription="@string/frg_rest_workout_cd_recovery_time"
+        android:gravity="center"
+        android:padding="@dimen/default_large_size"
+        android:text="@string/frg_rest_workout_recovery_time"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+        android:textColor="@color/primary_light"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tVFrgDoWorkoutTime"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="@dimen/frg_do_workout_clock_size"
+        tools:text="30 seg" />
+
+    <include layout="@layout/frg_do_workout_next_buttons" />
+
+</LinearLayout>
