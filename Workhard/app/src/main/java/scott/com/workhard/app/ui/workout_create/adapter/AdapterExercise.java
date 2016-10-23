@@ -2,7 +2,6 @@ package scott.com.workhard.app.ui.workout_create.adapter;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -27,6 +26,7 @@ import butterknife.OnClick;
 import scott.com.workhard.R;
 import scott.com.workhard.app.App;
 import scott.com.workhard.base.view.BaseFilterSimpleAdapter;
+import scott.com.workhard.base.view.BaseSimpleAdapter;
 import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.entities.Exercise;
 import scott.com.workhard.entities.Workout;
@@ -49,7 +49,7 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerView.ViewHolder> {
+public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, BaseSimpleAdapter.BaseViewHolder<Exercise>> {
 
     private onHeaderClickListener onHeaderClickListener;
     private onExerciseClickListener onExerciseClickListener;
@@ -88,7 +88,7 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder<Exercise> onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case LOADING_VIEW: {
                 return new EmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_loading, parent, false));
@@ -108,29 +108,8 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
         }
     }
 
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        switch (holder.getItemViewType()) {
-            case EMPTY_VIEW: {
-                break;
-            }
-            case LOADING_VIEW: {
-                break;
-            }
-            case LOAD_MORE_VIEW: {
-                break;
-            }
-            case HEADER_VIEW: {
-                ((HeaderHolder) holder).bindView();
-                break;
-            }
-            default: {
-                ((ExerciseHolder) holder).bindView(getItem(position));
-            }
-        }
-    }
 
-    class HeaderHolder extends RecyclerView.ViewHolder {
+    class HeaderHolder extends EmptyViewHolder<Exercise> {
 
         @BindView(R.id.eTFrgCreateWorkoutName)
         EditText eTFrgCreateWorkoutName;
@@ -236,13 +215,15 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
             updateViewsTimes();
         }
 
-        public void bindView() {
+        @Override
+        protected void bindView() {
+            super.bindView();
             eTFrgCreateWorkoutName.setText(workout.getName());
             updateViewsTimes();
         }
     }
 
-    class ExerciseHolder extends RecyclerView.ViewHolder {
+    class ExerciseHolder extends BaseViewHolder<Exercise> {
         @BindView(R.id.iVItemExerciseMove)
         ImageView iVItemExerciseMove;
         @BindView(R.id.tVItemExerciseName)
@@ -271,7 +252,8 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
             });
         }
 
-        void bindView(Exercise exercise) {
+        @Override
+        protected void bindView(Exercise exercise) {
             tVItemExerciseName.setText(exercise.getName());
             tVItemExerciseRepetitions.setText(tVItemExerciseRepetitions.getContext()
                     .getString(R.string.frg_create_workout_item_exercise, exercise.getRepetition()));
@@ -357,7 +339,7 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, RecyclerV
     }
 
     @Override
-    protected boolean ifValidCondition(Exercise exercise) {
+    public boolean ifValidCondition(Exercise exercise) {
         return exercise.isChecked();
     }
 

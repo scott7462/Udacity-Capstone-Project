@@ -21,10 +21,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
-import scott.com.workhard.app.ui.workout_create.adapter.AdapterExercise;
 import scott.com.workhard.app.ui.exercise.ExerciseActivity;
 import scott.com.workhard.app.ui.select_exercise.presenter.ExercisesPresenterListener;
 import scott.com.workhard.app.ui.select_exercise.presenter.PresenterExercises;
+import scott.com.workhard.app.ui.workout_create.adapter.AdapterExercise;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.base.view.BaseSimpleAdapter;
 import scott.com.workhard.bus.event.EventAddExercises;
@@ -81,7 +81,7 @@ public class FrgSelectExercise extends BaseFragment implements ExercisesPresente
                 getActivity().invalidateOptionsMenu();
             }
         });
-        adapter.addOnClickListener(new BaseSimpleAdapter.onItemClickListener<Exercise>() {
+        adapter.addClickListener(new BaseSimpleAdapter.onItemClickListener<Exercise>() {
             @Override
             public void onItemViewsClick(Exercise item, int position) {
                 ExerciseActivity.newInstance(getActivity(), item);

@@ -1,7 +1,10 @@
 package scott.com.workhard.app.ui.home.presenter;
 
+import android.support.annotation.IntDef;
 import android.util.Log;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import rx.Subscriber;
@@ -9,7 +12,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import scott.com.workhard.base.presenter.BasePresenter;
 import scott.com.workhard.data.Injection;
-import scott.com.workhard.entities.User;
 import scott.com.workhard.entities.Workout;
 
 /**
@@ -34,10 +36,97 @@ import scott.com.workhard.entities.Workout;
 
 public class PresenterWorkouts extends BasePresenter<WorkoutsPresenterListener> {
 
+    public static final int HOME = 1234;
+    public static final int HISTORY = 4321;
+    public static final int MY_WORKOUTS = 1987;
 
-    public void doGetWorkouts() {
+    @TypeCalls
+    public int getTypeCall(int anInt) {
+        switch (anInt) {
+            case HOME:
+                return HOME;
+            case HISTORY:
+                return HISTORY;
+            case MY_WORKOUTS:
+                return MY_WORKOUTS;
+        }
+        return HOME;
+    }
+
+    @IntDef({HOME, HISTORY, MY_WORKOUTS})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TypeCalls {
+    }
+
+    public void doGetWorkouts(@TypeCalls int typeCall) {
+        switch (typeCall) {
+            case HOME:
+                doCallGeneralWorkouts();
+                break;
+
+            case HISTORY:
+                doCallWorkoutsHistory();
+                break;
+
+            case MY_WORKOUTS:
+                doCallMyWorkouts();
+                break;
+        }
+
+    }
+
+    private void doCallMyWorkouts() {
         setSubscription(Injection.provideWorkoutsRepository()
-                .findAll().subscribe(new Subscriber<List<Workout>>() {
+                .findMyWorkouts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Workout>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("Test", e.toString());
+                    }
+
+                    @Override
+                    public void onNext(List<Workout> workouts) {
+                        getViewListener().onLoadWorkoutLoad(workouts);
+                    }
+                }));
+    }
+
+    private void doCallWorkoutsHistory() {
+        setSubscription(Injection.provideWorkoutsRepository()
+                .findHistoriesWorkouts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Workout>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("Test", e.toString());
+                    }
+
+                    @Override
+                    public void onNext(List<Workout> workouts) {
+                        getViewListener().onLoadWorkoutLoad(workouts);
+                    }
+                }));
+    }
+
+    private void doCallGeneralWorkouts() {
+        setSubscription(Injection.provideWorkoutsRepository()
+                .findMyWorkouts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Workout>>() {
                     @Override
                     public void onCompleted() {
 

@@ -1,6 +1,5 @@
 package scott.com.workhard.base.view;
 
-import android.support.v7.widget.RecyclerView;
 import android.widget.Filter;
 import android.widget.Filterable;
 
@@ -26,7 +25,7 @@ import java.util.List;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public abstract class BaseFilterSimpleAdapter<T, H extends RecyclerView.ViewHolder> extends BaseSimpleAdapter<T, H>
+public abstract class BaseFilterSimpleAdapter<T, H extends BaseSimpleAdapter.BaseViewHolder<T>> extends BaseSimpleAdapter<T, H>
         implements Filterable {
 
     private int minNumberToCleanFilter = 0;

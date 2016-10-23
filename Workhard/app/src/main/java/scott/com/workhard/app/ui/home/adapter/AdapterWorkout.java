@@ -1,7 +1,6 @@
 package scott.com.workhard.app.ui.home.adapter;
 
 import android.support.annotation.IntDef;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
 import scott.com.workhard.base.view.BaseFilterSimpleAdapter;
+import scott.com.workhard.base.view.BaseSimpleAdapter;
 import scott.com.workhard.entities.Workout;
 
 /**
@@ -34,7 +34,7 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerView.ViewHolder> {
+public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout,BaseSimpleAdapter.BaseViewHolder<Workout>> {
 
     public static final int HOME = 1234;
     public static final int HISTORY = 4321;
@@ -43,13 +43,12 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
     @typeToView
     private int typeView;
 
-    @Override
-    protected boolean searchCondition(Workout item, String query) {
-        return false;
+    public int getTypeView() {
+        return typeView;
     }
 
     @Override
-    protected boolean ifValidCondition(Workout workout) {
+    protected boolean searchCondition(Workout item, String query) {
         return false;
     }
 
@@ -66,7 +65,7 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder<Workout> onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case LOADING_VIEW: {
                 return new EmptyViewHomeHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_loading, parent, false));
@@ -80,23 +79,7 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
         }
     }
 
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        switch (holder.getItemViewType()) {
-            case EMPTY_VIEW: {
-                ((EmptyViewHomeHolder) holder).bindView();
-                break;
-            }
-            case LOADING_VIEW: {
-                break;
-            }
-            default: {
-                ((WorkoutHolder) holder).bindView(getItem(position));
-            }
-        }
-    }
-
-    class WorkoutHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class WorkoutHolder extends BaseViewHolder<Workout> implements View.OnClickListener {
 
         @BindView(R.id.tVItemWorkoutName)
         TextView tVItemWorkoutName;
@@ -115,11 +98,8 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
             initListeners();
         }
 
-        private void initListeners() {
-            itemView.setOnClickListener(this);
-        }
-
-        void bindView(Workout workout) {
+        @Override
+        protected void bindView(Workout workout) {
             tVItemWorkoutName.setText(workout.getName());
             tVItemWorkoutRounds.setText(tVItemWorkoutRounds.getContext()
                     .getString(R.string.frg_item_workout_rounds_number, workout.getRounds()));
@@ -131,13 +111,18 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
             tVItemWorkoutDate.setText(workout.getDateCompleted());
         }
 
+        private void initListeners() {
+            itemView.setOnClickListener(this);
+        }
+
+
         @Override
         public void onClick(View v) {
             callItemListenerByPosition(getAdapterPosition());
         }
     }
 
-    public class EmptyViewHomeHolder extends RecyclerView.ViewHolder {
+    public class EmptyViewHomeHolder extends EmptyViewHolder<Workout> {
 
         @BindView(R.id.tVFrgHomeEmpty)
         TextView tVFrgHomeEmpty;
@@ -147,7 +132,9 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
             ButterKnife.bind(this, itemView);
         }
 
-        void bindView() {
+        @Override
+        protected void bindView() {
+            super.bindView();
             switch (typeView) {
                 case HOME:
                     tVFrgHomeEmpty.setText(tVFrgHomeEmpty.getContext().getString(R.string.frg_home_empty_home));
@@ -160,8 +147,6 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout, RecyclerVie
                     break;
             }
         }
-
-
     }
 
 

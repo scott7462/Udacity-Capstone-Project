@@ -7,12 +7,9 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import scott.com.workhard.R;
 import scott.com.workhard.app.App;
-import scott.com.workhard.data.models.current_workout.CurrentWorkoutRepository;
 import scott.com.workhard.data.models.workout.WorkoutRepository;
 import scott.com.workhard.data.sourse.rest.api.RestClient;
-import scott.com.workhard.data.sourse.rest.response.ResponseExercises;
 import scott.com.workhard.data.sourse.rest.response.ResponseWorkout;
-import scott.com.workhard.entities.Exercise;
 import scott.com.workhard.entities.Workout;
 
 /**
@@ -68,4 +65,29 @@ public class WorkoutRemote implements WorkoutRepository {
                 });
     }
 
+    @Override
+    public Observable<List<Workout>> findMyWorkouts() {
+        return getRestClientPublic().getPublicService().getMyWorkouts()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
+                .flatMap(new Func1<ResponseWorkout, Observable<List<Workout>>>() {
+                    @Override
+                    public Observable<List<Workout>> call(ResponseWorkout responseWorkout) {
+                        return Observable.just(responseWorkout.getWorkouts());
+                    }
+                });
+    }
+
+    @Override
+    public Observable<List<Workout>> findHistoriesWorkouts() {
+        return getRestClientPublic().getPublicService().getHistoriesWorkouts()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
+                .flatMap(new Func1<ResponseWorkout, Observable<List<Workout>>>() {
+                    @Override
+                    public Observable<List<Workout>> call(ResponseWorkout responseWorkout) {
+                        return Observable.just(responseWorkout.getWorkouts());
+                    }
+                });
+    }
 }

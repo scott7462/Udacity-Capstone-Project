@@ -73,7 +73,6 @@ public class FrgCreateWorkout extends BaseFragment {
     private void initVars() {
         setHasOptionsMenu(true);
         adapter.showHeaderView(true);
-        adapter.showEmptyState(true);
         adapter.setWorkout((Workout) getArguments().getParcelable(Workout.WORKOUT_ARG) != null ?
                 (Workout) getArguments().getParcelable(Workout.WORKOUT_ARG) : new Workout());
         adapter.addHeaderClickListener(new AdapterExercise.onHeaderClickListener() {

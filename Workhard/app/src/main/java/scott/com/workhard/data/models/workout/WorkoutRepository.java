@@ -1,5 +1,8 @@
 package scott.com.workhard.data.models.workout;
 
+import java.util.List;
+
+import rx.Observable;
 import scott.com.workhard.base.model.Repository;
 import scott.com.workhard.entities.Workout;
 
@@ -25,5 +28,8 @@ import scott.com.workhard.entities.Workout;
 
 public interface WorkoutRepository extends Repository<Workout> {
 
+    Observable<List<Workout>> findMyWorkouts();
+
+    Observable<List<Workout>> findHistoriesWorkouts();
 
 }

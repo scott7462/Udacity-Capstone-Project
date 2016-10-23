@@ -46,4 +46,12 @@ public class PublicService {
     public Observable<ResponseWorkout> getWorkouts() {
         return apiService.workouts();
     }
+
+    public Observable<ResponseWorkout> getMyWorkouts() {
+        return apiService.myWorkouts();
+    }
+
+    public Observable<ResponseWorkout> getHistoriesWorkouts() {
+        return apiService.historiesWorkouts();
+    }
 }

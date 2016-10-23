@@ -38,4 +38,10 @@ public interface ApiClient {
 
     @GET("workouts")
     Observable<ResponseWorkout> workouts();
+
+    @GET("workouts/histories")
+    Observable<ResponseWorkout> historiesWorkouts();
+
+    @GET("workouts/my")
+    Observable<ResponseWorkout> myWorkouts();
 }

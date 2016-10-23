@@ -32,7 +32,7 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class AdapterExerciseResume extends BaseSimpleAdapter<Exercise, RecyclerView.ViewHolder> {
+public class AdapterExerciseResume extends BaseSimpleAdapter<Exercise, BaseSimpleAdapter.BaseViewHolder<Exercise>> {
 
     private Workout workout = new Workout();
 
@@ -48,16 +48,12 @@ public class AdapterExerciseResume extends BaseSimpleAdapter<Exercise, RecyclerV
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder<Exercise> onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ExerciseHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_resume, parent, false));
     }
 
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ExerciseHolder) holder).bindView(getItem(position));
-    }
 
-    public class ExerciseHolder extends RecyclerView.ViewHolder {
+    public class ExerciseHolder extends BaseViewHolder<Exercise> {
         @BindView(R.id.tVItemExerciseName)
         TextView tVItemExerciseName;
         @BindView(R.id.tVItemExerciseRepetitions)
@@ -78,7 +74,8 @@ public class AdapterExerciseResume extends BaseSimpleAdapter<Exercise, RecyclerV
             });
         }
 
-        void bindView(Exercise exercise) {
+        @Override
+        protected void bindView(Exercise exercise) {
             tVItemExerciseName.setText(exercise.getName());
             tVItemExerciseRepetitions.setText(tVItemExerciseRepetitions.getContext()
                     .getString(R.string.frg_create_workout_item_exercise, exercise.getRepetition() *
@@ -88,7 +85,7 @@ public class AdapterExerciseResume extends BaseSimpleAdapter<Exercise, RecyclerV
     }
 
     @Override
-    protected boolean ifValidCondition(Exercise exercise) {
+    public boolean ifValidCondition(Exercise exercise) {
         return exercise.isChecked();
     }
 

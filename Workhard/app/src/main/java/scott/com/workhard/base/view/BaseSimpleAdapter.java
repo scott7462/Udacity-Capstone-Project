@@ -1,5 +1,6 @@
 package scott.com.workhard.base.view;
 
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import butterknife.ButterKnife;
 
 /**
  * @author pedroscott. scott7462@gmail.com
+ * @modified Julian Cardona. julian@kogimobile.com
  * @version 9/4/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
@@ -30,7 +32,7 @@ import butterknife.ButterKnife;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> {
+public abstract class BaseSimpleAdapter<T, H extends BaseSimpleAdapter.BaseViewHolder<T>> extends RecyclerView.Adapter<H> {
 
     protected static final int EMPTY_VIEW = 2000;
     protected static final int HEADER_VIEW = 3000;
@@ -218,12 +220,12 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
         return clickListener;
     }
 
-    public void addOnClickListener(onItemClickListener<T> clickListener) {
+    public void addClickListener(onItemClickListener<T> clickListener) {
         this.clickListener = clickListener;
     }
 
     private int getPositionByRules() {
-        return ((isEmptyState() && items.size() == 0) ? 1 : 0) + (haveAdapterHeaderView() ? 1 : 0);
+        return ((isEmptyState() && items.size() == 0) ? 1 : 0);
     }
 
     public void setCallbackMoved(boolean callbackMoved) {
@@ -280,18 +282,38 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
     /**
      * Set the entry state value
      *
-     * @param entryState Is true if you want user a entry state by default is false.
+     * @param entryState Is true if you want user a entry state by default is true.
      */
     public void showEmptyState(boolean entryState) {
         this.entryState = entryState;
     }
 
-    protected class EmptyViewHolder extends RecyclerView.ViewHolder {
+    protected static class EmptyViewHolder<T> extends BaseViewHolder<T> {
 
         public EmptyViewHolder(View itemView) {
             super(itemView);
+        }
+
+        @CallSuper
+        @Override
+        public void bindView(T item) {
+
+        }
+
+        @CallSuper
+        protected void bindView() {
+
+        }
+    }
+
+    public abstract static class BaseViewHolder<T> extends RecyclerView.ViewHolder{
+
+        public BaseViewHolder(View itemView) {
+            super(itemView);
             ButterKnife.bind(this, itemView);
         }
+
+        protected abstract void bindView(T item);
     }
 
     /**
@@ -325,7 +347,6 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
      */
     public void showLoadingState(boolean loadingState) {
         this.loadingState = loadingState;
-        notifyDataSetChanged();
     }
 
     /**
@@ -476,7 +497,17 @@ public abstract class BaseSimpleAdapter<T, H extends RecyclerView.ViewHolder> ex
         return selectedItems;
     }
 
-    protected abstract boolean ifValidCondition(T t);
+    public boolean ifValidCondition(T t){
+        return true;
+    }
 
-
+    @CallSuper
+    @Override
+    public void onBindViewHolder(H holder, int position) {
+        if(holder instanceof EmptyViewHolder){
+            ((EmptyViewHolder) holder).bindView();
+        }else{
+            holder.bindView(items.get(getItemPosition(position)));
+        }
+    }
 }

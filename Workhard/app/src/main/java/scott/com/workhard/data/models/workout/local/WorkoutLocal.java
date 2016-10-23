@@ -47,4 +47,13 @@ public class WorkoutLocal implements WorkoutRepository {
     }
 
 
+    @Override
+    public Observable<List<Workout>> findMyWorkouts() {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Workout>> findHistoriesWorkouts() {
+        return null;
+    }
 }

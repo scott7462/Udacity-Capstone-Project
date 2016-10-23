@@ -6,6 +6,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -56,6 +57,8 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
     private static final String TYPE_VIEW_ADAPTER = "type_view_adapter";
     @BindView(R.id.rVFrgHome)
     RecyclerView rVFrgHome;
+    @BindView(R.id.sRFrgHome)
+    SwipeRefreshLayout sRFrgHome;
     @BindView(R.id.fBHomeAddWorkout)
     FloatingActionButton fBHomeAddWorkout;
     PresenterWorkouts presenter;
@@ -66,26 +69,6 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
     public static final int HOME = 1234;
     public static final int HISTORY = 4321;
     public static final int MY_WORKOUTS = 1987;
-
-    @Override
-    public void showProgressIndicator(String message) {
-
-    }
-
-    @Override
-    public void removeProgressIndicator() {
-
-    }
-
-    @Override
-    public void showMessage(int stringId) {
-
-    }
-
-    @Override
-    public void onLoadWorkoutLoad(List<Workout> workouts) {
-        adapter.cleanItemsAndUpdate(workouts);
-    }
 
     @IntDef({HOME, HISTORY, MY_WORKOUTS})
     @Retention(RetentionPolicy.SOURCE)
@@ -108,7 +91,6 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
 
     private void initVars() {
         setHasOptionsMenu(true);
-        presenter.doGetWorkouts();
         if (getArguments() != null) {
             switch (getArguments().getInt(TYPE_VIEW_ADAPTER)) {
                 case HISTORY: {
@@ -128,7 +110,7 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
             adapter = new AdapterWorkout(AdapterWorkout.HOME);
         }
 
-        adapter.addOnClickListener(new BaseSimpleAdapter.onItemClickListener<Workout>() {
+        adapter.addClickListener(new BaseSimpleAdapter.onItemClickListener<Workout>() {
             @Override
             public void onItemViewsClick(Workout item, int position) {
                 switch (getArguments().getInt(TYPE_VIEW_ADAPTER)) {
@@ -143,66 +125,7 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
                 }
             }
         });
-        adapter.showEmptyState(true);
-
-//
-//        List<Exercise> exercises = new ArrayList<>();
-//        exercises.add(new Exercise().withName("1")
-//                .withRepetitions(60)
-//                .withId("1")
-//                .withDescription(getString(R.string.text_exercise))
-//                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-//        exercises.add(new Exercise().withName("2")
-//                .withRepetitions(20)
-//                .withId("2")
-//                .withDescription(getString(R.string.text_exercise))
-//                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-//
-//        exercises.add(new Exercise().withName("3")
-//                .withRepetitions(20)
-//                .withId("3")
-//                .withDescription(getString(R.string.text_exercise))
-//                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-//
-//        exercises.add(new Exercise().withName("4")
-//                .withRepetitions(20)
-//                .withId("4")
-//                .withDescription(getString(R.string.text_exercise))
-//                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-//
-//        exercises.add(new Exercise().withName("5")
-//                .withRepetitions(20)
-//                .withId("5")
-//                .withDescription(getString(R.string.text_exercise))
-//                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-//
-//        exercises.add(new Exercise().withName("6")
-//                .withRepetitions(20)
-//                .withId("6")
-//                .withDescription(getString(R.string.text_exercise))
-//                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-//
-//        exercises.add(new Exercise().withName("7")
-//                .withRepetitions(20)
-//                .withId("7")
-//                .withDescription(getString(R.string.text_exercise))
-//                .withUrl("https://en.wikipedia.org/wiki/Push-up"));
-//        workouts.add(new Workout()
-//                .withId("342")
-//                .withName("Test Name")
-//                .withRestBetweenExercise(10)
-//                .withRestRoundsExercise(15)
-//                .withRounds(2)
-//                .withDateCompleted("07 Nov 2016")
-//                .withExercises(exercises));
-//        workouts.add(new Workout());
-//        workouts.add(new Workout());
-//        workouts.add(new Workout());
-//        workouts.add(new Workout());
-//        workouts.add(new Workout());
-//        workouts.add(new Workout());
-        adapter.addItems(workouts);
-
+        presenter.doGetWorkouts(presenter.getTypeCall(getArguments().getInt(TYPE_VIEW_ADAPTER)));
     }
 
     @Override
@@ -211,6 +134,7 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
         View view = inflater.inflate(R.layout.frg_home, container, false);
         ButterKnife.bind(this, view);
         intViews();
+        initListeners();
         return view;
     }
 
@@ -220,6 +144,10 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
                 new SpacesItemDecoration(adapter.haveAdapterHeaderView(), R.dimen.default_medium_size));
         rVFrgHome.setAdapter(adapter);
         rVFrgHome.setHasFixedSize(true);
+    }
+
+
+    private void initListeners() {
         rVFrgHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -233,6 +161,12 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
                     fBHomeAddWorkout.show();
                 }
                 super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+        sRFrgHome.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.doGetWorkouts(presenter.getTypeCall((adapter.getTypeView())));
             }
         });
     }
@@ -253,6 +187,28 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
     public void onDetach() {
         super.onDetach();
         presenter.detachView();
+    }
+
+
+    @Override
+    public void showProgressIndicator(String message) {
+        adapter.showLoadingState(true);
+    }
+
+    @Override
+    public void removeProgressIndicator() {
+        adapter.showLoadingState(false);
+    }
+
+    @Override
+    public void showMessage(int stringId) {
+
+    }
+
+    @Override
+    public void onLoadWorkoutLoad(List<Workout> workouts) {
+        sRFrgHome.setRefreshing(false);
+        adapter.cleanItemsAndUpdate(workouts);
     }
 
 }

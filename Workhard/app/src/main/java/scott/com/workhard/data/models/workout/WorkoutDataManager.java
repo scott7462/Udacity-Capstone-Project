@@ -6,7 +6,6 @@ import java.util.List;
 
 import rx.Observable;
 import scott.com.workhard.base.model.BaseDataManager;
-import scott.com.workhard.data.models.current_workout.preference.CurrentWorkoutPreference;
 import scott.com.workhard.entities.Workout;
 
 /**
@@ -65,4 +64,12 @@ public class WorkoutDataManager extends BaseDataManager<Workout, WorkoutReposito
         return getRestRepository().findAll();
     }
 
+    public Observable<List<Workout>> findMyWorkouts() {
+        return getRestRepository().findMyWorkouts();
+    }
+
+    @Override
+    public Observable<List<Workout>> findHistoriesWorkouts() {
+        return getRestRepository().findHistoriesWorkouts();
+    }
 }
