@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="facebook_app_id" translatable="false" >269165066792083</string>
+    <string name="fb_login_protocol_scheme" translatable="false" >fb269165066792083</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2826786094908323/9944673298</string>
+</resources>
