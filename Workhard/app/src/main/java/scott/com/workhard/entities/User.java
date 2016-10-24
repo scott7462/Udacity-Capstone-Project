@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -46,7 +45,10 @@ public class User implements Parcelable {
     @SerializedName("birthday")
     @Expose
     private long birthday;
-    @SerializedName("toke")
+    @SerializedName("password")
+    @Expose
+    private String password;
+    @SerializedName("token")
     @Expose
     private Token token;
 
@@ -98,6 +100,14 @@ public class User implements Parcelable {
         this.token = token;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public User withId(String id) {
         setId(id);
         return this;
@@ -128,6 +138,11 @@ public class User implements Parcelable {
 
     public User withToken(Token token) {
         setToken(token);
+        return this;
+    }
+
+    public User withPassword(String password) {
+        setPassword(password);
         return this;
     }
 

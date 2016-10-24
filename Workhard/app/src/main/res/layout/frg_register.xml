@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cVFrgRegister"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:elevation="@dimen/default_elevation_lvl_one"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".app.ui.init.ActivityInit">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +24,7 @@
         <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
 
             <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/eTFrgLoginLastName"
+                android:id="@+id/eTFrgRegisterLastName"
                 style="@style/Workhard.EditTextFrom"
                 android:contentDescription="@string/frg_register_cd_last_name"
                 android:hint="@string/frg_register_last_name"
@@ -42,7 +36,7 @@
         <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
 
             <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/eTFrgLoginEmail"
+                android:id="@+id/eTFrgRegisterEmail"
                 style="@style/Workhard.EditTextFrom"
                 android:contentDescription="@string/frg_register_cd_email"
                 android:hint="@string/frg_register_email"
@@ -55,6 +49,8 @@
             style="@style/Workhard.TextViewFrom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_medium_size"
+            android:layout_marginRight="@dimen/default_medium_size"
             android:layout_marginTop="@dimen/default_medium_size"
             android:contentDescription="@string/frg_register_cd_birthday"
             android:hint="@string/frg_register_birthday" />
@@ -63,7 +59,7 @@
         <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
 
             <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/eTFrgLoginPassword"
+                android:id="@+id/eTFrgRegisterPassword"
                 style="@style/Workhard.EditTextFrom"
                 android:contentDescription="@string/frg_register_cd_password"
                 android:hint="@string/frg_register_password"
@@ -74,14 +70,28 @@
         <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
 
             <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/eTFrgLoginRepeatPassword"
+                android:id="@+id/eTFrgRegisterRepeatPassword"
                 style="@style/Workhard.EditTextFrom"
                 android:contentDescription="@string/frg_register_cd_confirm_password"
                 android:hint="@string/frg_register_confirm_password"
                 android:inputType="textPassword" />
 
         </android.support.design.widget.TextInputLayout>
-
     </LinearLayout>
 
-</android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fBFrgSingIn"
+        style="@style/Workhard.FloatingButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end"
+        android:contentDescription="@string/frg_register_cd_create_a_new_user"
+        android:elevation="@dimen/default_elevation_lvl_two"
+        android:src="@drawable/ic_add_user"
+        app:fabSize="normal" />
+
+</RelativeLayout>
+
+

@@ -1,7 +1,5 @@
 package scott.com.workhard.app.ui.init.register;
 
-import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,18 +12,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.TextView;
 
-import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.joda.time.DateTime;
 
-import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,11 +30,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
 import scott.com.workhard.app.ui.ActivityMain;
-import scott.com.workhard.base.view.BasePickImageFragment;
-import scott.com.workhard.app.ui.init.login.presenter.LoginPresenter;
-import scott.com.workhard.app.ui.init.login.presenter.LoginPresenterListeners;
-import scott.com.workhard.bus.event.EventCallPickPhoto;
-import scott.com.workhard.bus.event.EventUploadImage;
+import scott.com.workhard.app.ui.init.login.presenter.SessionPresenter;
+import scott.com.workhard.app.ui.init.login.presenter.SessionPresenterListeners;
+import scott.com.workhard.base.view.BaseFragment;
+import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.utils.DatePickerFragment;
 
 /**
@@ -59,16 +55,33 @@ import scott.com.workhard.utils.DatePickerFragment;
  * limitations under the License.
  */
 
-public class RegisterFragment extends BasePickImageFragment implements LoginPresenterListeners
+public class RegisterFragment extends BaseFragment implements SessionPresenterListeners
         , Validator.ValidationListener {
 
+    @NotEmpty
+    @BindView(R.id.eTFrgRegisterName)
+    AppCompatEditText eTFrgRegisterName;
+
+    @NotEmpty
+    @BindView(R.id.eTFrgRegisterLastName)
+    AppCompatEditText eTFrgRegisterLastName;
+
+    @Email
+    @BindView(R.id.eTFrgRegisterEmail)
+    AppCompatEditText eTFrgRegisterEmail;
     @BindView(R.id.tVFrgRegisterDate)
     TextView tVFrgRegisterDate;
+    @NotEmpty
+    @Password
+    @BindView(R.id.eTFrgRegisterPassword)
+    AppCompatEditText eTFrgRegisterPassword;
+    @NotEmpty
+    @ConfirmPassword
+    @BindView(R.id.eTFrgRegisterRepeatPassword)
+    AppCompatEditText eTFrgRegisterRepeatPassword;
 
-    private LoginPresenter presenter;
+    private SessionPresenter presenter;
     private Validator validator;
-    private ProgressDialog progress;
-    private String avatarFilePath;
 
 
     public static Fragment newInstance() {
@@ -81,22 +94,6 @@ public class RegisterFragment extends BasePickImageFragment implements LoginPres
         initVars();
     }
 
-    @Override
-    public void imagePiker(ChosenImage image, int responseCode) {
-        avatarFilePath = image.getThumbnailPath();
-        updateImageToCover(new File(image.getThumbnailPath()));
-    }
-
-    private void updateImageToCover(File thumbnailPath) {
-        EventBus.getDefault().post(new EventUploadImage(thumbnailPath, null));
-    }
-
-    @Override
-    public void errorFindingImage(String errorMessage, int responseCode) {
-
-    }
-
-    @Override
     protected void initVars() {
         setHasOptionsMenu(true);
         validator = new Validator(this);
@@ -115,15 +112,19 @@ public class RegisterFragment extends BasePickImageFragment implements LoginPres
     private void intViews() {
     }
 
+
     private void cleanValidations() {
-//        ((TextInputLayout) eTFrgLoginEmail.getParent()).setError(null);
-//        ((TextInputLayout) eTFrgLoginPassword.getParent()).setError(null);
+        ((TextInputLayout) eTFrgRegisterName.getParent().getParent()).setError(null);
+        ((TextInputLayout) eTFrgRegisterLastName.getParent().getParent()).setError(null);
+        ((TextInputLayout) eTFrgRegisterEmail.getParent().getParent()).setError(null);
+        ((TextInputLayout) eTFrgRegisterPassword.getParent().getParent()).setError(null);
+        ((TextInputLayout) eTFrgRegisterRepeatPassword.getParent().getParent()).setError(null);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        presenter = new LoginPresenter();
+        presenter = new SessionPresenter();
         presenter.attachView(this);
     }
 
@@ -150,7 +151,11 @@ public class RegisterFragment extends BasePickImageFragment implements LoginPres
 
     @Override
     public void onValidationSucceeded() {
-
+        presenter.doRegister(eTFrgRegisterName.getText().toString(),
+                eTFrgRegisterLastName.getText().toString(),
+                eTFrgRegisterEmail.getText().toString(),
+                eTFrgRegisterPassword.getText().toString(),
+                1562375954);
     }
 
     @Override
@@ -159,25 +164,23 @@ public class RegisterFragment extends BasePickImageFragment implements LoginPres
             View view = error.getView();
             String message = error.getCollatedErrorMessage(getActivity());
             if (view instanceof AppCompatEditText) {
-                ((TextInputLayout) view.getParent()).setError(message);
+                ((TextInputLayout) view.getParent().getParent()).setError(message);
             }
         }
     }
 
     @Override
-    public void showMessage(int stringId) {
-
+    public void showMessage(String stringId) {
+        EventBus.getDefault().post(new EventSnackBar().withMessage(stringId));
     }
 
     @Override
     public void showProgressIndicator(String message) {
-        progress = ProgressDialog.show(getActivity(), "Login",
-                "login message ...", true);
     }
 
     @Override
     public void removeProgressIndicator() {
-        progress.dismiss();
+
     }
 
     public void showDatePickerDialog(TextView v) {
@@ -186,29 +189,22 @@ public class RegisterFragment extends BasePickImageFragment implements LoginPres
 
     @OnClick(R.id.tVFrgRegisterDate)
     public void onClick(TextView textView) {
-        if (getActivity() != null) {
-            DateTime dateTime = new DateTime();
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                    new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                        }
-                    }, dateTime.getYear(), dateTime.getMonthOfYear() - 1, dateTime.getDayOfMonth() + 7);
-            datePickerDialog.getDatePicker().setMinDate(DateTime.now().getMillis());
-            datePickerDialog.setTitle("");
-            datePickerDialog.show();
-        }
         showDatePickerDialog(textView);
-    }
-
-    @Subscribe
-    public void pickPhoto(EventCallPickPhoto eventCallPickPhoto) {
-        showPikerGallery(0);
     }
 
     @Override
     public void onLoginSuccessful() {
         ActivityMain.newInstance(getActivity());
+    }
+
+    @Override
+    public void onRegisterSuccessful() {
+        ActivityMain.newInstance(getActivity());
+    }
+
+    @OnClick(R.id.fBFrgSingIn)
+    public void onClick() {
+        cleanValidations();
+        validator.validate();
     }
 }

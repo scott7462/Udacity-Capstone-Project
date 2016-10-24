@@ -47,8 +47,6 @@ public class RegisterActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.iVAvatar)
-    ImageView iVAvatar;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,13 +57,6 @@ public class RegisterActivity extends BaseActivity {
         savedFragmentState(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        iVAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EventBus.getDefault().post(new EventCallPickPhoto());
-            }
-        });
     }
 
     private void savedFragmentState(Bundle savedInstanceState) {
@@ -73,7 +64,7 @@ public class RegisterActivity extends BaseActivity {
             navigateMainContent(getSupportFragmentManager().getFragment(
                     savedInstanceState, "mContent"), getString(R.string.app_name));
         } else {
-            ((CollapsingToolbarLayout) toolbar.getParent()).setTitle(getString(R.string.app_name));
+           toolbar.setTitle(getString(R.string.app_name));
             navigateMainContent(RegisterFragment.newInstance(), getString(R.string.app_name));
         }
     }
@@ -86,16 +77,6 @@ public class RegisterActivity extends BaseActivity {
 
     public static void newInstance(Activity activity) {
         activity.startActivity(new Intent(activity, RegisterActivity.class));
-    }
-
-    @Subscribe
-    public void updateImageToolbar(EventUploadImage eventUploadImage) {
-        Glide.with(this)
-                .load(eventUploadImage.getPath() == null ? eventUploadImage.getFile() :
-                        eventUploadImage.getPath())
-                .fitCenter()
-                .centerCrop()
-                .into(iVAvatar);
     }
 
 }
