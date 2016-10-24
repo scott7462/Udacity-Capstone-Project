@@ -4,11 +4,13 @@ package scott.com.workhard.data.sourse.rest.api;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import rx.Observable;
 import scott.com.workhard.data.sourse.rest.request.RequestLogin;
 import scott.com.workhard.data.sourse.rest.response.ResponseExercises;
 import scott.com.workhard.data.sourse.rest.response.ResponseLogin;
 import scott.com.workhard.data.sourse.rest.response.ResponseWorkout;
+import scott.com.workhard.entities.User;
 
 /**
  * @author pedroscott
@@ -44,4 +46,10 @@ public interface ApiClient {
 
     @GET("workouts/my")
     Observable<ResponseWorkout> myWorkouts();
+
+    @POST("user/register")
+    Observable<ResponseLogin> register(@Body User user);
+
+    @PUT("user")
+    Observable<ResponseLogin>  updateProfile(User user);
 }

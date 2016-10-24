@@ -1,12 +1,8 @@
-package scott.com.workhard.data.models.session;
-
-import rx.Observable;
-import scott.com.workhard.base.model.Repository;
-import scott.com.workhard.entities.User;
+package scott.com.workhard.data.sourse.rest;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 9/17/16.
+ * @version 10/23/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -24,14 +20,21 @@ import scott.com.workhard.entities.User;
  */
 
 
-public interface SessionRepository extends Repository<User> {
+public class ApiError {
 
-    Observable<User> login(String email, String password);
+    private int code;
+    private String message;
 
-    Observable<Boolean> logout();
+    public ApiError(int code) {
+        this.code = code;
+    }
 
-    Observable<User> getSessionUser();
+    public int getErrorCode() {
+        return this.code;
+    }
 
-    Observable<User> register(User user);
+    public String getMessage() {
+        return message;
+    }
 
 }

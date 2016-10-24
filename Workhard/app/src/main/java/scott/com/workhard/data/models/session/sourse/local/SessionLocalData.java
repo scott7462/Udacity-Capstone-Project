@@ -6,7 +6,9 @@ import java.util.List;
 
 import io.realm.Realm;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import scott.com.workhard.data.models.session.SessionRepository;
 import scott.com.workhard.data.sourse.db.realm_utils.RealmObservable;
 import scott.com.workhard.data.sourse.db.tables.CurrentWorkoutTable;
@@ -82,6 +84,11 @@ public class SessionLocalData implements SessionRepository {
     }
 
     @Override
+    public Observable<User> register(User user) {
+        return null;
+    }
+
+    @Override
     public Observable<User> add(final User user) {
         return RealmObservable.object(new Func1<Realm, UserTable>() {
             @Override
@@ -93,7 +100,8 @@ public class SessionLocalData implements SessionRepository {
             public Observable<User> call(UserTable userTable) {
                 return userTable.transformToUser();
             }
-        });
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -102,8 +110,8 @@ public class SessionLocalData implements SessionRepository {
     }
 
     @Override
-    public Observable<User> update(User object) {
-        return null;
+    public Observable<User> update(User user) {
+        return add(user);
     }
 
     @Override

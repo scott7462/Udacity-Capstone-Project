@@ -5,7 +5,9 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -34,7 +36,8 @@ public final class RealmObservable {
             public T get(Realm realm) {
                 return function.call(realm);
             }
-        });
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public static <T extends RealmObject> Observable<RealmList<T>> list(final Func1<Realm, RealmList<T>> function) {
@@ -43,7 +46,8 @@ public final class RealmObservable {
             public RealmList<T> get(Realm realm) {
                 return function.call(realm);
             }
-        });
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public static <T extends RealmObject> Observable<RealmResults<T>> results(final Func1<Realm, RealmResults<T>> function) {
@@ -52,7 +56,8 @@ public final class RealmObservable {
             public RealmResults<T> get(Realm realm) {
                 return function.call(realm);
             }
-        });
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public static <T> Observable<T> remove(final Func1<Realm, T> function) {
@@ -61,7 +66,8 @@ public final class RealmObservable {
             public T get(Realm realm) {
                 return function.call(realm);
             }
-        });
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
 }

@@ -43,6 +43,9 @@ public class SessionDataManager extends BaseDataManager<User, SessionRepository>
         super(restRepository, dbRepository);
     }
 
+
+
+
     @Override
     public Observable<User> login(String email, String password) {
         return getRestRepository().login(email, password)
@@ -65,9 +68,24 @@ public class SessionDataManager extends BaseDataManager<User, SessionRepository>
     }
 
     @Override
-    public Observable<Boolean> delete(User object) {
-        return null;
+    public Observable<User> register(User user) {
+        return getRestRepository().register(user)
+                .flatMap(new Func1<User, Observable<User>>() {
+                    @Override
+                    public Observable<User> call(User user) {
+                        return getDbRepository().add(user);
+                    }
+                });
     }
 
-
+    @Override
+    public Observable<User> update(User user) {
+        return getRestRepository().update(user)
+                .flatMap(new Func1<User, Observable<User>>() {
+                    @Override
+                    public Observable<User> call(User user) {
+                        return getDbRepository().update(user);
+                    }
+                });
+    }
 }

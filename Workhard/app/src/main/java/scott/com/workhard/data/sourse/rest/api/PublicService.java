@@ -1,10 +1,13 @@
 package scott.com.workhard.data.sourse.rest.api;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import scott.com.workhard.data.sourse.rest.request.RequestLogin;
 import scott.com.workhard.data.sourse.rest.response.ResponseExercises;
 import scott.com.workhard.data.sourse.rest.response.ResponseLogin;
 import scott.com.workhard.data.sourse.rest.response.ResponseWorkout;
+import scott.com.workhard.entities.User;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -28,30 +31,51 @@ import scott.com.workhard.data.sourse.rest.response.ResponseWorkout;
 public class PublicService {
 
     private final ApiClient apiService;
-    private Observable workouts;
 
     public PublicService(ApiClient apiService) {
         this.apiService = apiService;
     }
 
     public Observable<ResponseLogin> login(RequestLogin requestLogin) {
-        return apiService.login(requestLogin);
+        return apiService.login(requestLogin)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<ResponseExercises> exercises() {
-        return apiService.exercises();
+        return apiService.exercises()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
 
     public Observable<ResponseWorkout> getWorkouts() {
-        return apiService.workouts();
+        return apiService.workouts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<ResponseWorkout> getMyWorkouts() {
-        return apiService.myWorkouts();
+        return apiService.myWorkouts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<ResponseWorkout> getHistoriesWorkouts() {
-        return apiService.historiesWorkouts();
+        return apiService.historiesWorkouts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<ResponseLogin> register(User user) {
+        return apiService.register(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<ResponseLogin> updateProfile(User user) {
+        return apiService.updateProfile(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

@@ -6,7 +6,6 @@ import java.util.List;
 
 import rx.Observable;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 import scott.com.workhard.R;
 import scott.com.workhard.app.App;
 import scott.com.workhard.data.models.session.SessionRepository;
@@ -80,9 +79,27 @@ public class SessionRemoteData implements SessionRepository {
     }
 
     @Override
-    public Observable<User> add(User object) {
+    public Observable<User> register(User user) {
+        return getRestClientPublic().getPublicService()
+                .register(user)
+                .flatMap(new Func1<ResponseLogin, Observable<User>>() {
+                    @Override
+                    public Observable<User> call(ResponseLogin responseLogin) {
+                        return Observable.just(responseLogin.getUser().withToken(responseLogin.getToken()));
+                    }
+                });
+    }
 
-        return null;
+    @Override
+    public Observable<User> add(User user) {
+        return getRestClientPublic().getPublicService()
+                .updateProfile(user)
+                .flatMap(new Func1<ResponseLogin, Observable<User>>() {
+                    @Override
+                    public Observable<User> call(ResponseLogin responseLogin) {
+                        return Observable.just(responseLogin.getUser().withToken(responseLogin.getToken()));
+                    }
+                });
     }
 
     @Override
