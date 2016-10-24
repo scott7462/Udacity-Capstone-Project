@@ -49,7 +49,7 @@
         <item name="android:drawablePadding">@dimen/default_medium_size</item>
     </style>
 
-    <style name="Workhard.TextViewFrom" parent="Base.V7.Widget.AppCompat.AutoCompleteTextView">
+    <style name="Workhard.TextViewFrom" parent="Base.V7.Widget.AppCompat.EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:imeOptions">actionNext</item>

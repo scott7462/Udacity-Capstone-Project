@@ -172,5 +172,7 @@
     <string name="error_twitter_connection">Imposible login with twitter now please try late.</string>
     <string name="error_login_with_google_email">The email is requiered to login with google account.</string>
     <string name="error_login_with_google">Error trying to login with Google please try later.</string>
+    <string name="network_error_code_general">General error</string>
+    <string name="network_error_no_internet_connection">No Internet Connection.</string>
 
 </resources>
