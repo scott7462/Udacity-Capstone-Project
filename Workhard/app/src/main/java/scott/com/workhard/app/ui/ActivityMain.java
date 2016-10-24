@@ -209,7 +209,7 @@ public class ActivityMain extends BaseActivity
     }
 
     @Override
-    public void showMessage(int stringId) {
+    public void showMessage(String stringId) {
 
     }
 

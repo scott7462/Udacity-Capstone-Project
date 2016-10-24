@@ -37,8 +37,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
 import scott.com.workhard.app.ui.init.ActivityInit;
-import scott.com.workhard.app.ui.init.login.presenter.LoginPresenter;
-import scott.com.workhard.app.ui.init.login.presenter.LoginPresenterListeners;
+import scott.com.workhard.app.ui.init.login.presenter.SessionPresenter;
+import scott.com.workhard.app.ui.init.login.presenter.SessionPresenterListeners;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.bus.event.EventSnackBar;
 import timber.log.Timber;
@@ -62,7 +62,7 @@ import timber.log.Timber;
  * limitations under the License.
  */
 
-public class LoginFragment extends BaseFragment implements LoginPresenterListeners, Validator.ValidationListener {
+public class SessionFragment extends BaseFragment implements SessionPresenterListeners, Validator.ValidationListener {
 
     @Email(messageResId = R.string.error_invalid_email)
     @BindView(R.id.eTFrgLoginEmail)
@@ -83,12 +83,12 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
     @BindView(R.id.lBFrgLoginGooglePlus)
     SignInButton lBFrgLoginGooglePlus;
 
-    private LoginPresenter presenter;
+    private SessionPresenter presenter;
     private Validator validator;
     private ProgressDialog progress;
 
     public static Fragment newInstance() {
-        return new LoginFragment();
+        return new SessionFragment();
     }
 
     @Override
@@ -150,7 +150,7 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        presenter = new LoginPresenter();
+        presenter = new SessionPresenter();
         presenter.attachView(this);
     }
 
@@ -187,8 +187,8 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
 
 
     @Override
-    public void showMessage(int stringId) {
-        EventBus.getDefault().post(new EventSnackBar().withMessage(getString(stringId)));
+    public void showMessage(String stringId) {
+        EventBus.getDefault().post(new EventSnackBar().withMessage(stringId));
     }
 
     @Override
@@ -205,6 +205,11 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
     @Override
     public void onLoginSuccessful() {
         ((ActivityInit) getActivity()).navigateToMain();
+    }
+
+    @Override
+    public void onRegisterSuccessful() {
+
     }
 
     @OnClick({R.id.bTFrgLoginButton, R.id.bTFrgLoginGoogleButton, R.id.bTFrgLoginFacebookButton, R.id.bTFrgLoginTwitterButton})
@@ -257,6 +262,6 @@ public class LoginFragment extends BaseFragment implements LoginPresenterListene
     }
 
     public void loginWithGoogle(String email, String name, String lastName, String acctId) {
-        presenter.doLoginWithGoogle(email,name,lastName,acctId);
+        presenter.doLoginWithGoogle(email, name, lastName, acctId);
     }
 }

@@ -203,8 +203,8 @@ public class FrgSelectExercise extends BaseFragment implements ExercisesPresente
     }
 
     @Override
-    public void showMessage(int stringId) {
-        EventBus.getDefault().post(new EventSnackBar().withMessage(getString(stringId)));
+    public void showMessage(String stringId) {
+        EventBus.getDefault().post(new EventSnackBar().withMessage(stringId));
     }
 
 

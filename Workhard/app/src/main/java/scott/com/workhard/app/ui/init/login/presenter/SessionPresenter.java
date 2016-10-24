@@ -1,11 +1,10 @@
 package scott.com.workhard.app.ui.init.login.presenter;
 
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import scott.com.workhard.R;
 import scott.com.workhard.base.presenter.BasePresenter;
 import scott.com.workhard.data.Injection;
+import scott.com.workhard.data.sourse.rest.ApiErrorRest;
 import scott.com.workhard.entities.User;
 
 /**
@@ -27,12 +26,11 @@ import scott.com.workhard.entities.User;
  * limitations under the License.
  */
 
-public class LoginPresenter extends BasePresenter<LoginPresenterListeners> {
+public class SessionPresenter extends BasePresenter<SessionPresenterListeners> {
 
     public void doLogin(String email, String password) {
-        setSubscription(Injection.provideSessionRepository().login(email, password)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        setSubscription(Injection.provideSessionRepository()
+                .login(email, password)
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onStart() {
@@ -49,7 +47,7 @@ public class LoginPresenter extends BasePresenter<LoginPresenterListeners> {
                     @Override
                     public void onError(Throwable e) {
                         getViewListener().removeProgressIndicator();
-                        getViewListener().showMessage(R.string.error_login);
+                        getViewListener().showMessage(ApiErrorRest.handelError(e));
                     }
 
                     @Override
@@ -67,4 +65,32 @@ public class LoginPresenter extends BasePresenter<LoginPresenterListeners> {
     public void doLoginWithGoogle(String email, String name, String lastName, String acctId) {
         doLogin("", "");
     }
+
+    public void doRegister(String name, String lastName, String email, String password, long date) {
+        setSubscription(Injection.provideSessionRepository()
+                .register(new User().withName(name)
+                        .withLastName(lastName)
+                        .withEmail(email)
+                        .withBirthday(date)
+                        .withPassword(password))
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+                        getViewListener().removeProgressIndicator();
+                        getViewListener().onRegisterSuccessful();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getViewListener().removeProgressIndicator();
+                        getViewListener().showMessage(ApiErrorRest.handelError(e));
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+
+                    }
+                }));
+    }
+
 }

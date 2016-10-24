@@ -181,7 +181,7 @@ public class ActivityDoWorkout extends BaseActivity implements DoWorkoutPresente
     }
 
     @Override
-    public void showMessage(int stringId) {
+    public void showMessage(String stringId) {
 
     }
 

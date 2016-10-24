@@ -26,6 +26,5 @@ public interface BasePresenterListener {
 
     void removeProgressIndicator();
 
-    void showMessage(int stringId);
-
+    void showMessage(String string);
 }

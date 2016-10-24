@@ -8,6 +8,7 @@ import rx.schedulers.Schedulers;
 import scott.com.workhard.R;
 import scott.com.workhard.base.presenter.BasePresenter;
 import scott.com.workhard.data.Injection;
+import scott.com.workhard.data.sourse.rest.ApiErrorRest;
 import scott.com.workhard.entities.Exercise;
 
 /**
@@ -46,7 +47,7 @@ public class PresenterExercises extends BasePresenter<ExercisesPresenterListener
 
                     @Override
                     public void onError(Throwable e) {
-                        getViewListener().showMessage(R.string.error_loading_exercises);
+                        getViewListener().showMessage(ApiErrorRest.handelError(e));
                         getViewListener().removeProgressIndicator();
                     }
 

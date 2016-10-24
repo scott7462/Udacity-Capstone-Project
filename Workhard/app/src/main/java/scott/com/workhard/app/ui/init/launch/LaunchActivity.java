@@ -100,7 +100,7 @@ public class LaunchActivity extends BaseActivity implements MainPresenterListene
     }
 
     @Override
-    public void showMessage(int stringId) {
+    public void showMessage(String stringId) {
 
     }
 }

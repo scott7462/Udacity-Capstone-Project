@@ -201,7 +201,7 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
     }
 
     @Override
-    public void showMessage(int stringId) {
+    public void showMessage(String stringId) {
 
     }
 

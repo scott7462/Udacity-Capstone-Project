@@ -20,8 +20,9 @@ import scott.com.workhard.base.presenter.BasePresenterListener;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public interface LoginPresenterListeners extends BasePresenterListener {
+public interface SessionPresenterListeners extends BasePresenterListener {
 
     void onLoginSuccessful();
 
+    void onRegisterSuccessful();
 }

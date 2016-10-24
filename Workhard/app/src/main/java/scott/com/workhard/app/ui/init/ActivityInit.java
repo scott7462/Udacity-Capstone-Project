@@ -32,7 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
-import scott.com.workhard.app.ui.init.login.LoginFragment;
+import scott.com.workhard.app.ui.init.login.SessionFragment;
 import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.bus.event.EventSnackBar;
 
@@ -65,6 +65,10 @@ public class ActivityInit extends BaseActivity implements
     Toolbar toolbar;
     @BindView(R.id.fBFrgSingIn)
     FloatingActionButton fBFrgSingIn;
+
+    public FloatingActionButton getfBFrgSingIn() {
+        return fBFrgSingIn;
+    }
 
     private CallbackManager callbackManager;
     private GoogleSignInOptions gso;
@@ -124,7 +128,7 @@ public class ActivityInit extends BaseActivity implements
             navigateMainContent(getSupportFragmentManager().getFragment(
                     savedInstanceState, "mContent"), getString(R.string.app_name));
         } else {
-            navigateMainContent(LoginFragment.newInstance(), getString(R.string.app_name));
+            navigateMainContent(SessionFragment.newInstance(), getString(R.string.app_name));
         }
     }
 
@@ -133,9 +137,9 @@ public class ActivityInit extends BaseActivity implements
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 GoogleSignInAccount acct = result.getSignInAccount();
-                if (getCurrentFrg() instanceof LoginFragment) {
+                if (getCurrentFrg() instanceof SessionFragment) {
                     if (acct != null && acct.getEmail() != null) {
-                        ((LoginFragment) getCurrentFrg()).loginWithGoogle(acct.getEmail(), acct.getGivenName(), acct.getFamilyName(), acct.getId());
+                        ((SessionFragment) getCurrentFrg()).loginWithGoogle(acct.getEmail(), acct.getGivenName(), acct.getFamilyName(), acct.getId());
                     }
                 } else {
                     EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.error_login_with_google_email)));
@@ -148,8 +152,8 @@ public class ActivityInit extends BaseActivity implements
 
     private void getCurrentFrgToTwitter(int requestCode, int resultCode, Intent data) {
         Fragment fragment = getCurrentFrg();
-        if (fragment instanceof LoginFragment) {
-            ((LoginFragment) fragment).getlBFrgLoginTwitter().onActivityResult(requestCode, resultCode, data);
+        if (fragment instanceof SessionFragment) {
+            ((SessionFragment) fragment).getlBFrgLoginTwitter().onActivityResult(requestCode, resultCode, data);
         }
     }
 
