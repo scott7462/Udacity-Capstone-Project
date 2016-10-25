@@ -66,7 +66,7 @@ public class SessionPresenter extends BasePresenter<SessionPresenterListeners> {
         doLogin("", "");
     }
 
-    public void doRegister(String name, String lastName, String email, String password, long date) {
+    public void doRegister(String name, String lastName, String email, String password, String date) {
         setSubscription(Injection.provideSessionRepository()
                 .register(new User().withName(name)
                         .withLastName(lastName)

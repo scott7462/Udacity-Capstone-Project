@@ -29,7 +29,7 @@ public class ResponseLogin {
     @SerializedName("user")
     @Expose
     private User user;
-    @SerializedName("toke")
+    @SerializedName("token")
     @Expose
     private Token token;
     public User getUser() {

@@ -47,9 +47,13 @@ public class DatePickerFragment extends DialogFragment
         int year = DateTime.now().getYear();
         int month = DateTime.now().getMonthOfYear();
         int day = DateTime.now().getDayOfMonth();
-
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), this, year, month, day);
+        DateTime dateTimeMax = DateTime.now().minusYears(10);
+        datePickerDialog.getDatePicker().setMaxDate(dateTimeMax.getMillis());
+        DateTime dateTimeMin = DateTime.now().minusYears(75);
+        datePickerDialog.getDatePicker().setMinDate(dateTimeMin.getMillis());
         // Create a new instance of DatePickerDialog and return it
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        return datePickerDialog;
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {

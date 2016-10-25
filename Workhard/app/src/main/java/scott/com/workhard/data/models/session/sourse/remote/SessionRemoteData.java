@@ -58,7 +58,7 @@ public class SessionRemoteData implements SessionRepository {
 
     @Override
     public Observable<User> login(String email, String password) {
-        final RequestLogin requestLogin = new RequestLogin("scott7452", "casa");
+        final RequestLogin requestLogin = new RequestLogin(email, password);
         return getRestClientPublic().getPublicService().login(requestLogin)
                 .flatMap(new Func1<ResponseLogin, Observable<User>>() {
                     @Override

@@ -50,7 +50,7 @@ public class ProfilePresenter extends BasePresenter<ProfilePresenterListener> {
                 }));
     }
 
-    public void doUpdateProfile(String name, String lastName, String email, String password, long date) {
+    public void doUpdateProfile(String name, String lastName, String email, String password, String date) {
         setSubscription(Injection.provideSessionRepository()
                 .update(new User().withName(name)
                         .withLastName(lastName)

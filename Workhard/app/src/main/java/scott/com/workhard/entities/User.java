@@ -33,7 +33,7 @@ public class User implements Parcelable {
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("first_name")
+    @SerializedName("name")
     @Expose
     private String name;
     @SerializedName("last_name")
@@ -42,9 +42,9 @@ public class User implements Parcelable {
     @SerializedName("email")
     @Expose
     private String email;
-    @SerializedName("birthday")
+    @SerializedName("birthdate")
     @Expose
-    private long birthday;
+    private String birthday;
     @SerializedName("password")
     @Expose
     private String password;
@@ -84,11 +84,11 @@ public class User implements Parcelable {
         this.email = email;
     }
 
-    public long getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(long birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -131,7 +131,7 @@ public class User implements Parcelable {
         return this;
     }
 
-    public User withBirthday(long birthday) {
+    public User withBirthday(String birthday) {
         setBirthday(birthday);
         return this;
     }
@@ -158,7 +158,7 @@ public class User implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.lastName);
         dest.writeString(this.email);
-        dest.writeLong(this.birthday);
+        dest.writeString(this.birthday);
         dest.writeParcelable(this.token, flags);
     }
 
@@ -170,7 +170,7 @@ public class User implements Parcelable {
         this.name = in.readString();
         this.lastName = in.readString();
         this.email = in.readString();
-        this.birthday = in.readLong();
+        this.birthday = in.readString();
         this.token = in.readParcelable(Token.class.getClassLoader());
     }
 

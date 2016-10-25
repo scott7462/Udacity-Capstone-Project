@@ -35,6 +35,7 @@ import scott.com.workhard.app.ui.init.login.presenter.SessionPresenterListeners;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.utils.DatePickerFragment;
+import scott.com.workhard.utils.DateTimeUtils;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -155,7 +156,9 @@ public class RegisterFragment extends BaseFragment implements SessionPresenterLi
                 eTFrgRegisterLastName.getText().toString(),
                 eTFrgRegisterEmail.getText().toString(),
                 eTFrgRegisterPassword.getText().toString(),
-                1562375954);
+                DateTimeUtils.convertToPatternFromPattern(getString(R.string.date_register_formatter),
+                        tVFrgRegisterDate.getText().toString(),
+                        getString(R.string.date_server_formatter)));
     }
 
     @Override

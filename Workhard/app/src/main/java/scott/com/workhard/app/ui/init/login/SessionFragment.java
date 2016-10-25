@@ -62,14 +62,14 @@ import timber.log.Timber;
  * limitations under the License.
  */
 
-public class SessionFragment extends BaseFragment implements SessionPresenterListeners, Validator.ValidationListener {
+public class SessionFragment extends BaseFragment implements SessionPresenterListeners,
+        Validator.ValidationListener {
 
     @Email(messageResId = R.string.error_invalid_email)
     @BindView(R.id.eTFrgLoginEmail)
     AppCompatEditText eTFrgLoginEmail;
 
     @Password(messageResId = R.string.error_invalid_password)
-    @Min(value = 6, messageResId = R.string.error_invalid_password_min)
     @NotEmpty
     @BindView(R.id.eTFrgLoginPassword)
     AppCompatEditText eTFrgLoginPassword;

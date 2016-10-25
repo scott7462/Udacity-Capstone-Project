@@ -33,7 +33,7 @@ public class UserTable extends RealmObject {
     private String name;
     private String lastName;
     private String email;
-    private long birthday;
+    private String birthday;
     private TokenTable token;
 
     public UserTable() {
@@ -80,11 +80,11 @@ public class UserTable extends RealmObject {
         this.email = email;
     }
 
-    public long getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(long birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 

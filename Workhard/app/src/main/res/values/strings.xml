@@ -174,5 +174,6 @@
     <string name="error_login_with_google">Error trying to login with Google please try later.</string>
     <string name="network_error_code_general">General error</string>
     <string name="network_error_no_internet_connection">No Internet Connection.</string>
+    <string name="date_server_formatter">YYYY-MM-dd HH:mm:SS</string>
 
 </resources>
