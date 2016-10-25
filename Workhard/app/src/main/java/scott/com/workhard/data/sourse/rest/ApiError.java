@@ -1,5 +1,8 @@
 package scott.com.workhard.data.sourse.rest;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * @author pedroscott. scott7462@gmail.com
  * @version 10/23/16.
@@ -22,19 +25,72 @@ package scott.com.workhard.data.sourse.rest;
 
 public class ApiError {
 
-    private int code;
-    private String message;
+    @SerializedName("status")
+    @Expose
+    private Integer status;
+    @SerializedName("response_time")
+    @Expose
+    private Double responseTime;
+    @SerializedName("code")
+    @Expose
+    private Integer code;
+    @SerializedName("error")
+    @Expose
+    private String error;
 
-    public ApiError(int code) {
+    /**
+     * @return The status
+     */
+    public Integer getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status The status
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    /**
+     * @return The responseTime
+     */
+    public Double getResponseTime() {
+        return responseTime;
+    }
+
+    /**
+     * @param responseTime The response_time
+     */
+    public void setResponseTime(Double responseTime) {
+        this.responseTime = responseTime;
+    }
+
+    /**
+     * @return The code
+     */
+    public Integer getCode() {
+        return code;
+    }
+
+    /**
+     * @param code The code
+     */
+    public void setCode(Integer code) {
         this.code = code;
     }
 
-    public int getErrorCode() {
-        return this.code;
+    /**
+     * @return The error
+     */
+    public String getError() {
+        return error;
     }
 
-    public String getMessage() {
-        return message;
+    /**
+     * @param error The error
+     */
+    public void setError(String error) {
+        this.error = error;
     }
-
 }

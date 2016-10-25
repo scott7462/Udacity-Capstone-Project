@@ -3,5 +3,5 @@
 
     <string name="error_file_not_found">File not found</string>
     <string name="error_login">Error login</string>
-
+    <string name="error_code_201">Email or password </string>
 </resources>

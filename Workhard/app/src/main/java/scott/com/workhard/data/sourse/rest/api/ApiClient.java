@@ -47,7 +47,7 @@ public interface ApiClient {
     @GET("workouts/my")
     Observable<ResponseWorkout> myWorkouts();
 
-    @POST("user/register")
+    @POST("user")
     Observable<ResponseLogin> register(@Body User user);
 
     @PUT("user")

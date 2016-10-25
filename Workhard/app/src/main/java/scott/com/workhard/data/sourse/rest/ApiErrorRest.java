@@ -53,7 +53,7 @@ public class ApiErrorRest {
             try {
                 HttpException retroError = (HttpException) error;
                 ApiError errorObj = new Gson().fromJson(retroError.response().errorBody().charStream(), ApiError.class);
-                return ErrorFactory.getErrorMessage(errorObj.getErrorCode());
+                return ErrorFactory.getErrorMessage(errorObj.getCode());
             } catch (Throwable e) {
                 e.printStackTrace();
             }
