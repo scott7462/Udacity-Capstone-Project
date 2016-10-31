@@ -84,7 +84,7 @@ public class SessionDataManager extends BaseDataManager<User, SessionRepository>
                 .flatMap(new Func1<User, Observable<User>>() {
                     @Override
                     public Observable<User> call(User user) {
-                        return getDbRepository().update(user);
+                        return getDbRepository().add(user);
                     }
                 });
     }

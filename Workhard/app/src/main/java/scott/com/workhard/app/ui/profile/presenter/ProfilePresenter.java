@@ -1,6 +1,8 @@
 package scott.com.workhard.app.ui.profile.presenter;
 
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import scott.com.workhard.base.presenter.BasePresenter;
 import scott.com.workhard.data.Injection;
 import scott.com.workhard.data.sourse.rest.ApiErrorRest;
@@ -32,6 +34,8 @@ public class ProfilePresenter extends BasePresenter<ProfilePresenterListener> {
     public void doGetProfile() {
         setSubscription(Injection.provideSessionRepository()
                 .getSessionUser()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<User>() {
 
                     @Override
@@ -50,13 +54,12 @@ public class ProfilePresenter extends BasePresenter<ProfilePresenterListener> {
                 }));
     }
 
-    public void doUpdateProfile(String name, String lastName, String email, String password, String date) {
+    public void doUpdateProfile(String name, String lastName, String email, String date) {
         setSubscription(Injection.provideSessionRepository()
                 .update(new User().withName(name)
                         .withLastName(lastName)
                         .withEmail(email)
-                        .withBirthday(date)
-                        .withPassword(password))
+                        .withBirthday(date))
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {

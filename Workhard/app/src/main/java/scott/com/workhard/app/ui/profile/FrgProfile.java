@@ -18,9 +18,6 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.joda.time.MutableDateTime;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,7 +27,6 @@ import scott.com.workhard.R;
 import scott.com.workhard.app.ui.profile.presenter.ProfilePresenter;
 import scott.com.workhard.app.ui.profile.presenter.ProfilePresenterListener;
 import scott.com.workhard.base.view.BaseFragment;
-import scott.com.workhard.bus.event.EventCallPickPhoto;
 import scott.com.workhard.entities.User;
 import scott.com.workhard.utils.DatePickerFragment;
 import scott.com.workhard.utils.DateTimeUtils;
@@ -102,8 +98,8 @@ public class FrgProfile extends BaseFragment implements Validator.ValidationList
         eTFrgProfileName.setText(user.getName());
         eTFrgProfileLastName.setText(user.getLastName());
         eTFrgProfileEmail.setText(user.getEmail());
-        tVFrgProfileDate.setText(DateTimeUtils.getStringPatternFromDateTime(
-                getString(R.string.date_register_formatter), new MutableDateTime(user.getBirthday())));
+        tVFrgProfileDate.setText(DateTimeUtils.convertToPatternFromPattern(
+                getString(R.string.date_server_formatter), user.getBirthday(), getString(R.string.date_register_formatter)));
     }
 
 
@@ -122,22 +118,29 @@ public class FrgProfile extends BaseFragment implements Validator.ValidationList
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_profile, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home: {
-                getActivity().onBackPressed();
-            }
+            case R.id.item_menu_update:
+                validator.validate();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void updateProfile() {
+        presenter.doUpdateProfile(eTFrgProfileName.getText().toString(),
+                eTFrgProfileLastName.getText().toString(), eTFrgProfileEmail.getText().toString(), DateTimeUtils.convertToPatternFromPattern(getString(R.string.date_register_formatter),
+                        tVFrgProfileDate.getText().toString(),
+                        getString(R.string.date_server_formatter)));
+    }
+
     @Override
     public void onValidationSucceeded() {
-
+        updateProfile();
     }
 
     @Override
@@ -179,4 +182,6 @@ public class FrgProfile extends BaseFragment implements Validator.ValidationList
     public void showMessage(String string) {
 
     }
+
+
 }

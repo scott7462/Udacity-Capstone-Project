@@ -63,7 +63,7 @@ public class SessionRemoteData implements SessionRepository {
                 .flatMap(new Func1<ResponseLogin, Observable<User>>() {
                     @Override
                     public Observable<User> call(ResponseLogin responseLogin) {
-                        return Observable.just(responseLogin.getUser().withToken(responseLogin.getToken()));
+                        return transformResponseLogin(responseLogin);
                     }
                 });
     }
@@ -85,21 +85,14 @@ public class SessionRemoteData implements SessionRepository {
                 .flatMap(new Func1<ResponseLogin, Observable<User>>() {
                     @Override
                     public Observable<User> call(ResponseLogin responseLogin) {
-                        return Observable.just(responseLogin.getUser().withToken(responseLogin.getToken()));
+                        return transformResponseLogin(responseLogin);
                     }
                 });
     }
 
     @Override
     public Observable<User> add(User user) {
-        return getRestClientPublic().getPublicService()
-                .updateProfile(user)
-                .flatMap(new Func1<ResponseLogin, Observable<User>>() {
-                    @Override
-                    public Observable<User> call(ResponseLogin responseLogin) {
-                        return Observable.just(responseLogin.getUser().withToken(responseLogin.getToken()));
-                    }
-                });
+        return null;
     }
 
     @Override
@@ -108,13 +101,25 @@ public class SessionRemoteData implements SessionRepository {
     }
 
     @Override
-    public Observable<User> update(User object) {
-        return null;
+    public Observable<User> update(User user) {
+        return getRestClientPublic().getPublicService()
+                .updateProfile(user)
+                .flatMap(new Func1<ResponseLogin, Observable<User>>() {
+                    @Override
+                    public Observable<User> call(ResponseLogin responseLogin) {
+                        return transformResponseLogin(responseLogin);
+                    }
+                });
     }
 
     @Override
     public Observable<List<User>> findAll() {
         return null;
     }
+
+    private Observable<User> transformResponseLogin(ResponseLogin responseLogin) {
+        return Observable.just(responseLogin.getUser().withToken(responseLogin.getToken()));
+    }
+
 
 }
