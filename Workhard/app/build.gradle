@@ -93,8 +93,6 @@ dependencies {
         transitive = true;
     }
     compile 'com.android.support.test:runner:0.5'
-    compile 'com.google.android.gms:play-services-auth:9.8.00'
-    compile 'com.google.android.gms:play-services-ads:9.8.00'
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
@@ -120,6 +118,8 @@ dependencies {
     compile 'com.facebook.stetho:stetho:1.4.1'
     compile 'com.facebook.stetho:stetho-okhttp3:1.4.1'
     compile 'com.uphyca:stetho_realm:2.0.0'
+    compile 'com.google.android.gms:play-services-ads:9.8.0'
+    compile 'com.google.android.gms:play-services-auth:9.8.0'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
 }

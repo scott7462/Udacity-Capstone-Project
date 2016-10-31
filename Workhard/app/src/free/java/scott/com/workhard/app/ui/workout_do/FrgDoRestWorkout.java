@@ -5,6 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+import butterknife.BindView;
+import scott.com.workhard.R;
+import scott.com.workhard.entities.Workout;
+
 /**
  * @author pedroscott. scott7462@gmail.com
  * @version 9/3/16.
@@ -25,9 +32,30 @@ import android.view.ViewGroup;
  */
 public class FrgDoRestWorkout extends FrgBaseDoRestWorkout {
 
+    @BindView(R.id.adVFrgDoWorkout)
+    AdView adVFrgDoWorkout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+
+    public static FrgDoRestWorkout newInstance(Workout workout, int timer) {
+        Bundle args = new Bundle();
+        args.putInt(TIMER, timer);
+        args.putParcelable(Workout.WORKOUT_ARG, workout);
+        FrgDoRestWorkout fragment = new FrgDoRestWorkout();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    protected void initViews() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        adVFrgDoWorkout.loadAd(adRequest);
+    }
+
 
 }

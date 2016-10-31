@@ -53,9 +53,9 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class FrgBaseDoRestWorkout extends BaseFragment {
+public abstract class FrgBaseDoRestWorkout extends BaseFragment {
 
-    private static final String TIMER = "timer_to_rest";
+    protected static final String TIMER = "timer_to_rest";
     @BindView(R.id.tVFrgDoWorkoutTime)
     TextView tVFrgDoWorkoutTime;
     @BindView(R.id.tVFrgDoWorkoutNextExerciseName)
@@ -66,14 +66,7 @@ public class FrgBaseDoRestWorkout extends BaseFragment {
     private int currentTimer = 0;
     private Workout workout;
 
-    public static FrgBaseDoRestWorkout newInstance(Workout workout, int timer) {
-        Bundle args = new Bundle();
-        args.putInt(TIMER, timer);
-        args.putParcelable(Workout.WORKOUT_ARG, workout);
-        FrgBaseDoRestWorkout fragment = new FrgBaseDoRestWorkout();
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,13 +85,10 @@ public class FrgBaseDoRestWorkout extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frg_do_rest_workout, container, false);
         ButterKnife.bind(this, view);
-        intViews();
-        return view;
-    }
-
-    private void intViews() {
+        initViews();
         loadNextExercise();
         initTimer();
+        return view;
     }
 
     private void initTimer() {
@@ -209,5 +199,6 @@ public class FrgBaseDoRestWorkout extends BaseFragment {
         finishWorkout();
     }
 
+    abstract protected void initViews();
 
 }
