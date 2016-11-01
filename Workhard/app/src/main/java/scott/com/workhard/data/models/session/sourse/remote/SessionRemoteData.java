@@ -102,7 +102,7 @@ public class SessionRemoteData implements SessionRepository {
 
     @Override
     public Observable<User> update(User user) {
-        return getRestClientPublic().getPublicService()
+        return getRestClientPublic().getPrivateService()
                 .updateProfile(user)
                 .flatMap(new Func1<ResponseLogin, Observable<User>>() {
                     @Override

@@ -54,7 +54,7 @@ public class WorkoutRemote implements WorkoutRepository {
 
     @Override
     public Observable<List<Workout>> findAll() {
-        return getRestClientPublic().getPublicService().getWorkouts()
+        return getRestClientPublic().getPrivateService().getWorkouts()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
                 .flatMap(new Func1<ResponseWorkout, Observable<List<Workout>>>() {
@@ -67,7 +67,7 @@ public class WorkoutRemote implements WorkoutRepository {
 
     @Override
     public Observable<List<Workout>> findMyWorkouts() {
-        return getRestClientPublic().getPublicService().getMyWorkouts()
+        return getRestClientPublic().getPrivateService().getMyWorkouts()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
                 .flatMap(new Func1<ResponseWorkout, Observable<List<Workout>>>() {
@@ -80,7 +80,7 @@ public class WorkoutRemote implements WorkoutRepository {
 
     @Override
     public Observable<List<Workout>> findHistoriesWorkouts() {
-        return getRestClientPublic().getPublicService().getHistoriesWorkouts()
+        return getRestClientPublic().getPrivateService().getHistoriesWorkouts()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
                 .flatMap(new Func1<ResponseWorkout, Observable<List<Workout>>>() {

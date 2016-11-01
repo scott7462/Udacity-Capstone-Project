@@ -3,9 +3,12 @@ package scott.com.workhard.data.models.session;
 import android.support.annotation.NonNull;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.functions.Func1;
 import scott.com.workhard.base.model.BaseDataManager;
+import scott.com.workhard.data.models.session.sourse.preference.SessionPreference;
 import scott.com.workhard.entities.User;
+import scott.com.workhard.utils.preferences.PreferenceUtils;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -87,5 +90,9 @@ public class SessionDataManager extends BaseDataManager<User, SessionRepository>
                         return getDbRepository().add(user);
                     }
                 });
+    }
+
+    public String getToken() {
+      return SessionPreference.getPreferenceToken();
     }
 }

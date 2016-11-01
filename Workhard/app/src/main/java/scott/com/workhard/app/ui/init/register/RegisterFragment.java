@@ -33,6 +33,7 @@ import scott.com.workhard.app.ui.ActivityMain;
 import scott.com.workhard.app.ui.init.login.presenter.SessionPresenter;
 import scott.com.workhard.app.ui.init.login.presenter.SessionPresenterListeners;
 import scott.com.workhard.base.view.BaseFragment;
+import scott.com.workhard.bus.event.EventProgressDialog;
 import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.utils.DatePickerFragment;
 import scott.com.workhard.utils.DateTimeUtils;
@@ -179,11 +180,12 @@ public class RegisterFragment extends BaseFragment implements SessionPresenterLi
 
     @Override
     public void showProgressIndicator(String message) {
+        EventBus.getDefault().post(new EventProgressDialog(message,true));
     }
 
     @Override
     public void removeProgressIndicator() {
-
+        EventBus.getDefault().post(new EventProgressDialog(false));
     }
 
     public void showDatePickerDialog(TextView v) {

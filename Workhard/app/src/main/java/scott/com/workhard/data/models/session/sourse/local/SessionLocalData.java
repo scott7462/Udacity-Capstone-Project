@@ -9,7 +9,9 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import scott.com.workhard.app.ui.init.login.presenter.SessionPresenter;
 import scott.com.workhard.data.models.session.SessionRepository;
+import scott.com.workhard.data.models.session.sourse.preference.SessionPreference;
 import scott.com.workhard.data.sourse.db.realm_utils.RealmObservable;
 import scott.com.workhard.data.sourse.db.tables.CurrentWorkoutTable;
 import scott.com.workhard.data.sourse.db.tables.ExerciseTable;
@@ -95,13 +97,19 @@ public class SessionLocalData implements SessionRepository {
             public UserTable call(Realm realm) {
                 return realm.copyToRealmOrUpdate(new UserTable(user));
             }
-        }).flatMap(new Func1<UserTable, Observable<User>>() {
+        }).flatMap(saveUserDb())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    private Func1<UserTable, Observable<User>> saveUserDb() {
+        return new Func1<UserTable, Observable<User>>() {
             @Override
             public Observable<User> call(UserTable userTable) {
+                SessionPreference.setPreferenceToken(userTable.getToken().getAccessToken());
                 return userTable.transformToUser();
             }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        };
     }
 
     @Override

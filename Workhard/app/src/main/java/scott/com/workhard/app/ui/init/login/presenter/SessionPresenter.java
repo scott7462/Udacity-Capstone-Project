@@ -2,6 +2,7 @@ package scott.com.workhard.app.ui.init.login.presenter;
 
 import rx.Subscriber;
 import scott.com.workhard.R;
+import scott.com.workhard.app.App;
 import scott.com.workhard.base.presenter.BasePresenter;
 import scott.com.workhard.data.Injection;
 import scott.com.workhard.data.sourse.rest.ApiErrorRest;
@@ -67,6 +68,7 @@ public class SessionPresenter extends BasePresenter<SessionPresenterListeners> {
     }
 
     public void doRegister(String name, String lastName, String email, String password, String date) {
+        getViewListener().showProgressIndicator(App.getGlobalContext().getString(R.string.frg_register_loading));
         setSubscription(Injection.provideSessionRepository()
                 .register(new User().withName(name)
                         .withLastName(lastName)

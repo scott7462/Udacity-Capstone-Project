@@ -74,7 +74,7 @@ public class ExerciseRemoteData implements ExerciseRepository {
 
     @Override
     public Observable<List<Exercise>> findAll() {
-        return getRestClientPublic().getPublicService().exercises()
+        return getRestClientPublic().getPrivateService().exercises()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
                 .flatMap(new Func1<ResponseExercises, Observable<List<Exercise>>>() {

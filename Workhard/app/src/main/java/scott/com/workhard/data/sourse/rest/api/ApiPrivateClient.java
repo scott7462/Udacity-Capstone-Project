@@ -30,12 +30,20 @@ import scott.com.workhard.entities.User;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public interface ApiClient {
+public interface ApiPrivateClient {
 
-    @POST("user/login")
-    Observable<ResponseLogin> login(@Body RequestLogin body);
+    @GET("exercises")
+    Observable<ResponseExercises> exercises();
 
-    @POST("user")
-    Observable<ResponseLogin> register(@Body User user);
+    @PUT("user")
+    Observable<ResponseLogin> updateProfile(@Body User body);
 
+    @GET("workouts")
+    Observable<ResponseWorkout> workouts();
+
+    @GET("workouts/histories")
+    Observable<ResponseWorkout> historiesWorkouts();
+
+    @GET("workouts/my")
+    Observable<ResponseWorkout> myWorkouts();
 }

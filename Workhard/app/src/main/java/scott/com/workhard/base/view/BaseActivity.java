@@ -23,6 +23,7 @@ import scott.com.workhard.app.ui.ActivityMain;
 import scott.com.workhard.app.ui.init.register.RegisterActivity;
 import scott.com.workhard.app.ui.select_exercise.ActivitySelectExercise;
 import scott.com.workhard.bus.event.EventAlterDialog;
+import scott.com.workhard.bus.event.EventProgressDialog;
 import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.bus.util.SnackBarUtils;
 import scott.com.workhard.utils.AlterDialogFragment;
@@ -212,10 +213,17 @@ public class BaseActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "dialog");
     }
 
+    @Subscribe
+    public void showProgress(EventProgressDialog event) {
+        if(event.isShow()){
+            showProgressDialog(event.getMessage());
+        }else{
+            dissmisProgressDialog();
+        }
+    }
 
     public void goToSelectExercise() {
         ActivitySelectExercise.newInstance(this);
     }
-
 
 }

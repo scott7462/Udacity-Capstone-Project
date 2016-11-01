@@ -4,11 +4,18 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import scott.com.workhard.data.Injection;
+import scott.com.workhard.data.models.session.SessionDataManager;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -32,8 +39,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RestClient {
 
     private static String BASE_URL;
-    private final ApiClient apiService;
+    private final ApiClient apiPublicService;
+    private final ApiPrivateClient apiPrivateService;
     private final PublicService publicService;
+    private final PrivateService privateService;
 
     public RestClient(String baseUrl) {
         BASE_URL = baseUrl;
@@ -49,16 +58,35 @@ public class RestClient {
                 .build();
 
 
-        this.apiService = retrofit.create(ApiClient.class);
-        this.publicService = new PublicService(getApiService());
+        Retrofit retrofitPrivate = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(getPrivateClient())
+                .build();
+
+
+        this.apiPublicService = retrofit.create(ApiClient.class);
+        this.apiPrivateService = retrofitPrivate.create(ApiPrivateClient.class);
+
+        this.publicService = new PublicService(getApiPublicService());
+        this.privateService = new PrivateService(getApiPrivateService());
     }
 
-    private ApiClient getApiService() {
-        return this.apiService;
+    private ApiClient getApiPublicService() {
+        return this.apiPublicService;
     }
 
     public PublicService getPublicService() {
         return this.publicService;
+    }
+
+    public ApiPrivateClient getApiPrivateService() {
+        return apiPrivateService;
+    }
+
+    public PrivateService getPrivateService() {
+        return privateService;
     }
 
     private OkHttpClient getClient() {
@@ -67,6 +95,27 @@ public class RestClient {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addNetworkInterceptor(new StethoInterceptor());
         httpClient.addInterceptor(logging);
+        return httpClient.build();
+    }
+
+    public OkHttpClient getPrivateClient() {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addNetworkInterceptor(new StethoInterceptor());
+        httpClient.addInterceptor(logging);
+        httpClient.addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Interceptor.Chain chain) throws IOException {
+                Request original = chain.request();
+                Request request = original.newBuilder()
+                        .header("Authorization", Injection.provideSessionRepository().getToken())
+                        .build();
+
+                return chain.proceed(request);
+            }
+        });
+
         return httpClient.build();
     }
 }
