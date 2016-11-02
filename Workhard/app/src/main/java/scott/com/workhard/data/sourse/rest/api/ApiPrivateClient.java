@@ -32,7 +32,7 @@ import scott.com.workhard.entities.User;
  */
 public interface ApiPrivateClient {
 
-    @GET("exercises")
+    @GET("exercise")
     Observable<ResponseExercises> exercises();
 
     @PUT("user")

@@ -109,7 +109,7 @@ public class RestClient {
             public Response intercept(Interceptor.Chain chain) throws IOException {
                 Request original = chain.request();
                 Request request = original.newBuilder()
-                        .header("Authorization", Injection.provideSessionRepository().getToken())
+                        .header("Authorization", "Bearer "+Injection.provideSessionRepository().getToken())
                         .build();
 
                 return chain.proceed(request);
