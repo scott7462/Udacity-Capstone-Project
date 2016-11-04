@@ -1,7 +1,8 @@
 package scott.com.workhard.app.ui.workout_create.adapter;
 
 import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -27,7 +29,7 @@ import scott.com.workhard.R;
 import scott.com.workhard.app.App;
 import scott.com.workhard.base.view.BaseFilterSimpleAdapter;
 import scott.com.workhard.base.view.BaseSimpleAdapter;
-import scott.com.workhard.bus.event.EventSnackBar;
+import scott.com.workhard.bus.event.EventErrorName;
 import scott.com.workhard.entities.Exercise;
 import scott.com.workhard.entities.Workout;
 
@@ -62,13 +64,15 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, BaseSimpl
     private Workout workout = new Workout();
 
     public Workout getWorkout() {
-        return workout;
+        return workout.withExercises(getItems());
     }
 
-    public void setWorkout(@NonNull Workout workout) {
-        this.workout = workout;
-        if (workout.getExerciseList() != null) {
-            cleanItemsAndUpdate(workout.getExerciseList());
+    public void setWorkout(@Nullable Workout workout) {
+        if (workout != null) {
+            this.workout = workout;
+            if (workout.getExerciseList() != null) {
+                cleanItemsAndUpdate(workout.getExerciseList());
+            }
         }
     }
 
@@ -108,6 +112,21 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, BaseSimpl
         }
     }
 
+    @Override
+    public void onViewAttachedToWindow(BaseViewHolder<Exercise> holder) {
+        super.onViewAttachedToWindow(holder);
+        if (holder instanceof HeaderHolder) {
+            EventBus.getDefault().register(holder);
+        }
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(BaseViewHolder<Exercise> holder) {
+        super.onViewDetachedFromWindow(holder);
+        if (holder instanceof HeaderHolder) {
+            EventBus.getDefault().unregister(holder);
+        }
+    }
 
     class HeaderHolder extends EmptyViewHolder<Exercise> {
 
@@ -221,9 +240,16 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, BaseSimpl
             eTFrgCreateWorkoutName.setText(workout.getName());
             updateViewsTimes();
         }
+
+        @Subscribe
+        public void errorInValidationFragment(EventErrorName eventErrorName) {
+            ((TextInputLayout) eTFrgCreateWorkoutName.getParent().getParent()).setError(eventErrorName.getMessage());
+        }
+
     }
 
     class ExerciseHolder extends BaseViewHolder<Exercise> {
+
         @BindView(R.id.iVItemExerciseMove)
         ImageView iVItemExerciseMove;
         @BindView(R.id.tVItemExerciseName)
@@ -244,7 +270,7 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, BaseSimpl
         }
 
         private void initListeners() {
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     callItemListenerByPosition(getAdapterPosition());
@@ -256,7 +282,7 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, BaseSimpl
         protected void bindView(Exercise exercise) {
             tVItemExerciseName.setText(exercise.getName());
             tVItemExerciseRepetitions.setText(tVItemExerciseRepetitions.getContext()
-                    .getString(R.string.frg_create_workout_item_exercise, exercise.getRepetition()));
+                    .getString(R.string.frg_create_workout_item_exercise, exercise.getRepetitions()));
             cBCreateExercise.setVisibility(typeView == ADD_TO_WORKOUT ? View.VISIBLE : View.GONE);
             lLItemExerciseControllerRepetitions.setVisibility(typeView == SHOW_IN_WORKOUT ? View.VISIBLE : View.GONE);
             cBCreateExercise.setChecked(exercise.isChecked());
@@ -269,28 +295,27 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, BaseSimpl
         public void onClickRounds(View view) {
             switch (view.getId()) {
                 case R.id.iBFItemExerciseMinusRepetitions:
-                    if (getItems().get(getItemPosition(getAdapterPosition())).getRepetition() > view.getContext().getResources().getInteger(R.integer.min_rounds)) {
+                    if (getItems().get(getItemPosition(getAdapterPosition())).getRepetitions() > view.getContext().getResources().getInteger(R.integer.min_rounds)) {
                         getItems().get(getItemPosition(getAdapterPosition()))
-                                .setRepetition(getItems().get(getItemPosition(getAdapterPosition())).getRepetition()
+                                .setRepetitions(getItems().get(getItemPosition(getAdapterPosition())).getRepetitions()
                                         - view.getContext().getResources().getInteger(R.integer.min_rounds));
                     }
                     break;
                 case R.id.iBFItemExercisePluseRepetitions:
                     getItems().get(getItemPosition(getAdapterPosition()))
-                            .setRepetition(getItems().get(getItemPosition(getAdapterPosition())).getRepetition()
+                            .setRepetitions(getItems().get(getItemPosition(getAdapterPosition())).getRepetitions()
                                     + view.getContext().getResources().getInteger(R.integer.min_rounds));
                     break;
             }
             tVItemExerciseRepetitions.setText(tVItemExerciseRepetitions.getContext()
                     .getString(R.string.frg_create_workout_item_exercise, getItems()
-                            .get(getItemPosition(getAdapterPosition())).getRepetition()));
+                            .get(getItemPosition(getAdapterPosition())).getRepetitions()));
         }
 
         @OnClick(R.id.iBCreateExerciseDelete)
         public void onDeleteItem() {
             removeItemByPosition(getItemPosition(getAdapterPosition()));
         }
-
 
         @OnCheckedChanged(R.id.cBItemExercise)
         public void checkExercise(boolean check) {
@@ -299,6 +324,7 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, BaseSimpl
                 getOnExerciseClickListener().onNumberOfSelectExercisesListener(getCountSelectedItems());
             }
         }
+
     }
 
     private int getCountSelectedItems() {
@@ -345,8 +371,11 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, BaseSimpl
 
     public boolean validateHeader() {
         if (workout.getName().length() < 4) {
-            EventBus.getDefault().post(new EventSnackBar().withMessage(App.getGlobalContext().getString(R.string.frg_create_workout_name_nim)));
+            EventBus.getDefault().post(new EventErrorName(App.getGlobalContext().getString(R.string.frg_create_workout_name_nim)));
             return false;
+        }else{
+
+            EventBus.getDefault().post(new EventErrorName(null  ));
         }
         return true;
     }

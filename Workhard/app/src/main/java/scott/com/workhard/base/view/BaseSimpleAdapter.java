@@ -15,7 +15,6 @@ import butterknife.ButterKnife;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @modified Julian Cardona. julian@kogimobile.com
  * @version 9/4/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
@@ -24,6 +23,7 @@ import butterknife.ButterKnife;
  *          you may not use this file except in compliance with the License.
  *          You may obtain a copy of the License at
  *          <p/>
+ * @modified Julian Cardona. julian@kogimobile.com
  * @see <a href = "http://www.aprenderaprogramar.com" /> http://www.apache.org/licenses/LICENSE-2.0 </a>
  * <p/>
  * Unless required by applicable law or agreed to in writing, software
@@ -225,7 +225,7 @@ public abstract class BaseSimpleAdapter<T, H extends BaseSimpleAdapter.BaseViewH
     }
 
     private int getPositionByRules() {
-        return ((isEmptyState() && items.size() == 0) ? 1 : 0);
+        return ((isEmptyState() && items.size() == 0) ? 1 : 0) + (haveAdapterHeaderView() ? 1 : 0);
     }
 
     public void setCallbackMoved(boolean callbackMoved) {
@@ -306,7 +306,7 @@ public abstract class BaseSimpleAdapter<T, H extends BaseSimpleAdapter.BaseViewH
         }
     }
 
-    public abstract static class BaseViewHolder<T> extends RecyclerView.ViewHolder{
+    public abstract static class BaseViewHolder<T> extends RecyclerView.ViewHolder {
 
         public BaseViewHolder(View itemView) {
             super(itemView);
@@ -497,16 +497,16 @@ public abstract class BaseSimpleAdapter<T, H extends BaseSimpleAdapter.BaseViewH
         return selectedItems;
     }
 
-    public boolean ifValidCondition(T t){
+    public boolean ifValidCondition(T t) {
         return true;
     }
 
     @CallSuper
     @Override
     public void onBindViewHolder(H holder, int position) {
-        if(holder instanceof EmptyViewHolder){
+        if (holder instanceof EmptyViewHolder) {
             ((EmptyViewHolder) holder).bindView();
-        }else{
+        } else {
             holder.bindView(items.get(getItemPosition(position)));
         }
     }

@@ -46,7 +46,11 @@ public class WorkoutDataManager extends BaseDataManager<Workout, WorkoutReposito
 
     @Override
     public Observable<Workout> add(Workout workout) {
-        return null;
+        if (workout != null)
+            for (int i = 0; i < workout.getExerciseList().size(); i++) {
+                workout.getExerciseList().get(i).setPosition(i);
+            }
+        return getRestRepository().add(workout);
     }
 
     @Override

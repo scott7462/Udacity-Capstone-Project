@@ -52,7 +52,7 @@ public class ActivityCreateWorkout extends BaseActivity {
             navigateMainContent(getSupportFragmentManager().getFragment(
                     savedInstanceState, "mContent"), getString(R.string.app_name));
         } else {
-            navigateMainContent(FrgCreateWorkout.newInstance((Workout) getIntent().getParcelableExtra(Workout.WORKOUT_ARG)), getString(R.string.frg_create_workout_title));
+            navigateMainContent(FrgCreateOrUpdateWorkout.newInstance((Workout) getIntent().getParcelableExtra(Workout.WORKOUT_ARG)), getString(R.string.frg_create_workout_title));
         }
     }
 

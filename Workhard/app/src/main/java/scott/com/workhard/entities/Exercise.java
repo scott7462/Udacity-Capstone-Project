@@ -6,8 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import scott.com.workhard.data.sourse.db.tables.ExerciseTable;
-
 /**
  * @author pedroscott. scott7462@gmail.com
  * @version 9/4/16.
@@ -43,12 +41,15 @@ public class Exercise implements Parcelable {
     @SerializedName("url")
     @Expose
     private String url;
-    @SerializedName("repetition")
+    @SerializedName("repetitions")
     @Expose
-    private int repetition;
+    private int repetitions = 1;
     @SerializedName("is_checked")
     @Expose
     private boolean isChecked;
+    @SerializedName("position")
+    @Expose
+    private int position;
 
     public Exercise() {
     }
@@ -69,12 +70,12 @@ public class Exercise implements Parcelable {
         this.description = description;
     }
 
-    public int getRepetition() {
-        return repetition;
+    public int getRepetitions() {
+        return repetitions;
     }
 
-    public void setRepetition(int repetition) {
-        this.repetition = repetition;
+    public void setRepetitions(int repetitions) {
+        this.repetitions = repetitions;
     }
 
     public String getId() {
@@ -93,10 +94,15 @@ public class Exercise implements Parcelable {
         this.url = url;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
     public Exercise withId(String id) {
         setId(id);
         return this;
     }
+
     public Exercise withName(String name) {
         setName(name);
         return this;
@@ -113,7 +119,7 @@ public class Exercise implements Parcelable {
     }
 
     public Exercise withRepetitions(int repetitions) {
-        setRepetition(repetitions);
+        setRepetitions(repetitions);
         return this;
     }
 
@@ -136,7 +142,7 @@ public class Exercise implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.description);
         dest.writeString(this.url);
-        dest.writeInt(this.repetition);
+        dest.writeInt(this.repetitions);
         dest.writeByte(this.isChecked ? (byte) 1 : (byte) 0);
     }
 
@@ -145,7 +151,7 @@ public class Exercise implements Parcelable {
         this.name = in.readString();
         this.description = in.readString();
         this.url = in.readString();
-        this.repetition = in.readInt();
+        this.repetitions = in.readInt();
         this.isChecked = in.readByte() != 0;
     }
 
@@ -160,4 +166,8 @@ public class Exercise implements Parcelable {
             return new Exercise[size];
         }
     };
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 }

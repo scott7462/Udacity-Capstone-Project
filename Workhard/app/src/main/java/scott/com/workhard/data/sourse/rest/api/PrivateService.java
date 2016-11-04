@@ -7,6 +7,7 @@ import scott.com.workhard.data.sourse.rest.response.ResponseExercises;
 import scott.com.workhard.data.sourse.rest.response.ResponseLogin;
 import scott.com.workhard.data.sourse.rest.response.ResponseWorkout;
 import scott.com.workhard.entities.User;
+import scott.com.workhard.entities.Workout;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -64,4 +65,11 @@ public class PrivateService {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    public Observable<Workout> createWorkout(Workout workout) {
+        return apiService.createWorkouts(workout)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

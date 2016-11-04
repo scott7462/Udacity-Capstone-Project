@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/primary"
     android:orientation="vertical"
+    android:elevation="@dimen/default_elevation_lvl_one"
     android:padding="@dimen/default_large_size">
 
     <android.support.design.widget.TextInputLayout
@@ -16,6 +17,7 @@
             android:contentDescription="@string/frg_create_workout_cd_name_of_you_workout"
             android:drawableLeft="@drawable/ic_account"
             android:drawablePadding="@dimen/default_medium_size"
+            android:textColor="@android:color/white"
             android:drawableStart="@drawable/ic_account"
             android:hint="@string/frg_create_workout_name"
             android:inputType="textCapSentences"
@@ -88,7 +90,6 @@
             android:contentDescription="@string/frg_create_workout_cd_plus_recovery_time_between_exercises_to_workout" />
 
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"

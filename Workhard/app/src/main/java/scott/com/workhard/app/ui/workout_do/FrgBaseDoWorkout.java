@@ -94,7 +94,7 @@ public abstract class FrgBaseDoWorkout extends BaseFragment {
     protected void initBaseViews() {
         tVFrgDoWorkoutName.setText(exercise.getName());
         loadNextExercise();
-        tVFrgDoWorkoutReps.setText(getString(R.string.frg_do_workout_number_of_repetitions, exercise.getRepetition()));
+        tVFrgDoWorkoutReps.setText(getString(R.string.frg_do_workout_number_of_repetitions, exercise.getRepetitions()));
         tVFrgDoWorkoutRounds.setText(getString(R.string.frg_do_workout_rounds_of_exercises, workout.getCurrentRound(), workout.getRounds()));
     }
 

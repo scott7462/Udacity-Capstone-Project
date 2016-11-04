@@ -1,7 +1,6 @@
 package scott.com.workhard.app.ui.workout_resume.adapter;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +77,7 @@ public class AdapterExerciseResume extends BaseSimpleAdapter<Exercise, BaseSimpl
         protected void bindView(Exercise exercise) {
             tVItemExerciseName.setText(exercise.getName());
             tVItemExerciseRepetitions.setText(tVItemExerciseRepetitions.getContext()
-                    .getString(R.string.frg_create_workout_item_exercise, exercise.getRepetition() *
+                    .getString(R.string.frg_create_workout_item_exercise, exercise.getRepetitions() *
                             (getAdapterPosition() <= workout.getCurrentExercisePosition() ?
                                     workout.getCurrentRound() : workout.getCurrentRound() - 1)));
         }

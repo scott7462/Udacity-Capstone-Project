@@ -11,6 +11,7 @@ import scott.com.workhard.data.sourse.rest.response.ResponseExercises;
 import scott.com.workhard.data.sourse.rest.response.ResponseLogin;
 import scott.com.workhard.data.sourse.rest.response.ResponseWorkout;
 import scott.com.workhard.entities.User;
+import scott.com.workhard.entities.Workout;
 
 /**
  * @author pedroscott
@@ -41,9 +42,12 @@ public interface ApiPrivateClient {
     @GET("workouts")
     Observable<ResponseWorkout> workouts();
 
-    @GET("workouts/histories")
+    @GET("workout/histories")
     Observable<ResponseWorkout> historiesWorkouts();
 
-    @GET("workouts/my")
+    @GET("workout/my")
     Observable<ResponseWorkout> myWorkouts();
+
+    @POST("workout/save")
+    Observable<Workout> createWorkouts(@Body Workout body);
 }

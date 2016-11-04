@@ -19,11 +19,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
+import scott.com.workhard.app.ui.workout_create.adapter.AdapterExercise;
+import scott.com.workhard.app.ui.workout_create.presenter.CreateWorkoutPresenter;
+import scott.com.workhard.app.ui.workout_create.presenter.CreateWorkoutPresenterListeners;
 import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.base.view.BaseSimpleAdapter;
-import scott.com.workhard.app.ui.workout_create.adapter.AdapterExercise;
 import scott.com.workhard.bus.event.EventAddExercises;
+import scott.com.workhard.bus.event.EventProgressDialog;
 import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.entities.Exercise;
 import scott.com.workhard.entities.Workout;
@@ -47,19 +50,18 @@ import scott.com.workhard.utils.SpacesItemDecoration;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class FrgCreateWorkout extends BaseFragment {
+public class FrgCreateOrUpdateWorkout extends BaseFragment implements CreateWorkoutPresenterListeners {
 
     @BindView(R.id.rVFrgCreateWorkOut)
     RecyclerView rVFrgCreateWorkOut;
 
     private AdapterExercise adapter = new AdapterExercise(AdapterExercise.SHOW_IN_WORKOUT);
+    private CreateWorkoutPresenter presenter;
 
-    private Workout workout;
-
-    public static FrgCreateWorkout newInstance(Workout workout) {
+    public static FrgCreateOrUpdateWorkout newInstance(Workout workout) {
         Bundle args = new Bundle();
         args.putParcelable(Workout.WORKOUT_ARG, workout);
-        FrgCreateWorkout fragment = new FrgCreateWorkout();
+        FrgCreateOrUpdateWorkout fragment = new FrgCreateOrUpdateWorkout();
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,8 +75,12 @@ public class FrgCreateWorkout extends BaseFragment {
     private void initVars() {
         setHasOptionsMenu(true);
         adapter.showHeaderView(true);
-        adapter.setWorkout((Workout) getArguments().getParcelable(Workout.WORKOUT_ARG) != null ?
-                (Workout) getArguments().getParcelable(Workout.WORKOUT_ARG) : new Workout());
+        Workout workout = (Workout) getArguments().getParcelable(Workout.WORKOUT_ARG);
+        if(workout!=null){
+            
+        }
+        adapter.setWorkout(workout);
+
         adapter.addHeaderClickListener(new AdapterExercise.onHeaderClickListener() {
             @Override
             public void onNameWorkoutChange(String name) {
@@ -121,14 +127,14 @@ public class FrgCreateWorkout extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        presenter = new DoWorkoutPresenter();
-//        presenter.attachView(this);
+        presenter = new CreateWorkoutPresenter();
+        presenter.attachView(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-//        presenter.detachView();
+        presenter.detachView();
     }
 
     @Override
@@ -140,10 +146,10 @@ public class FrgCreateWorkout extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_menu_save: {
-                adapter.showLoadMoreView(!adapter.haveLoadMoreView());
-//                ((BaseActivity) getActivity()).clearKeyboardFromScreen();
-//                if (validateDataToSend())
-//                    EventBus.getDefault().post(new EventSnackBar().withMessage("TODO Create service"));
+                ((BaseActivity) getActivity()).clearKeyboardFromScreen();
+                if (validateDataToSend()) {
+                    presenter.doCreateWorkout(adapter.getWorkout());
+                }
                 break;
             }
             case android.R.id.home: {
@@ -174,5 +180,25 @@ public class FrgCreateWorkout extends BaseFragment {
     @Subscribe
     public void onGetExercisesToAdd(EventAddExercises event) {
         adapter.addItems(event.getExercises());
+    }
+
+    @Override
+    public void onCreateWorkoutSuccess() {
+        getActivity().finish();
+    }
+
+    @Override
+    public void showProgressIndicator(String message) {
+        EventBus.getDefault().post(new EventProgressDialog(message, true));
+    }
+
+    @Override
+    public void removeProgressIndicator() {
+        EventBus.getDefault().post(new EventProgressDialog(false));
+    }
+
+    @Override
+    public void showMessage(String string) {
+        EventBus.getDefault().post(new EventSnackBar().withMessage(string));
     }
 }

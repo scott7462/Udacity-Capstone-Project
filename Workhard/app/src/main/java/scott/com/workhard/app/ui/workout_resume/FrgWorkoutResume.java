@@ -137,7 +137,7 @@ public class FrgWorkoutResume extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        presenter = new DoWorkoutPresenter();
+//        presenter = new CreateWorkoutPresenter();
 //        presenter.attachView(this);
     }
 

@@ -119,7 +119,7 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
                         break;
                     }
                     default: {
-                        ActivityDoWorkout.newInstance(getActivity(), ActivityDoWorkout.NEW_WORKOUT, item);
+                        ActivityCreateWorkout.newInstance(getActivity(),item);
                         break;
                     }
                 }

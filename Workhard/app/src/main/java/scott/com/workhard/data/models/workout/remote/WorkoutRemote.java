@@ -19,7 +19,7 @@ import scott.com.workhard.entities.Workout;
 public class WorkoutRemote implements WorkoutRepository {
 
     private static WorkoutRemote instance;
-    private RestClient restClientPublic;
+    private RestClient restClient;
 
     public static WorkoutRemote newInstance() {
         if (instance == null) {
@@ -29,16 +29,16 @@ public class WorkoutRemote implements WorkoutRepository {
     }
 
     public WorkoutRemote() {
-        restClientPublic = new RestClient(App.getGlobalContext().getString(R.string.base_url));
+        restClient = new RestClient(App.getGlobalContext().getString(R.string.base_url));
     }
 
-    public RestClient getRestClientPublic() {
-        return restClientPublic;
+    public RestClient getRestClient() {
+        return restClient;
     }
 
     @Override
-    public Observable<Workout> add(Workout object) {
-        return null;
+    public Observable<Workout> add(Workout workout) {
+        return getRestClient().getPrivateService().createWorkout(workout);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class WorkoutRemote implements WorkoutRepository {
 
     @Override
     public Observable<List<Workout>> findAll() {
-        return getRestClientPublic().getPrivateService().getWorkouts()
+        return getRestClient().getPrivateService().getWorkouts()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
                 .flatMap(new Func1<ResponseWorkout, Observable<List<Workout>>>() {
@@ -67,7 +67,7 @@ public class WorkoutRemote implements WorkoutRepository {
 
     @Override
     public Observable<List<Workout>> findMyWorkouts() {
-        return getRestClientPublic().getPrivateService().getMyWorkouts()
+        return getRestClient().getPrivateService().getMyWorkouts()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
                 .flatMap(new Func1<ResponseWorkout, Observable<List<Workout>>>() {
@@ -80,7 +80,7 @@ public class WorkoutRemote implements WorkoutRepository {
 
     @Override
     public Observable<List<Workout>> findHistoriesWorkouts() {
-        return getRestClientPublic().getPrivateService().getHistoriesWorkouts()
+        return getRestClient().getPrivateService().getHistoriesWorkouts()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
                 .flatMap(new Func1<ResponseWorkout, Observable<List<Workout>>>() {

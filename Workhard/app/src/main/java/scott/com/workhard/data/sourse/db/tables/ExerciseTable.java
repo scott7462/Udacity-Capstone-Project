@@ -41,7 +41,7 @@ public class ExerciseTable extends RealmObject {
     public ExerciseTable(Exercise exercise) {
         setId(exercise.getId());
         setName(exercise.getName());
-        setRepetition(exercise.getRepetition());
+        setRepetition(exercise.getRepetitions());
         setDescription(exercise.getDescription());
         setUrl(exercise.getUrl());
     }

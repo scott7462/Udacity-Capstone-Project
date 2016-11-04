@@ -52,7 +52,6 @@ import scott.com.workhard.utils.DateTimeUtils;
 
 public class FrgProfile extends BaseFragment implements Validator.ValidationListener, ProfilePresenterListener {
 
-
     @BindView(R.id.tVFrgProfileDate)
     TextView tVFrgProfileDate;
     @NotEmpty
