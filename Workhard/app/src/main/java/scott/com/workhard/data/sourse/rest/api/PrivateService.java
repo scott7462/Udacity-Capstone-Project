@@ -72,4 +72,9 @@ public class PrivateService {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Observable<Void> deleteWorkout(String id) {
+        return apiService.deleteWorkout(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

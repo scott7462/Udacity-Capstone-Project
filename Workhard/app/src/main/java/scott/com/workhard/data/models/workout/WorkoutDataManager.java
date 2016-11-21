@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import rx.Observable;
+import rx.functions.Func1;
 import scott.com.workhard.base.model.BaseDataManager;
 import scott.com.workhard.entities.Workout;
 
@@ -54,8 +55,14 @@ public class WorkoutDataManager extends BaseDataManager<Workout, WorkoutReposito
     }
 
     @Override
-    public Observable<Boolean> delete(Workout workout) {
-        return null;
+    public Observable<Boolean> delete(final Workout workout) {
+        return getRestRepository().delete(workout)
+                .flatMap(new Func1<Boolean, Observable<Boolean>>() {
+                    @Override
+                    public Observable<Boolean> call(Boolean aBoolean) {
+                        return getDbRepository().delete(workout);
+                    }
+                });
     }
 
     @Override

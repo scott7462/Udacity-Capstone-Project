@@ -1,7 +1,9 @@
 package scott.com.workhard.app.ui.workout_create;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +17,9 @@ import android.view.ViewGroup;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -22,15 +27,19 @@ import scott.com.workhard.R;
 import scott.com.workhard.app.ui.workout_create.adapter.AdapterExercise;
 import scott.com.workhard.app.ui.workout_create.presenter.CreateWorkoutPresenter;
 import scott.com.workhard.app.ui.workout_create.presenter.CreateWorkoutPresenterListeners;
+import scott.com.workhard.app.ui.workout_do.ActivityDoWorkout;
 import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.base.view.BaseSimpleAdapter;
 import scott.com.workhard.bus.event.EventAddExercises;
+import scott.com.workhard.bus.event.EventAlterDialog;
 import scott.com.workhard.bus.event.EventProgressDialog;
 import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.entities.Exercise;
 import scott.com.workhard.entities.Workout;
 import scott.com.workhard.utils.SpacesItemDecoration;
+
+import static scott.com.workhard.app.ui.workout_do.ActivityDoWorkout.NEW_WORKOUT;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -55,6 +64,17 @@ public class FrgCreateOrUpdateWorkout extends BaseFragment implements CreateWork
     @BindView(R.id.rVFrgCreateWorkOut)
     RecyclerView rVFrgCreateWorkOut;
 
+    public static final int NEW = 1234;
+    public static final int UPDATE = 4321;
+
+    @IntDef({NEW, UPDATE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TypeToView {
+    }
+
+    @TypeToView
+    int typeView;
+
     private AdapterExercise adapter = new AdapterExercise(AdapterExercise.SHOW_IN_WORKOUT);
     private CreateWorkoutPresenter presenter;
 
@@ -76,9 +96,12 @@ public class FrgCreateOrUpdateWorkout extends BaseFragment implements CreateWork
         setHasOptionsMenu(true);
         adapter.showHeaderView(true);
         Workout workout = (Workout) getArguments().getParcelable(Workout.WORKOUT_ARG);
-        if(workout!=null){
-            
+        if (workout == null) {
+            typeView = NEW;
+        } else {
+            typeView = UPDATE;
         }
+
         adapter.setWorkout(workout);
 
         adapter.addHeaderClickListener(new AdapterExercise.onHeaderClickListener() {
@@ -139,19 +162,42 @@ public class FrgCreateOrUpdateWorkout extends BaseFragment implements CreateWork
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_save, menu);
+        if (typeView == NEW) {
+            inflater.inflate(R.menu.menu_create_workout, menu);
+        } else {
+            inflater.inflate(R.menu.menu_update, menu);
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item_menu_save: {
+            case R.id.action_create:
                 ((BaseActivity) getActivity()).clearKeyboardFromScreen();
                 if (validateDataToSend()) {
                     presenter.doCreateWorkout(adapter.getWorkout());
+                    break;
                 }
+            case R.id.action_do:
+                ActivityDoWorkout.newInstance(getActivity(), NEW_WORKOUT, adapter.getWorkout());
+                getActivity().finish();
                 break;
-            }
+            case R.id.action_delete:
+                EventBus.getDefault().post(new EventAlterDialog().withMessage(getString(R.string.frg_create_workout_delete_workout))
+                        .withNegativeButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                presenter.onDeleteWorkout(adapter.getWorkout());
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .withNegativeButton(getString(R.string.action_not), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }));
+                break;
             case android.R.id.home: {
                 getActivity().onBackPressed();
                 break;

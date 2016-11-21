@@ -42,8 +42,15 @@ public class WorkoutRemote implements WorkoutRepository {
     }
 
     @Override
-    public Observable<Boolean> delete(Workout object) {
-        return null;
+    public Observable<Boolean> delete(Workout workout) {
+        return getRestClient().getPrivateService()
+                .deleteWorkout(workout.getId())
+                .flatMap(new Func1<Void, Observable<Boolean>>() {
+                    @Override
+                    public Observable<Boolean> call(Void aVoid) {
+                        return Observable.just(true);
+                    }
+                });
     }
 
     @Override

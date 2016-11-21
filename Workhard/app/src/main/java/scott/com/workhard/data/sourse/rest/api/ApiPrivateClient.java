@@ -2,9 +2,11 @@ package scott.com.workhard.data.sourse.rest.api;
 
 
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import rx.Observable;
 import scott.com.workhard.data.sourse.rest.request.RequestLogin;
 import scott.com.workhard.data.sourse.rest.response.ResponseExercises;
@@ -50,4 +52,7 @@ public interface ApiPrivateClient {
 
     @POST("workout/save")
     Observable<Workout> createWorkouts(@Body Workout body);
+
+    @DELETE("workout/{id}")
+    Observable<Void> deleteWorkout(@Path("id") String id);
 }

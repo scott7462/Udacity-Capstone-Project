@@ -24,7 +24,7 @@
     <dimen name="social_button_size">50dp</dimen>
     <dimen name="top_image_login">200dp</dimen>
     <dimen name="frg_do_workout_rest_clock">200dp</dimen>
-    <dimen name="frg_do_workout_next_description">180dp</dimen>
+    <dimen name="frg_do_workout_next_description">100dp</dimen>
     <dimen name="frg_do_workout_clock_size">80dp</dimen>
 
 

@@ -180,5 +180,11 @@
     <string name="error_create_workout_name_not_empty">Name of workout can not by empty</string>
     <string name="error_create_workout_min">Name workout need min 4 characters</string>
     <string name="frg_create_workout_creating_workout">Creating workouts …</string>
+    <string name="action_create_workout">Create new workout</string>
+    <string name="action_update_workout">Update</string>
+    <string name="action_do_workout">Do</string>
+    <string name="action_delete">Delete</string>
+    <string name="frg_create_workout_delete_workout">Are you sure you want delete this workout?</string>
+    <string name="frg_create_workout_deleting_workout">Deleting workout ...</string>
 
 </resources>

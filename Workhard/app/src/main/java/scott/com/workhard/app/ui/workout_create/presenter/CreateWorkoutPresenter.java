@@ -54,4 +54,27 @@ public class CreateWorkoutPresenter extends BasePresenter<CreateWorkoutPresenter
 
     }
 
+    public void onDeleteWorkout(Workout workout) {
+        getViewListener().showProgressIndicator(App.getGlobalContext().getString(R.string.frg_create_workout_deleting_workout));
+        setSubscription(Injection.provideWorkoutsRepository()
+                .delete(workout)
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+                        getViewListener().removeProgressIndicator();
+                        getViewListener().onCreateWorkoutSuccess();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getViewListener().showMessage(ApiErrorRest.handelError(e));
+                        getViewListener().removeProgressIndicator();
+                    }
+
+                    @Override
+                    public void onNext(Boolean finish) {
+
+                    }
+                }));
+    }
 }
