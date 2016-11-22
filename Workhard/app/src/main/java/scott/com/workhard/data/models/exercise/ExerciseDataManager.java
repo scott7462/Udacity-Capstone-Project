@@ -8,7 +8,6 @@ import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import scott.com.workhard.base.model.BaseDataManager;
-import scott.com.workhard.data.sourse.db.tables.ExerciseTable;
 import scott.com.workhard.entities.Exercise;
 
 /**
@@ -57,31 +56,36 @@ public class ExerciseDataManager extends BaseDataManager<Exercise, ExerciseRepos
         return null;
     }
 
+//    @Override
+//    public Observable<List<Exercise>> findAll() {
+//        return getDbRepository().findAll()
+//                .doOnNext(new Action1<List<Exercise>>() {
+//                    @Override
+//                    public void call(List<Exercise> exercises) {
+//
+//                    }
+//                })
+//                .flatMap(new Func1<List<Exercise>, Observable<List<Exercise>>>() {
+//                    @Override
+//                    public Observable<List<Exercise>> call(List<Exercise> exercises) {
+//                        return getRestRepository().findAll();
+//                    }
+//                }).flatMap(new Func1<List<Exercise>, Observable<Exercise>>() {
+//                    @Override
+//                    public Observable<Exercise> call(List<Exercise> exercises) {
+//                        return Observable.from(exercises);
+//                    }
+//                }).flatMap(new Func1<Exercise, Observable<Exercise>>() {
+//                    @Override
+//                    public Observable<Exercise> call(Exercise exercise) {
+//                        return getDbRepository().add(exercise);
+//                    }
+//                }).toList();
+//    }
+
     @Override
     public Observable<List<Exercise>> findAll() {
-        return getDbRepository().findAll()
-                .doOnNext(new Action1<List<Exercise>>() {
-                    @Override
-                    public void call(List<Exercise> exercises) {
-
-                    }
-                })
-                .flatMap(new Func1<List<Exercise>, Observable<List<Exercise>>>() {
-                    @Override
-                    public Observable<List<Exercise>> call(List<Exercise> exercises) {
-                        return getRestRepository().findAll();
-                    }
-                }).flatMap(new Func1<List<Exercise>, Observable<Exercise>>() {
-                    @Override
-                    public Observable<Exercise> call(List<Exercise> exercises) {
-                        return Observable.from(exercises);
-                    }
-                }).flatMap(new Func1<Exercise, Observable<Exercise>>() {
-                    @Override
-                    public Observable<Exercise> call(Exercise exercise) {
-                        return getDbRepository().add(exercise);
-                    }
-                }).toList();
+        return Observable.concat(getRestRepository().findAll(), getDbRepository().findAll());
     }
 
 }
