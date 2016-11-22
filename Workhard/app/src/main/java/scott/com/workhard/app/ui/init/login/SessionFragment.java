@@ -41,6 +41,7 @@ import scott.com.workhard.app.ui.init.login.presenter.SessionPresenter;
 import scott.com.workhard.app.ui.init.login.presenter.SessionPresenterListeners;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.bus.event.EventSnackBar;
+import scott.com.workhard.entities.User;
 import timber.log.Timber;
 
 /**
@@ -161,7 +162,7 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
     }
 
     private void facebookManger() {
-        lBFrgLoginFacebook.setReadPermissions("email");
+        lBFrgLoginFacebook.setReadPermissions("public_profile","email");
         lBFrgLoginFacebook.setFragment(this);
         lBFrgLoginFacebook.registerCallback(((ActivityInit) getActivity()).getCallbackManager(),
                 new FacebookCallback<LoginResult>() {
@@ -227,7 +228,7 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
                 break;
             }
             case R.id.bTFrgLoginFacebookButton: {
-                lBFrgLoginFacebook.callOnClick();
+                lBFrgLoginFacebook.performClick();
                 break;
             }
             case R.id.bTFrgLoginTwitterButton: {
@@ -241,7 +242,7 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
     public void onValidationSucceeded() {
         cleanErrors();
         presenter.doLogin(eTFrgLoginEmail.getText().toString(),
-                eTFrgLoginPassword.getText().toString());
+                eTFrgLoginPassword.getText().toString(), User.EMAIL);
     }
 
     private void cleanErrors() {
@@ -261,7 +262,7 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
         }
     }
 
-    public void loginWithGoogle(String email, String name, String lastName, String acctId) {
-        presenter.doLoginWithGoogle(email, name, lastName, acctId);
+    public void loginWithGoogle(String email, String acctId) {
+        presenter.doLoginWithGoogle(email, acctId);
     }
 }
