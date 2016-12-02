@@ -26,7 +26,7 @@ import scott.com.workhard.entities.User;
 
 public interface SessionRepository extends Repository<User> {
 
-    Observable<User> login(String email, String password);
+    Observable<User> login(String email, String password,String type);
 
     Observable<Boolean> logout();
 

@@ -46,12 +46,9 @@ public class SessionDataManager extends BaseDataManager<User, SessionRepository>
         super(restRepository, dbRepository);
     }
 
-
-
-
     @Override
-    public Observable<User> login(String email, String password) {
-        return getRestRepository().login(email, password)
+    public Observable<User> login(String email, String password,String type) {
+        return getRestRepository().login(email, password,type)
                 .flatMap(new Func1<User, Observable<User>>() {
                     @Override
                     public Observable<User> call(User user) {

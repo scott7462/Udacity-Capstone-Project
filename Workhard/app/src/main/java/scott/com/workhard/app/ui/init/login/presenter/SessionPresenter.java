@@ -29,9 +29,9 @@ import scott.com.workhard.entities.User;
 
 public class SessionPresenter extends BasePresenter<SessionPresenterListeners> {
 
-    public void doLogin(String email, String password) {
+    public void doLogin(String email, String password,@User.TypeLogin String type) {
         setSubscription(Injection.provideSessionRepository()
-                .login(email, password)
+                .login(email, password,type)
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onStart() {
@@ -60,11 +60,15 @@ public class SessionPresenter extends BasePresenter<SessionPresenterListeners> {
 
 
     public void doLoginWithTwitter(String userName, long userId) {
-        doLogin("", "");
+        doLogin("", "",User.TWITTER);
     }
 
-    public void doLoginWithGoogle(String email, String name, String lastName, String acctId) {
-        doLogin("", "");
+    public void doLoginWithGoogle(String email,String acctId) {
+        doLogin("", "",User.GOOGLE);
+    }
+
+    public void doLoginWithFacebook(String email, String facebookId) {
+        doLogin(email,facebookId,User.FACEBOOK);
     }
 
     public void doRegister(String name, String lastName, String email, String password, String date) {

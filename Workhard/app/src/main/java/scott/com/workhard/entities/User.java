@@ -2,9 +2,14 @@ package scott.com.workhard.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.IntDef;
+import android.support.annotation.StringDef;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import io.realm.annotations.PrimaryKey;
 
@@ -28,6 +33,15 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class User implements Parcelable {
+    public static final String EMAIL = "EMAIL";
+    public static final String GOOGLE = "GOOGLE";
+    public static final String TWITTER = "TWITTER";
+    public static final String FACEBOOK = "FACEBOOK";
+
+    @StringDef({EMAIL, GOOGLE,TWITTER,FACEBOOK})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TypeLogin {
+    }
 
     @PrimaryKey
     @SerializedName("id")

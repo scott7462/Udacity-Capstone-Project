@@ -98,7 +98,7 @@ public class ActivityInit extends BaseActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         getCallbackManager().onActivityResult(requestCode, resultCode, data);
         getCurrentFrgToTwitter(requestCode, resultCode, data);
-        handleSignInResult(resultCode, data);
+        handleSignInResult(requestCode, data);
     }
 
     public CallbackManager getCallbackManager() {
@@ -140,10 +140,10 @@ public class ActivityInit extends BaseActivity implements
                 GoogleSignInAccount acct = result.getSignInAccount();
                 if (getCurrentFrg() instanceof SessionFragment) {
                     if (acct != null && acct.getEmail() != null) {
-                        ((SessionFragment) getCurrentFrg()).loginWithGoogle(acct.getEmail(), acct.getGivenName(), acct.getFamilyName(), acct.getId());
+                        ((SessionFragment) getCurrentFrg()).loginWithGoogle(acct.getEmail(), acct.getId());
+                    } else {
+                        EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.error_login_with_google_email)));
                     }
-                } else {
-                    EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.error_login_with_google_email)));
                 }
             } else {
                 EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.error_login_with_google)));
