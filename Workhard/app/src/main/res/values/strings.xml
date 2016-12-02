@@ -185,6 +185,7 @@
     <string name="action_do_workout">Do</string>
     <string name="action_delete">Delete</string>
     <string name="frg_create_workout_delete_workout">Are you sure you want delete this workout?</string>
-    <string name="frg_create_workout_deleting_workout">Deleting workout ...</string>
+    <string name="frg_create_workout_deleting_workout">Deleting workout …</string>
+    <string name="frg_exercise_empty_exercices">Imposible find exercices in this moment please try late.</string>
 
 </resources>

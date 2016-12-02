@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import rx.Observable;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import scott.com.workhard.base.model.BaseDataManager;
 import scott.com.workhard.entities.Exercise;
@@ -85,7 +84,28 @@ public class ExerciseDataManager extends BaseDataManager<Exercise, ExerciseRepos
 
     @Override
     public Observable<List<Exercise>> findAll() {
-        return Observable.concat(getRestRepository().findAll(), getDbRepository().findAll());
+        return getAllServiceAndSave()
+                .onErrorResumeNext(new Func1<Throwable, Observable<List<Exercise>>>() {
+                    @Override
+                    public Observable<List<Exercise>> call(Throwable throwable) {
+                        return getDbRepository().findAll();
+                    }
+                });
+    }
+
+    private Observable<List<Exercise>> getAllServiceAndSave() {
+        return getRestRepository().findAll()
+                .flatMap(new Func1<List<Exercise>, Observable<Exercise>>() {
+                    @Override
+                    public Observable<Exercise> call(List<Exercise> exercises) {
+                        return Observable.from(exercises);
+                    }
+                }).flatMap(new Func1<Exercise, Observable<Exercise>>() {
+                    @Override
+                    public Observable<Exercise> call(Exercise exercise) {
+                        return getDbRepository().add(exercise);
+                    }
+                }).toList();
     }
 
 }

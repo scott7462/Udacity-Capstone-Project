@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -52,8 +53,10 @@ import scott.com.workhard.utils.SpacesItemDecoration;
  */
 public class FrgSelectExercise extends BaseFragment implements ExercisesPresenterListener {
 
-    @BindView(R.id.rVFrgCreateWorkOut)
-    RecyclerView rVFrgCreateWorkOut;
+    @BindView(R.id.rVFrgExercises)
+    RecyclerView rVFrgExercises;
+    @BindView(R.id.sRFrgExercises)
+    SwipeRefreshLayout sRFrgExercises;
 
     private AdapterExercise adapter = new AdapterExercise(AdapterExercise.ADD_TO_WORKOUT);
     private int numberSelectedItems = 0;
@@ -99,10 +102,18 @@ public class FrgSelectExercise extends BaseFragment implements ExercisesPresente
     }
 
     private void intViews() {
-        rVFrgCreateWorkOut.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rVFrgCreateWorkOut.addItemDecoration(
+        rVFrgExercises.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rVFrgExercises.addItemDecoration(
                 new SpacesItemDecoration(adapter.haveAdapterHeaderView(), R.dimen.default_medium_size));
-        rVFrgCreateWorkOut.setAdapter(adapter);
+        rVFrgExercises.setAdapter(adapter);
+
+        sRFrgExercises.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.doGetExercises();
+            }
+        });
+
     }
 
     @Override
@@ -200,6 +211,7 @@ public class FrgSelectExercise extends BaseFragment implements ExercisesPresente
     @Override
     public void removeProgressIndicator() {
         adapter.showLoadingState(false);
+        sRFrgExercises.setRefreshing(false);
     }
 
     @Override

@@ -60,6 +60,7 @@ public class ActivityInit extends BaseActivity implements
         MultiplePermissionsListener {
 
     private static final int RC_SIGN_IN = 9001;
+    private static final int TWITTER_REQUEST_CODE = 140;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -151,10 +152,13 @@ public class ActivityInit extends BaseActivity implements
     }
 
     private void getCurrentFrgToTwitter(int requestCode, int resultCode, Intent data) {
-        Fragment fragment = getCurrentFrg();
-        if (fragment instanceof SessionFragment) {
-            ((SessionFragment) fragment).getlBFrgLoginTwitter().onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TWITTER_REQUEST_CODE) {
+            Fragment fragment = getCurrentFrg();
+            if (fragment instanceof SessionFragment) {
+                ((SessionFragment) fragment).getlBFrgLoginTwitter().onActivityResult(requestCode, resultCode, data);
+            }
         }
+
     }
 
     public void startLoginGooglePlus() {

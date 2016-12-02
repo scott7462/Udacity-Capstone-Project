@@ -19,13 +19,13 @@ import com.google.android.gms.common.SignInButton;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
-import com.mobsandgeeks.saripaar.annotation.Min;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import org.greenrobot.eventbus.EventBus;
@@ -133,6 +133,8 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
                 String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
                 Timber.e(msg);
                 presenter.doLoginWithTwitter(session.getUserName(), session.getUserId());
+//                requestTwitterEmail(session);
+
             }
 
             @Override
@@ -142,6 +144,22 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
         });
 
     }
+
+//    private void requestTwitterEmail(final TwitterSession session) {
+//        TwitterAuthClient authClient = new TwitterAuthClient();
+//        authClient.requestEmail(session, new Callback<String>() {
+//            @Override
+//            public void success(Result<String> result) {
+//                presenter.doLoginWithTwitter(session.getUserName(), session.getUserId());
+//            }
+//
+//            @Override
+//            public void failure(TwitterException exception) {
+//                EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.error_twitter_connection)));
+//            }
+//        });
+//
+//    }
 
     @OnClick(R.id.lBFrgLoginGooglePlus)
     public void onClickToSingInGoogle() {

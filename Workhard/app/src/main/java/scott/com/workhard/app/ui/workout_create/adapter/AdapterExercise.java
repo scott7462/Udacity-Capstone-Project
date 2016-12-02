@@ -94,21 +94,17 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, BaseSimpl
     @Override
     public BaseViewHolder<Exercise> onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
-            case LOADING_VIEW: {
+            case LOADING_VIEW:
                 return new EmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_loading, parent, false));
-            }
-            case EMPTY_VIEW: {
-                return new EmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_empty_state, parent, false));
-            }
-            case HEADER_VIEW: {
+            case EMPTY_VIEW:
+                return new ExerciseEmptyHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_empty_state, parent, false));
+            case HEADER_VIEW:
                 return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.frg_create_workout_header, parent, false));
-            }
-            case LOAD_MORE_VIEW: {
+            case LOAD_MORE_VIEW:
                 return new EmptyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_load_more, parent, false));
-            }
-            default: {
+            default:
                 return new ExerciseHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise, parent, false));
-            }
+
         }
     }
 
@@ -270,7 +266,7 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, BaseSimpl
         }
 
         private void initListeners() {
-            itemView.setOnClickListener( new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     callItemListenerByPosition(getAdapterPosition());
@@ -321,18 +317,10 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, BaseSimpl
         public void checkExercise(boolean check) {
             getItems().get(getItemPosition(getAdapterPosition())).setChecked(check);
             if (getOnExerciseClickListener() != null) {
-                getOnExerciseClickListener().onNumberOfSelectExercisesListener(getCountSelectedItems());
+                getOnExerciseClickListener().onNumberOfSelectExercisesListener(getItemsByCondition().size());
             }
         }
 
-    }
-
-    private int getCountSelectedItems() {
-        int count = 0;
-        for (Exercise exercise : getItems()) {
-            count = count + (exercise.isChecked() ? 1 : 0);
-        }
-        return count;
     }
 
     onHeaderClickListener getOnHeaderClickListener() {
@@ -373,12 +361,31 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, BaseSimpl
         if (workout.getName().length() < 4) {
             EventBus.getDefault().post(new EventErrorName(App.getGlobalContext().getString(R.string.frg_create_workout_name_nim)));
             return false;
-        }else{
-
-            EventBus.getDefault().post(new EventErrorName(null  ));
+        } else {
+            EventBus.getDefault().post(new EventErrorName(null));
         }
         return true;
     }
+
+    class ExerciseEmptyHolder extends EmptyViewHolder<Exercise> {
+
+        @BindView(R.id.tVItemEmpty)
+        TextView tVItemEmpty;
+
+        public ExerciseEmptyHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        protected void bindView() {
+            super.bindView();
+            if(typeView==AdapterExercise.ADD_TO_WORKOUT){
+                tVItemEmpty.setText(tVItemEmpty.getContext().getString(R.string.frg_exercise_empty_exercices));
+            }
+
+        }
+    }
+
 
 }
 
