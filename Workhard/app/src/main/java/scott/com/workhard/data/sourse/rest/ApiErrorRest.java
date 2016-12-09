@@ -2,6 +2,7 @@ package scott.com.workhard.data.sourse.rest;
 
 import android.support.annotation.IntDef;
 
+import com.google.firebase.FirebaseException;
 import com.google.gson.Gson;
 
 import java.lang.annotation.Retention;
@@ -57,7 +58,10 @@ public class ApiErrorRest {
             } catch (Throwable e) {
                 e.printStackTrace();
             }
+        } else if (error instanceof FirebaseException) {
+            return error.getMessage();
         }
+
         return ErrorFactory.getErrorMessage(ErrorFactory.GENERAL_DEFAULT_ERROR);
     }
 

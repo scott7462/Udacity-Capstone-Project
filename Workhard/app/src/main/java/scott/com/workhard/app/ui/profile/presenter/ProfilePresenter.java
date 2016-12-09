@@ -3,6 +3,8 @@ package scott.com.workhard.app.ui.profile.presenter;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import scott.com.workhard.R;
+import scott.com.workhard.app.App;
 import scott.com.workhard.base.presenter.BasePresenter;
 import scott.com.workhard.data.Injection;
 import scott.com.workhard.data.sourse.rest.ApiErrorRest;
@@ -30,7 +32,11 @@ import scott.com.workhard.entities.User;
 
 public class ProfilePresenter extends BasePresenter<ProfilePresenterListener> {
 
-
+    /**
+     * Method do get the update profile of the user
+     * <p>
+     * Rx function to call the listener onLoadUser() or showMessage() in case of error
+     */
     public void doGetProfile() {
         setSubscription(Injection.provideSessionRepository()
                 .getSessionUser()
@@ -54,7 +60,19 @@ public class ProfilePresenter extends BasePresenter<ProfilePresenterListener> {
                 }));
     }
 
-    public void doUpdateProfile(String name, String lastName, String email, String date) {
+
+    /**
+     * Method do update the user
+     *
+     * @param name     The name to display by the user
+     * @param lastName The last name to display by the user
+     * @param email    The email to display by the user
+     * @param date     The date to display by the user on milliseconds
+     *                 <p>
+     *                 Rx function to call the listener onLoadUser() or showMessage() in case of error and notified the view
+     *                 the progress.
+     */
+    public void doUpdateProfile(String name, String lastName, String email, long date) {
         setSubscription(Injection.provideSessionRepository()
                 .update(new User().withName(name)
                         .withLastName(lastName)
@@ -62,8 +80,13 @@ public class ProfilePresenter extends BasePresenter<ProfilePresenterListener> {
                         .withBirthday(date))
                 .subscribe(new Subscriber<User>() {
                     @Override
+                    public void onStart() {
+                        super.onStart();
+                        getViewListener().showProgressIndicator(App.getGlobalContext().getString(R.string.frg_profile_updating_profile));
+                    }
+
+                    @Override
                     public void onCompleted() {
-                        getViewListener().removeProgressIndicator();
                     }
 
                     @Override
@@ -74,6 +97,7 @@ public class ProfilePresenter extends BasePresenter<ProfilePresenterListener> {
 
                     @Override
                     public void onNext(User user) {
+                        getViewListener().removeProgressIndicator();
                         getViewListener().onLoadUser(user);
                     }
                 }));

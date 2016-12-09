@@ -1,7 +1,7 @@
 package scott.com.workhard.app.ui.init.login;
 
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -11,10 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.SignInButton;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -25,7 +28,6 @@ import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
-import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,8 +42,8 @@ import scott.com.workhard.app.ui.init.ActivityInit;
 import scott.com.workhard.app.ui.init.login.presenter.SessionPresenter;
 import scott.com.workhard.app.ui.init.login.presenter.SessionPresenterListeners;
 import scott.com.workhard.base.view.BaseFragment;
+import scott.com.workhard.bus.event.EventProgressDialog;
 import scott.com.workhard.bus.event.EventSnackBar;
-import scott.com.workhard.entities.User;
 import timber.log.Timber;
 
 /**
@@ -86,7 +88,7 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
 
     private SessionPresenter presenter;
     private Validator validator;
-    private ProgressDialog progress;
+    private CallbackManager callbackManager;
 
     public static Fragment newInstance() {
         return new SessionFragment();
@@ -99,9 +101,16 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
     }
 
     private void initVars() {
+        facebookInit();
         validator = new Validator(this);
         validator.setValidationListener(this);
     }
+
+    private void facebookInit() {
+        FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,12 +118,7 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
         View view = inflater.inflate(R.layout.frg_login, container, false);
         ButterKnife.bind(this, view);
         intViews();
-        iniListeners();
         return view;
-    }
-
-    private void iniListeners() {
-
     }
 
     private void intViews() {
@@ -131,11 +135,7 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
             @Override
             public void success(Result<TwitterSession> result) {
                 TwitterSession session = result.data;
-                String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
-                Timber.e(msg);
-                presenter.doLoginWithTwitter(session.getUserName(), session.getUserId());
-//                requestTwitterEmail(session);
-
+                presenter.doLoginWithTwitter(session);
             }
 
             @Override
@@ -144,26 +144,6 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
             }
         });
 
-    }
-
-//    private void requestTwitterEmail(final TwitterSession session) {
-//        TwitterAuthClient authClient = new TwitterAuthClient();
-//        authClient.requestEmail(session, new Callback<String>() {
-//            @Override
-//            public void success(Result<String> result) {
-//                presenter.doLoginWithTwitter(session.getUserName(), session.getUserId());
-//            }
-//
-//            @Override
-//            public void failure(TwitterException exception) {
-//                EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.error_twitter_connection)));
-//            }
-//        });
-//
-//    }
-
-    @OnClick(R.id.lBFrgLoginGooglePlus)
-    public void onClickToSingInGoogle() {
     }
 
     @Override
@@ -180,26 +160,23 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
     }
 
     private void facebookManger() {
-        lBFrgLoginFacebook.setReadPermissions("public_profile","email");
+        lBFrgLoginFacebook.setReadPermissions("email");
         lBFrgLoginFacebook.setFragment(this);
-        lBFrgLoginFacebook.registerCallback(((ActivityInit) getActivity()).getCallbackManager(),
+        lBFrgLoginFacebook.registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
+                        presenter.doLoginWithFacebook(loginResult);
                         Timber.e(loginResult.toString());
-                        // App code
                     }
 
                     @Override
                     public void onCancel() {
-                        Timber.e("Error");
-                        // App code
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        Timber.e(exception.toString());
-                        // App code
+                        EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.error_facebook_connection)));
                     }
                 });
     }
@@ -212,24 +189,20 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
 
     @Override
     public void showProgressIndicator(String message) {
-        progress = ProgressDialog.show(getActivity(), "Login",
-                "login message ...", true);
+        EventBus.getDefault().post(new EventProgressDialog(message, true));
     }
 
     @Override
     public void removeProgressIndicator() {
-        progress.dismiss();
+        EventBus.getDefault().post(new EventProgressDialog(false));
     }
 
     @Override
     public void onLoginSuccessful() {
         ((ActivityInit) getActivity()).navigateToMain();
+        getActivity().finish();
     }
 
-    @Override
-    public void onRegisterSuccessful() {
-
-    }
 
     @OnClick({R.id.bTFrgLoginButton, R.id.bTFrgLoginGoogleButton, R.id.bTFrgLoginFacebookButton, R.id.bTFrgLoginTwitterButton})
     public void onClick(View view) {
@@ -260,7 +233,7 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
     public void onValidationSucceeded() {
         cleanErrors();
         presenter.doLogin(eTFrgLoginEmail.getText().toString(),
-                eTFrgLoginPassword.getText().toString(), User.EMAIL);
+                eTFrgLoginPassword.getText().toString());
     }
 
     private void cleanErrors() {
@@ -280,7 +253,13 @@ public class SessionFragment extends BaseFragment implements SessionPresenterLis
         }
     }
 
-    public void loginWithGoogle(String email, String acctId) {
-        presenter.doLoginWithGoogle(email, acctId);
+    public void loginWithGoogle(GoogleSignInAccount acct) {
+        presenter.doLoginWithGoogle(acct);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

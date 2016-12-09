@@ -41,7 +41,7 @@ public class UserTable extends RealmObject {
 
     public UserTable(User user) {
         setId(user.getId());
-        setBirthday(user.getBirthday());
+//        setBirthday(user.getBirthday());
         setEmail(user.getEmail());
         setName(user.getName());
         setToken(new TokenTable(user.getToken().getAccessToken()));
@@ -101,7 +101,7 @@ public class UserTable extends RealmObject {
                 .withName(getName())
                 .withLastName(getLastName())
                 .withEmail(getEmail())
-                .withBirthday(getBirthday())
+//                .withBirthday(getBirthday())
                 .withToken(new Token(getToken().getAccessToken())));
     }
 }

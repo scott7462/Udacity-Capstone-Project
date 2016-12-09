@@ -7,8 +7,7 @@ import scott.com.workhard.data.models.exercise.ExerciseDataManager;
 import scott.com.workhard.data.models.exercise.local.ExerciseLocalData;
 import scott.com.workhard.data.models.exercise.remote.ExerciseRemoteData;
 import scott.com.workhard.data.models.session.SessionDataManager;
-import scott.com.workhard.data.models.session.sourse.local.SessionLocalData;
-import scott.com.workhard.data.models.session.sourse.remote.SessionRemoteData;
+import scott.com.workhard.data.models.session.sourse.firebase.SessionFireBaseData;
 import scott.com.workhard.data.models.workout.WorkoutDataManager;
 import scott.com.workhard.data.models.workout.local.WorkoutLocal;
 import scott.com.workhard.data.models.workout.remote.WorkoutRemote;
@@ -33,7 +32,7 @@ public class Injection {
 
 
     public static SessionDataManager provideSessionRepository() {
-        return SessionDataManager.newInstance(SessionRemoteData.newInstance(), SessionLocalData.newInstance());
+        return SessionDataManager.newInstance(SessionFireBaseData.newInstance());
     }
 
 

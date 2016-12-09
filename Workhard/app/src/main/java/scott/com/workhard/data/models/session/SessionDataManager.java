@@ -2,13 +2,12 @@ package scott.com.workhard.data.models.session;
 
 import android.support.annotation.NonNull;
 
+import com.facebook.login.LoginResult;
+
 import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Func1;
 import scott.com.workhard.base.model.BaseDataManager;
 import scott.com.workhard.data.models.session.sourse.preference.SessionPreference;
 import scott.com.workhard.entities.User;
-import scott.com.workhard.utils.preferences.PreferenceUtils;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -28,68 +27,63 @@ import scott.com.workhard.utils.preferences.PreferenceUtils;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-public class SessionDataManager extends BaseDataManager<User, SessionRepository>  implements SessionRepository {
+public class SessionDataManager extends BaseDataManager<User, SessionFireBase> implements SessionFireBase {
 
     private static SessionDataManager instance = null;
 
     @NonNull
-    public static SessionDataManager newInstance(@NonNull SessionRepository restRepository, @NonNull SessionRepository dbRepository) {
+    public static SessionDataManager newInstance(@NonNull SessionFireBase fireBaseRepository) {
         if (instance == null) {
-            instance = new SessionDataManager(restRepository, dbRepository);
+            instance = new SessionDataManager(fireBaseRepository);
         }
         return instance;
     }
 
-    public SessionDataManager(@NonNull SessionRepository restRepository, @NonNull SessionRepository dbRepository) {
-        super(restRepository, dbRepository);
+    public SessionDataManager(@NonNull SessionFireBase sessionFireBase) {
+        super(sessionFireBase);
     }
 
     @Override
-    public Observable<User> login(String email, String password,String type) {
-        return getRestRepository().login(email, password,type)
-                .flatMap(new Func1<User, Observable<User>>() {
-                    @Override
-                    public Observable<User> call(User user) {
-                        return getDbRepository().add(user);
-                    }
-                });
+    public Observable<User> loginFacebook(LoginResult token) {
+        return getFireBaseRepository().loginFacebook(token);
+    }
+
+    @Override
+    public Observable<User> loginTwitter(String token,String secret) {
+        return getFireBaseRepository().loginTwitter(token,secret);
+    }
+
+    @Override
+    public Observable<User> loginGoogle(String idToken) {
+        return getFireBaseRepository().loginGoogle(idToken);
+    }
+
+    @Override
+    public Observable<User> login(String email, String password) {
+        return getFireBaseRepository().login(email,password);
     }
 
     @Override
     public Observable<Boolean> logout() {
-        return getDbRepository().logout();
+        return getFireBaseRepository().logout();
     }
 
     @Override
     public Observable<User> getSessionUser() {
-        return getDbRepository().getSessionUser();
+        return getFireBaseRepository().getSessionUser();
     }
 
     @Override
     public Observable<User> register(User user) {
-        return getRestRepository().register(user)
-                .flatMap(new Func1<User, Observable<User>>() {
-                    @Override
-                    public Observable<User> call(User user) {
-                        return getDbRepository().add(user);
-                    }
-                });
+        return getFireBaseRepository().register(user);
     }
 
     @Override
     public Observable<User> update(User user) {
-        return getRestRepository().update(user)
-                .flatMap(new Func1<User, Observable<User>>() {
-                    @Override
-                    public Observable<User> call(User user) {
-                        return getDbRepository().add(user);
-                    }
-                });
+        return getFireBaseRepository().update(user);
+    }
+    public String getToken() {
+        return SessionPreference.getPreferenceToken();
     }
 
-    public String getToken() {
-      return SessionPreference.getPreferenceToken();
-    }
 }

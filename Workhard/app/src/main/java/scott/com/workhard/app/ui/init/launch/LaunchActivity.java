@@ -79,13 +79,13 @@ public class LaunchActivity extends BaseActivity implements MainPresenterListene
 
     @Override
     public void onNotCurrentSession() {
-        ActivityInit.newInstance(LaunchActivity.this);
+        ActivityInit.newInstance(this);
         finish();
     }
 
     @Override
     public void onCurrentSession(User user) {
-        ActivityMain.newInstance(LaunchActivity.this);
+        ActivityMain.newInstance(this);
         finish();
     }
 

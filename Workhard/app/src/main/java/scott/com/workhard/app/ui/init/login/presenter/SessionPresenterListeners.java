@@ -24,5 +24,4 @@ public interface SessionPresenterListeners extends BasePresenterListener {
 
     void onLoginSuccessful();
 
-    void onRegisterSuccessful();
 }

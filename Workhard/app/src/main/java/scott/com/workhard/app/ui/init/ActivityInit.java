@@ -71,7 +71,6 @@ public class ActivityInit extends BaseActivity implements
         return fBFrgSingIn;
     }
 
-    private CallbackManager callbackManager;
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
 
@@ -84,7 +83,6 @@ public class ActivityInit extends BaseActivity implements
         Dexter.checkPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         savedFragmentState(savedInstanceState);
         googleSingIn();
-        facebookInit();
     }
 
     @Override
@@ -96,14 +94,10 @@ public class ActivityInit extends BaseActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        getCallbackManager().onActivityResult(requestCode, resultCode, data);
         getCurrentFrgToTwitter(requestCode, resultCode, data);
         handleSignInResult(requestCode, data);
     }
 
-    public CallbackManager getCallbackManager() {
-        return callbackManager;
-    }
 
     public static void newInstance(Activity activity) {
         activity.startActivity(new Intent(activity, ActivityInit.class));
@@ -111,17 +105,13 @@ public class ActivityInit extends BaseActivity implements
 
     private void googleSingIn() {
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-    }
-
-    private void facebookInit() {
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
     }
 
     private void savedFragmentState(Bundle savedInstanceState) {
@@ -140,7 +130,7 @@ public class ActivityInit extends BaseActivity implements
                 GoogleSignInAccount acct = result.getSignInAccount();
                 if (getCurrentFrg() instanceof SessionFragment) {
                     if (acct != null && acct.getEmail() != null) {
-                        ((SessionFragment) getCurrentFrg()).loginWithGoogle(acct.getEmail(), acct.getId());
+                        ((SessionFragment) getCurrentFrg()).loginWithGoogle(acct);
                     } else {
                         EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.error_login_with_google_email)));
                     }

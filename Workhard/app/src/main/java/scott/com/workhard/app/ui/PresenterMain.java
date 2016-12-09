@@ -80,15 +80,9 @@ public class PresenterMain extends BasePresenter<MainPresenterListener> {
         setSubscription(Injection.provideSessionRepository()
                 .getSessionUser()
                 .subscribe(new Subscriber<User>() {
-                    public User user;
-
                     @Override
                     public void onCompleted() {
-                        if (user != null) {
-                            getViewListener().onCurrentSession(user);
-                        } else {
-                            getViewListener().onNotCurrentSession();
-                        }
+
                     }
 
                     @Override
@@ -98,7 +92,11 @@ public class PresenterMain extends BasePresenter<MainPresenterListener> {
 
                     @Override
                     public void onNext(User user) {
-                        this.user = user;
+                        if (user.getUid() != null) {
+                            getViewListener().onCurrentSession(user);
+                        } else {
+                            getViewListener().onNotCurrentSession();
+                        }
                     }
                 }));
     }

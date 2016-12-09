@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +33,7 @@ import scott.com.workhard.R;
 import scott.com.workhard.app.ui.ActivityMain;
 import scott.com.workhard.app.ui.init.login.presenter.SessionPresenter;
 import scott.com.workhard.app.ui.init.login.presenter.SessionPresenterListeners;
+import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.bus.event.EventProgressDialog;
 import scott.com.workhard.bus.event.EventSnackBar;
@@ -112,8 +114,14 @@ public class RegisterFragment extends BaseFragment implements SessionPresenterLi
     }
 
     private void intViews() {
+        eTFrgRegisterRepeatPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                ((BaseActivity) getActivity()).clearKeyboardFromScreen();
+                return true;
+            }
+        });
     }
-
 
     private void cleanValidations() {
         ((TextInputLayout) eTFrgRegisterName.getParent().getParent()).setError(null);
@@ -157,9 +165,8 @@ public class RegisterFragment extends BaseFragment implements SessionPresenterLi
                 eTFrgRegisterLastName.getText().toString(),
                 eTFrgRegisterEmail.getText().toString(),
                 eTFrgRegisterPassword.getText().toString(),
-                DateTimeUtils.convertToPatternFromPattern(getString(R.string.date_register_formatter),
-                        tVFrgRegisterDate.getText().toString(),
-                        getString(R.string.date_server_formatter)));
+                DateTimeUtils.getDateTimeFromPattern(getString(R.string.date_register_formatter),
+                        tVFrgRegisterDate.getText().toString()).getMillis());
     }
 
     @Override
@@ -180,7 +187,7 @@ public class RegisterFragment extends BaseFragment implements SessionPresenterLi
 
     @Override
     public void showProgressIndicator(String message) {
-        EventBus.getDefault().post(new EventProgressDialog(message,true));
+        EventBus.getDefault().post(new EventProgressDialog(message, true));
     }
 
     @Override
@@ -199,11 +206,6 @@ public class RegisterFragment extends BaseFragment implements SessionPresenterLi
 
     @Override
     public void onLoginSuccessful() {
-        ActivityMain.newInstance(getActivity());
-    }
-
-    @Override
-    public void onRegisterSuccessful() {
         ActivityMain.newInstance(getActivity());
     }
 

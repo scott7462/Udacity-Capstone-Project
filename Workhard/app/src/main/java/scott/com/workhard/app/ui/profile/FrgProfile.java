@@ -18,6 +18,9 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
+import org.greenrobot.eventbus.EventBus;
+import org.joda.time.MutableDateTime;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,7 +29,10 @@ import butterknife.OnClick;
 import scott.com.workhard.R;
 import scott.com.workhard.app.ui.profile.presenter.ProfilePresenter;
 import scott.com.workhard.app.ui.profile.presenter.ProfilePresenterListener;
+import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.base.view.BaseFragment;
+import scott.com.workhard.bus.event.EventProgressDialog;
+import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.entities.User;
 import scott.com.workhard.utils.DatePickerFragment;
 import scott.com.workhard.utils.DateTimeUtils;
@@ -97,8 +103,9 @@ public class FrgProfile extends BaseFragment implements Validator.ValidationList
         eTFrgProfileName.setText(user.getName());
         eTFrgProfileLastName.setText(user.getLastName());
         eTFrgProfileEmail.setText(user.getEmail());
-        tVFrgProfileDate.setText(DateTimeUtils.convertToPatternFromPattern(
-                getString(R.string.date_server_formatter), user.getBirthday(), getString(R.string.date_register_formatter)));
+        if (user.getBirthday() > 0)
+            tVFrgProfileDate.setText(DateTimeUtils.getStringPatternFromDateTime(
+                    getString(R.string.date_register_formatter), new MutableDateTime(user.getBirthday())));
     }
 
 
@@ -132,9 +139,9 @@ public class FrgProfile extends BaseFragment implements Validator.ValidationList
 
     private void updateProfile() {
         presenter.doUpdateProfile(eTFrgProfileName.getText().toString(),
-                eTFrgProfileLastName.getText().toString(), eTFrgProfileEmail.getText().toString(), DateTimeUtils.convertToPatternFromPattern(getString(R.string.date_register_formatter),
-                        tVFrgProfileDate.getText().toString(),
-                        getString(R.string.date_server_formatter)));
+                eTFrgProfileLastName.getText().toString(), eTFrgProfileEmail.getText().toString(),
+                DateTimeUtils.getDateTimeFromPattern(getString(R.string.date_register_formatter),
+                        tVFrgProfileDate.getText().toString()).getMillis());
     }
 
     @Override
@@ -159,6 +166,7 @@ public class FrgProfile extends BaseFragment implements Validator.ValidationList
 
     @OnClick(R.id.tVFrgProfileDate)
     public void onClick(TextView textView) {
+        ((BaseActivity) getActivity()).clearKeyboardFromScreen();
         showDatePickerDialog(textView);
     }
 
@@ -169,18 +177,16 @@ public class FrgProfile extends BaseFragment implements Validator.ValidationList
 
     @Override
     public void showProgressIndicator(String message) {
-
+        EventBus.getDefault().post(new EventProgressDialog(message, true));
     }
 
     @Override
     public void removeProgressIndicator() {
-
+        EventBus.getDefault().post(new EventProgressDialog(false));
     }
 
     @Override
-    public void showMessage(String string) {
-
+    public void showMessage(String message) {
+        EventBus.getDefault().post(new EventSnackBar().withMessage(message));
     }
-
-
 }

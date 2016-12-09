@@ -1,5 +1,7 @@
 package scott.com.workhard.data.models.session;
 
+import com.facebook.login.LoginResult;
+
 import rx.Observable;
 import scott.com.workhard.base.model.Repository;
 import scott.com.workhard.entities.User;
@@ -24,9 +26,9 @@ import scott.com.workhard.entities.User;
  */
 
 
-public interface SessionRepository extends Repository<User> {
+public interface SessionFireBase extends Repository<User> {
 
-    Observable<User> login(String email, String password,String type);
+    Observable<User> login(String email, String password);
 
     Observable<Boolean> logout();
 
@@ -34,4 +36,9 @@ public interface SessionRepository extends Repository<User> {
 
     Observable<User> register(User user);
 
+    Observable<User> loginFacebook(LoginResult token);
+
+    Observable<User> loginTwitter(String token, String secret);
+
+    Observable<User> loginGoogle(String idToken);
 }
