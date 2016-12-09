@@ -49,6 +49,138 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576176847631:android:cfb600e8e3d2fbde",
+        "android_client_info": {
+          "package_name": "scott.com.workhard.paid.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576176847631-l67lamb3968tjrodv68qltvu2gdgu7q5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "scott.com.workhard.paid.debug",
+            "certificate_hash": "8C06CE8098235F4C584A30EFE1428B6A5CC833D2"
+          }
+        },
+        {
+          "client_id": "576176847631-fjnm28c3sbkidg5cas3674uo10reiu1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuEfrNBtI1AfHhRScww8P4y0KyRLcQpGQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "576176847631-fjnm28c3sbkidg5cas3674uo10reiu1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576176847631:android:39ae4955cd8d2d2e",
+        "android_client_info": {
+          "package_name": "scott.com.workhard.free"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576176847631-madgei285akbtkf3vu71qh7vuf3vjq8b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "scott.com.workhard.free",
+            "certificate_hash": "3FCE9BC70D7C41495802A555B63FDB32E14D72E9"
+          }
+        },
+        {
+          "client_id": "576176847631-fjnm28c3sbkidg5cas3674uo10reiu1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuEfrNBtI1AfHhRScww8P4y0KyRLcQpGQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "576176847631-fjnm28c3sbkidg5cas3674uo10reiu1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576176847631:android:742c00365cdd1484",
+        "android_client_info": {
+          "package_name": "scott.com.workhard.paid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576176847631-vtdd460c4e65hknha9om6h6478ql5e95.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "scott.com.workhard.paid",
+            "certificate_hash": "3FCE9BC70D7C41495802A555B63FDB32E14D72E9"
+          }
+        },
+        {
+          "client_id": "576176847631-fjnm28c3sbkidg5cas3674uo10reiu1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuEfrNBtI1AfHhRScww8P4y0KyRLcQpGQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "576176847631-fjnm28c3sbkidg5cas3674uo10reiu1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

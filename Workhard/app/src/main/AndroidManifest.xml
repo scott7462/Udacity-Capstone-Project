@@ -17,12 +17,20 @@
         <activity
             android:name="scott.com.workhard.app.ui.init.launch.LaunchActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/LaunchTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".app.ui.ExercisesTest"
+            android:label="@string/app_name"
+            android:theme="@style/LaunchTheme"></activity>
+
+
         <activity
             android:name="scott.com.workhard.app.ui.init.ActivityInit"
             android:theme="@style/AppTheme.NoActionBar" />
