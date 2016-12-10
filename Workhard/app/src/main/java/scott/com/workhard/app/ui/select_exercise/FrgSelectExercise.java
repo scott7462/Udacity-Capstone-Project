@@ -106,14 +106,12 @@ public class FrgSelectExercise extends BaseFragment implements ExercisesPresente
         rVFrgExercises.addItemDecoration(
                 new SpacesItemDecoration(adapter.haveAdapterHeaderView(), R.dimen.default_medium_size));
         rVFrgExercises.setAdapter(adapter);
-
         sRFrgExercises.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 presenter.doGetExercises();
             }
         });
-
     }
 
     @Override
@@ -218,6 +216,5 @@ public class FrgSelectExercise extends BaseFragment implements ExercisesPresente
     public void showMessage(String stringId) {
         EventBus.getDefault().post(new EventSnackBar().withMessage(stringId));
     }
-
 
 }

@@ -4,8 +4,7 @@ import scott.com.workhard.data.models.current_workout.CurrentWorkoutDataManager;
 import scott.com.workhard.data.models.current_workout.local.CurrentWorkoutLocal;
 import scott.com.workhard.data.models.current_workout.remote.CurrentWorkoutRemote;
 import scott.com.workhard.data.models.exercise.ExerciseDataManager;
-import scott.com.workhard.data.models.exercise.local.ExerciseLocalData;
-import scott.com.workhard.data.models.exercise.remote.ExerciseRemoteData;
+import scott.com.workhard.data.models.exercise.firebase.ExerciseFireBase;
 import scott.com.workhard.data.models.session.SessionDataManager;
 import scott.com.workhard.data.models.session.sourse.firebase.SessionFireBaseData;
 import scott.com.workhard.data.models.workout.WorkoutDataManager;
@@ -27,7 +26,7 @@ public class Injection {
     }
 
     public static ExerciseDataManager provideExercisesRepository() {
-        return ExerciseDataManager.newInstance(ExerciseRemoteData.newInstance(), ExerciseLocalData.newInstance());
+        return ExerciseDataManager.newInstance(ExerciseFireBase.newInstance());
     }
 
 

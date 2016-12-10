@@ -33,13 +33,23 @@ import scott.com.workhard.entities.Exercise;
 
 public class PresenterExercises extends BasePresenter<ExercisesPresenterListener> {
 
+    /**
+     * Method do get all the exercises on the app
+     *              <p>
+     *              Rx function to call the listener onGetListExercises() or showMessage() in case of error
+     */
     public void doGetExercises() {
-        getViewListener().showProgressIndicator("");
         setSubscription(Injection.provideExercisesRepository()
                 .findAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Exercise>>() {
+                    @Override
+                    public void onStart() {
+                        getViewListener().showProgressIndicator("");
+                        super.onStart();
+                    }
+
                     @Override
                     public void onCompleted() {
                         getViewListener().removeProgressIndicator();

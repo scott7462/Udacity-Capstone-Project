@@ -30,8 +30,6 @@ public class BaseDataManager<T, H extends Repository<T>> implements Repository<T
 
     private H fireBaseRepository;
 
-    private static BaseDataManager INSTANCE = null;
-
     public BaseDataManager(@NonNull H restRepository) {
         setFireBaseRepository(restRepository);
     }

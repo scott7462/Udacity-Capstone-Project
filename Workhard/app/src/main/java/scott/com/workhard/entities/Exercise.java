@@ -29,6 +29,9 @@ public class Exercise implements Parcelable {
 
     public static final String EXERCISE_ARG = Exercise.class.getName();
     public static final String NEXT_EXERCISE_ARG = Exercise.class.getName();
+    public static final String EXERCISE_TABLE = "exercises";
+    public static final String NAME = "name";
+    private String key;
     @SerializedName("id")
     @Expose
     private String id;
@@ -131,6 +134,19 @@ public class Exercise implements Parcelable {
         isChecked = checked;
     }
 
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -138,21 +154,25 @@ public class Exercise implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.key);
         dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeString(this.description);
         dest.writeString(this.url);
         dest.writeInt(this.repetitions);
         dest.writeByte(this.isChecked ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.position);
     }
 
     protected Exercise(Parcel in) {
+        this.key = in.readString();
         this.id = in.readString();
         this.name = in.readString();
         this.description = in.readString();
         this.url = in.readString();
         this.repetitions = in.readInt();
         this.isChecked = in.readByte() != 0;
+        this.position = in.readInt();
     }
 
     public static final Creator<Exercise> CREATOR = new Creator<Exercise>() {
@@ -166,8 +186,4 @@ public class Exercise implements Parcelable {
             return new Exercise[size];
         }
     };
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
 }

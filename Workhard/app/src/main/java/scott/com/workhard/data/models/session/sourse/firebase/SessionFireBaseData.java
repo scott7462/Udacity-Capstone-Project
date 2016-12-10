@@ -13,7 +13,6 @@ import com.google.firebase.auth.TwitterAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Logger;
 import com.kelvinapps.rxfirebase.RxFirebaseAuth;
 import com.kelvinapps.rxfirebase.RxFirebaseDatabase;
 
@@ -149,6 +148,7 @@ public class SessionFireBaseData implements SessionFireBase {
     public Observable<Boolean> delete(User user) {
         return null;
     }
+
     /**
      * This method update in FireBase the user information on the database.
      *
@@ -247,7 +247,7 @@ public class SessionFireBaseData implements SessionFireBase {
     /**
      * Method get the Rx function to manager the user by UID
      *
-     * @return Func1 FirebaseUser, Observable<DataSnapshot>
+     * @return Func1 FireBaseUser, Observable<DataSnapshot>
      */
     private Func1<FirebaseUser, Observable<DataSnapshot>> getCurrentUserAuth() {
         return new Func1<FirebaseUser, Observable<DataSnapshot>>() {
