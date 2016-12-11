@@ -47,10 +47,11 @@ public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentW
         return INSTANCE;
     }
 
+
     @Override
     public Observable<Workout> add(Workout workout) {
         CurrentWorkoutPreference.setPreferenceCurrentWorkOut(true);
-        return null;
+        return getLocalRepository().add(workout);
     }
 
     @Override
@@ -71,16 +72,15 @@ public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentW
     @Override
     public Observable<Boolean> finishWorkout() {
         CurrentWorkoutPreference.setPreferenceCurrentWorkOut(false);
-        return null;
+        return getLocalRepository().finishWorkout();
     }
 
     @Override
     public Observable<Workout> findCurrentWorkout() {
-        return null;
+        return getLocalRepository().findCurrentWorkout();
     }
 
     public boolean isCurrentWorkout() {
         return CurrentWorkoutPreference.getPreferenceCurrentWorkOut();
     }
-
 }
