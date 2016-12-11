@@ -35,8 +35,8 @@ public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentW
 
     private static CurrentWorkoutDataManager INSTANCE = null;
 
-    public CurrentWorkoutDataManager(@NonNull CurrentWorkoutRepository restRepository, @NonNull CurrentWorkoutRepository dbRepository) {
-        super(restRepository, dbRepository);
+    public CurrentWorkoutDataManager(@NonNull CurrentWorkoutRepository fireBaseRepository, @NonNull CurrentWorkoutRepository localRepository) {
+        super(fireBaseRepository,localRepository);
     }
 
     @NonNull
@@ -50,7 +50,7 @@ public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentW
     @Override
     public Observable<Workout> add(Workout workout) {
         CurrentWorkoutPreference.setPreferenceCurrentWorkOut(true);
-        return getDbRepository().add(workout);
+        return null;
     }
 
     @Override
@@ -71,12 +71,12 @@ public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentW
     @Override
     public Observable<Boolean> finishWorkout() {
         CurrentWorkoutPreference.setPreferenceCurrentWorkOut(false);
-        return getDbRepository().finishWorkout();
+        return null;
     }
 
     @Override
     public Observable<Workout> findCurrentWorkout() {
-        return getDbRepository().findCurrentWorkout();
+        return null;
     }
 
     public boolean isCurrentWorkout() {

@@ -35,6 +35,7 @@ import scott.com.workhard.bus.event.EventAddExercises;
 import scott.com.workhard.bus.event.EventAlterDialog;
 import scott.com.workhard.bus.event.EventProgressDialog;
 import scott.com.workhard.bus.event.EventSnackBar;
+import scott.com.workhard.bus.event.EventUpdateWorkoutList;
 import scott.com.workhard.entities.Exercise;
 import scott.com.workhard.entities.Workout;
 import scott.com.workhard.utils.SpacesItemDecoration;
@@ -184,7 +185,7 @@ public class FrgCreateOrUpdateWorkout extends BaseFragment implements CreateWork
                 break;
             case R.id.action_delete:
                 EventBus.getDefault().post(new EventAlterDialog().withMessage(getString(R.string.frg_create_workout_delete_workout))
-                        .withNegativeButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
+                        .withPositveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 presenter.onDeleteWorkout(adapter.getWorkout());
@@ -230,6 +231,13 @@ public class FrgCreateOrUpdateWorkout extends BaseFragment implements CreateWork
 
     @Override
     public void onCreateWorkoutSuccess() {
+        EventBus.getDefault().post(new EventUpdateWorkoutList());
+        getActivity().finish();
+    }
+
+    @Override
+    public void onDeleteWorkoutSuccess() {
+        EventBus.getDefault().post(new EventUpdateWorkoutList());
         getActivity().finish();
     }
 

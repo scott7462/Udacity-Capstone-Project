@@ -169,8 +169,9 @@
     <string name="error_invalid_email">Invalid email</string>
     <string name="error_invalid_password">Invalid password</string>
     <string name="error_invalid_password_min">Password need 6 characters</string>
-    <string name="error_twitter_connection">Imposible login with twitter now please try late.</string>
-    <string name="error_login_with_google_email">The email is requiered to login with google account.</string>
+    <string name="error_twitter_connection">Impossible login with Twitter now please try late.</string>
+    <string name="error_facebook_connection">Impossible login with Facebook now please try late.</string>
+    <string name="error_login_with_google_email">The email is required to login with google account.</string>
     <string name="error_login_with_google">Error trying to login with Google please try later.</string>
     <string name="network_error_code_general">General error</string>
     <string name="network_error_no_internet_connection">No Internet Connection.</string>
@@ -187,5 +188,7 @@
     <string name="frg_create_workout_delete_workout">Are you sure you want delete this workout?</string>
     <string name="frg_create_workout_deleting_workout">Deleting workout …</string>
     <string name="frg_exercise_empty_exercices">Imposible find exercices in this moment please try late.</string>
+    <string name="frg_login_loading_login">Login …</string>
+    <string name="frg_profile_updating_profile">Updating profile …</string>
 
 </resources>

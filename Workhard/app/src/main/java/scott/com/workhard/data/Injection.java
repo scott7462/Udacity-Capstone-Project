@@ -8,8 +8,7 @@ import scott.com.workhard.data.models.exercise.firebase.ExerciseFireBase;
 import scott.com.workhard.data.models.session.SessionDataManager;
 import scott.com.workhard.data.models.session.sourse.firebase.SessionFireBaseData;
 import scott.com.workhard.data.models.workout.WorkoutDataManager;
-import scott.com.workhard.data.models.workout.local.WorkoutLocal;
-import scott.com.workhard.data.models.workout.remote.WorkoutRemote;
+import scott.com.workhard.data.models.workout.firebase.WorkoutFireBase;
 
 /**
  * Created by androiddev3 on 10/5/16.
@@ -22,7 +21,7 @@ public class Injection {
     }
 
     public static WorkoutDataManager provideWorkoutsRepository() {
-        return WorkoutDataManager.newInstance(WorkoutRemote.newInstance(), WorkoutLocal.newInstance());
+        return WorkoutDataManager.newInstance(WorkoutFireBase.newInstance());
     }
 
     public static ExerciseDataManager provideExercisesRepository() {

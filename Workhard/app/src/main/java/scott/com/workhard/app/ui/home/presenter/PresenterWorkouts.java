@@ -78,8 +78,6 @@ public class PresenterWorkouts extends BasePresenter<WorkoutsPresenterListener> 
     private void doCallMyWorkouts() {
         setSubscription(Injection.provideWorkoutsRepository()
                 .findMyWorkouts()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Workout>>() {
                     @Override
                     public void onCompleted() {
@@ -101,8 +99,6 @@ public class PresenterWorkouts extends BasePresenter<WorkoutsPresenterListener> 
     private void doCallWorkoutsHistory() {
         setSubscription(Injection.provideWorkoutsRepository()
                 .findHistoriesWorkouts()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Workout>>() {
                     @Override
                     public void onCompleted() {
@@ -122,26 +118,26 @@ public class PresenterWorkouts extends BasePresenter<WorkoutsPresenterListener> 
     }
 
     private void doCallGeneralWorkouts() {
-        setSubscription(Injection.provideWorkoutsRepository()
-                .findMyWorkouts()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Workout>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("Test", e.toString());
-                    }
-
-                    @Override
-                    public void onNext(List<Workout> workouts) {
-                        getViewListener().onLoadWorkoutLoad(workouts);
-                    }
-                }));
+//        setSubscription(Injection.provideWorkoutsRepository()
+//                .findMyWorkouts()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<List<Workout>>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Log.d("Test", e.toString());
+//                    }
+//
+//                    @Override
+//                    public void onNext(List<Workout> workouts) {
+//                        getViewListener().onLoadWorkoutLoad(workouts);
+//                    }
+//                }));
     }
 
 }

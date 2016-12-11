@@ -32,26 +32,11 @@ public class Exercise implements Parcelable {
     public static final String EXERCISE_TABLE = "exercises";
     public static final String NAME = "name";
     private String key;
-    @SerializedName("id")
-    @Expose
-    private String id;
-    @SerializedName("name")
-    @Expose
     private String name;
-    @SerializedName("description")
-    @Expose
     private String description;
-    @SerializedName("url")
-    @Expose
     private String url;
-    @SerializedName("repetitions")
-    @Expose
     private int repetitions = 1;
-    @SerializedName("is_checked")
-    @Expose
     private boolean isChecked;
-    @SerializedName("position")
-    @Expose
     private int position;
 
     public Exercise() {
@@ -81,14 +66,6 @@ public class Exercise implements Parcelable {
         this.repetitions = repetitions;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -101,8 +78,8 @@ public class Exercise implements Parcelable {
         return position;
     }
 
-    public Exercise withId(String id) {
-        setId(id);
+    public Exercise withKey(String key){
+        setKey(key);
         return this;
     }
 
@@ -155,7 +132,6 @@ public class Exercise implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.key);
-        dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeString(this.description);
         dest.writeString(this.url);
@@ -166,7 +142,6 @@ public class Exercise implements Parcelable {
 
     protected Exercise(Parcel in) {
         this.key = in.readString();
-        this.id = in.readString();
         this.name = in.readString();
         this.description = in.readString();
         this.url = in.readString();

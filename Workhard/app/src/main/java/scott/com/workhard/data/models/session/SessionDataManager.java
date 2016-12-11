@@ -82,6 +82,7 @@ public class SessionDataManager extends BaseDataManager<User, SessionFireBase> i
     public Observable<User> update(User user) {
         return getFireBaseRepository().update(user);
     }
+
     public String getToken() {
         return SessionPreference.getPreferenceToken();
     }

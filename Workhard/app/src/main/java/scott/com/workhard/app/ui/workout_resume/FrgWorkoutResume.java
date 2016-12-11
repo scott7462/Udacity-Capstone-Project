@@ -130,7 +130,7 @@ public class FrgWorkoutResume extends BaseFragment {
             tVFrgWorkoutRounds.setText(getString(R.string.frg_do_workout_rounds_of_exercises, workout.getCurrentRound(), workout.getRounds()));
             tVFrgWorkoutRestExercise.setText(getString(R.string.frg_workout_rest_between_exercise, workout.getRestBetweenExercise()));
             tVFrgWorkoutRestRounds.setText(getString(R.string.frg_workout_rest_rounds, workout.getRestRoundsExercise()));
-            tVFrgWorkoutDate.setText(getString(R.string.frg_workout_dates, workout.getDateCompleted()));
+//            tVFrgWorkoutDate.setText(getString(R.string.frg_workout_dates, workout.getDateCompleted()));
         }
     }
 

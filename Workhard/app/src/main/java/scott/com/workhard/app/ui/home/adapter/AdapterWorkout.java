@@ -108,7 +108,7 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout,BaseSimpleAd
             tVItemWorkoutRestRounds.setText(tVItemWorkoutRestRounds.getContext()
                     .getString(R.string.frg_create_item_rest_between_rounds_number, workout.getRestRoundsExercise()));
             tVItemWorkoutDate.setVisibility(typeView == HISTORY ? View.VISIBLE : View.GONE);
-            tVItemWorkoutDate.setText(workout.getDateCompleted());
+//            tVItemWorkoutDate.setText(workout.getDateCompleted());
         }
 
         private void initListeners() {

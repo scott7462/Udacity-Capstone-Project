@@ -1,6 +1,8 @@
 package scott.com.workhard.app.ui.workout_create.presenter;
 
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import scott.com.workhard.R;
 import scott.com.workhard.app.App;
 import scott.com.workhard.base.presenter.BasePresenter;
@@ -36,8 +38,6 @@ public class CreateWorkoutPresenter extends BasePresenter<CreateWorkoutPresenter
                 .subscribe(new Subscriber<Workout>() {
                     @Override
                     public void onCompleted() {
-                        getViewListener().removeProgressIndicator();
-                        getViewListener().onCreateWorkoutSuccess();
                     }
 
                     @Override
@@ -48,7 +48,8 @@ public class CreateWorkoutPresenter extends BasePresenter<CreateWorkoutPresenter
 
                     @Override
                     public void onNext(Workout workout) {
-
+                        getViewListener().removeProgressIndicator();
+                        getViewListener().onCreateWorkoutSuccess();
                     }
                 }));
 
@@ -62,7 +63,6 @@ public class CreateWorkoutPresenter extends BasePresenter<CreateWorkoutPresenter
                     @Override
                     public void onCompleted() {
                         getViewListener().removeProgressIndicator();
-                        getViewListener().onCreateWorkoutSuccess();
                     }
 
                     @Override
@@ -73,6 +73,9 @@ public class CreateWorkoutPresenter extends BasePresenter<CreateWorkoutPresenter
 
                     @Override
                     public void onNext(Boolean finish) {
+                        if (finish) {
+                            getViewListener().onDeleteWorkoutSuccess();
+                        }
 
                     }
                 }));

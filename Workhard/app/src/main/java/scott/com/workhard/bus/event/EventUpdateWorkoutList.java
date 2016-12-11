@@ -1,11 +1,8 @@
-package scott.com.workhard.app.ui.workout_create.presenter;
-
-import scott.com.workhard.base.presenter.BasePresenterListener;
-import scott.com.workhard.entities.Workout;
+package scott.com.workhard.bus.event;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 7/14/16.
+ * @version 12/10/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -21,9 +18,6 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public interface CreateWorkoutPresenterListeners extends BasePresenterListener {
 
-    void onCreateWorkoutSuccess();
-
-    void onDeleteWorkoutSuccess();
+public class EventUpdateWorkoutList {
 }

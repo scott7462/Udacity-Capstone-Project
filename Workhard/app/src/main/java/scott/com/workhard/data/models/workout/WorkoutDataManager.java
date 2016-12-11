@@ -2,10 +2,13 @@ package scott.com.workhard.data.models.workout;
 
 import android.support.annotation.NonNull;
 
+import com.kelvinapps.rxfirebase.RxFirebaseDatabase;
+
 import java.util.List;
 
 import rx.Observable;
-import rx.functions.Func1;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import scott.com.workhard.base.model.BaseDataManager;
 import scott.com.workhard.entities.Workout;
 
@@ -27,22 +30,20 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 public class WorkoutDataManager extends BaseDataManager<Workout, WorkoutRepository> implements WorkoutRepository {
 
-    private static WorkoutDataManager INSTANCE = null;
+    private static WorkoutDataManager instance = null;
 
-    public WorkoutDataManager(@NonNull WorkoutRepository restRepository, @NonNull WorkoutRepository dbRepository) {
-        super(restRepository, dbRepository);
+    public WorkoutDataManager(@NonNull WorkoutRepository fireBaseRepository) {
+        super(fireBaseRepository);
     }
 
     @NonNull
-    public static WorkoutDataManager newInstance(@NonNull WorkoutRepository restRepository, @NonNull WorkoutRepository dbRepository) {
-        if (INSTANCE == null) {
-            INSTANCE = new WorkoutDataManager(restRepository, dbRepository);
+    public static WorkoutDataManager newInstance(@NonNull WorkoutRepository fireBaseRepository) {
+        if (instance == null) {
+            instance = new WorkoutDataManager(fireBaseRepository);
         }
-        return INSTANCE;
+        return instance;
     }
 
     @Override
@@ -51,18 +52,16 @@ public class WorkoutDataManager extends BaseDataManager<Workout, WorkoutReposito
             for (int i = 0; i < workout.getExerciseList().size(); i++) {
                 workout.getExerciseList().get(i).setPosition(i);
             }
-        return getRestRepository().add(workout);
+        return getFireBaseRepository().add(workout)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
-    public Observable<Boolean> delete(final Workout workout) {
-        return getRestRepository().delete(workout)
-                .flatMap(new Func1<Boolean, Observable<Boolean>>() {
-                    @Override
-                    public Observable<Boolean> call(Boolean aBoolean) {
-                        return getDbRepository().delete(workout);
-                    }
-                });
+    public Observable<Boolean> delete(Workout workout) {
+        return getFireBaseRepository().delete(workout)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -72,15 +71,17 @@ public class WorkoutDataManager extends BaseDataManager<Workout, WorkoutReposito
 
     @Override
     public Observable<List<Workout>> findAll() {
-        return getRestRepository().findAll();
+        return null;
     }
 
     public Observable<List<Workout>> findMyWorkouts() {
-        return getRestRepository().findMyWorkouts();
+        return getFireBaseRepository().findMyWorkouts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<List<Workout>> findHistoriesWorkouts() {
-        return getRestRepository().findHistoriesWorkouts();
+        return null;
     }
 }

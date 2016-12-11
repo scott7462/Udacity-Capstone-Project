@@ -21,6 +21,7 @@ import java.util.List;
 import rx.Observable;
 import rx.functions.Func1;
 import scott.com.workhard.data.models.session.SessionFireBase;
+import scott.com.workhard.data.models.session.sourse.preference.SessionPreference;
 import scott.com.workhard.entities.User;
 import scott.com.workhard.utils.Md5;
 
@@ -45,8 +46,10 @@ import scott.com.workhard.utils.Md5;
 public class SessionFireBaseData implements SessionFireBase {
 
     private static SessionFireBaseData instance = null;
+
     /**
      * New Instance method init the FireBase Instance
+     *
      * @return SessionFireBaseData
      */
     @NonNull
@@ -122,7 +125,7 @@ public class SessionFireBaseData implements SessionFireBase {
 
     @Override
     public Observable<User> add(final User user) {
-        return  RxFirebaseAuth
+        return RxFirebaseAuth
                 .createUserWithEmailAndPassword(FirebaseAuth.getInstance(), user.getEmail(), Md5.generateMD5(user.getPassword()))
                 .flatMap(new Func1<AuthResult, Observable<AuthResult>>() {
                     @Override
@@ -218,16 +221,18 @@ public class SessionFireBaseData implements SessionFireBase {
      */
     private Observable<User> loginWithCredentials(AuthCredential credential) {
         return RxFirebaseAuth.signInWithCredential(FirebaseAuth.getInstance(), credential)
-                .flatMap(new Func1<AuthResult, Observable<User>>() {
+                .flatMap(new Func1<AuthResult, Observable<DataSnapshot>>() {
                     @Override
-                    public Observable<User> call(AuthResult authResult) {
+                    public Observable<DataSnapshot> call(AuthResult authResult) {
                         getFireBaseUserReference().child(authResult.getUser().getUid()).child(User.UID)
                                 .setValue(authResult.getUser().getUid());
                         getFireBaseUserReference().child(authResult.getUser().getUid()).child(User.EMAIL)
                                 .setValue(authResult.getUser().getEmail());
-                        return Observable.just(new User());
+                        SessionPreference.setPreferenceToken(authResult.getUser().getUid());
+                        return getRxFireBaseUserByUid(authResult.getUser().getUid());
                     }
-                });
+                })
+                .flatMap(getCurrentUserData());
     }
 
     /**

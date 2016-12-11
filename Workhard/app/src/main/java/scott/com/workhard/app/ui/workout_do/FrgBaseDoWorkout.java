@@ -77,7 +77,7 @@ public abstract class FrgBaseDoWorkout extends BaseFragment {
 
     private void initVars() {
         setHasOptionsMenu(true);
-        workout = (Workout) getArguments().getParcelable(Workout.WORKOUT_ARG);
+        workout = getArguments().getParcelable(Workout.WORKOUT_ARG);
         exercise = workout.findCurrentExercise();
     }
 
@@ -169,7 +169,6 @@ public abstract class FrgBaseDoWorkout extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tVFrgDoWorkoutDoOther:
-
                 EventBus.getDefault().post(new EventAlterDialog().withMessage(getString(R.string.frg_do_workout_other_round_alert))
                         .withPositveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
                             @Override

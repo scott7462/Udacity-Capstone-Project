@@ -29,7 +29,7 @@ public class CurrentWorkoutTable extends RealmObject {
     private int currentExercisePosition;
 
     public CurrentWorkoutTable(Workout workout) {
-        setId(workout.getId());
+        setId(workout.getKey());
         setName(workout.getName());
         setRestBetweenExercise(workout.getRestBetweenExercise());
         setRestRoundsExercise(workout.getRestRoundsExercise());
@@ -131,7 +131,7 @@ public class CurrentWorkoutTable extends RealmObject {
     public Observable<Workout> transformToWorkout() {
         return Observable.just(
                 new Workout()
-                        .withId(getId())
+                        .withKey(getId())
                         .withName(getName())
                         .withCurrentExercise(getCurrentExercise())
                         .withRestBetweenExercise(getRestBetweenExercise())

@@ -1,11 +1,14 @@
-package scott.com.workhard.app.ui.workout_create.presenter;
+package scott.com.workhard.entities;
 
-import scott.com.workhard.base.presenter.BasePresenterListener;
-import scott.com.workhard.entities.Workout;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 7/14/16.
+ * @version 9/4/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -21,9 +24,38 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public interface CreateWorkoutPresenterListeners extends BasePresenterListener {
 
-    void onCreateWorkoutSuccess();
+public class ExerciseTest {
 
-    void onDeleteWorkoutSuccess();
+
+    private String name;
+    private String description;
+    private String url;
+
+    public ExerciseTest() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

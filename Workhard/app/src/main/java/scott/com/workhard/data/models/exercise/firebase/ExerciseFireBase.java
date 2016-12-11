@@ -41,7 +41,6 @@ public class ExerciseFireBase implements ExerciseRepository {
     public static ExerciseFireBase newInstance() {
         if (instance == null) {
             instance = new ExerciseFireBase();
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             instance.getFireBaseExercisesReference().keepSynced(true);
         }
         return instance;

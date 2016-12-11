@@ -29,17 +29,32 @@ import rx.Observable;
 public class BaseDataManager<T, H extends Repository<T>> implements Repository<T> {
 
     private H fireBaseRepository;
+    private H localRepository;
 
-    public BaseDataManager(@NonNull H restRepository) {
-        setFireBaseRepository(restRepository);
+    public BaseDataManager(@NonNull H fireBaseRepository) {
+        setFireBaseRepository(fireBaseRepository);
     }
 
-    public H getFireBaseRepository() {
+
+    public BaseDataManager(@NonNull H fireBaseRepository,@NonNull H localRepository) {
+        setFireBaseRepository(fireBaseRepository);
+        setLocalRepository(localRepository);
+    }
+
+    protected H getFireBaseRepository() {
         return fireBaseRepository;
     }
 
-    public void setFireBaseRepository(H fireBaseRepository) {
+    private void setFireBaseRepository(H fireBaseRepository) {
         this.fireBaseRepository = fireBaseRepository;
+    }
+
+    protected H getLocalRepository() {
+        return localRepository;
+    }
+
+    private void setLocalRepository(H localRepository) {
+        this.localRepository = localRepository;
     }
 
     @Override

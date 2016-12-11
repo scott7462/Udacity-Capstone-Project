@@ -39,7 +39,7 @@ public class ExerciseTable extends RealmObject {
     }
 
     public ExerciseTable(Exercise exercise) {
-        setId(exercise.getId());
+        setId(exercise.getKey());
         setName(exercise.getName());
         setRepetition(exercise.getRepetitions());
         setDescription(exercise.getDescription());
@@ -88,7 +88,7 @@ public class ExerciseTable extends RealmObject {
 
     public Exercise transformToExercise() {
         return new Exercise()
-                .withId(getId())
+                .withKey(getId())
                 .withName(getName())
                 .withDescription(getDescription())
                 .withUrl(getUrl())

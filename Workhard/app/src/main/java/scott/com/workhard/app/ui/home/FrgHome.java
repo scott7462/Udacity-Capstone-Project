@@ -13,6 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -26,11 +30,11 @@ import scott.com.workhard.app.ui.home.adapter.AdapterWorkout;
 import scott.com.workhard.app.ui.home.presenter.PresenterWorkouts;
 import scott.com.workhard.app.ui.home.presenter.WorkoutsPresenterListener;
 import scott.com.workhard.app.ui.workout_create.ActivityCreateWorkout;
-import scott.com.workhard.app.ui.workout_do.ActivityDoWorkout;
 import scott.com.workhard.app.ui.workout_resume.ActivityWorkoutResume;
 import scott.com.workhard.app.ui.workout_resume.FrgWorkoutResume;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.base.view.BaseSimpleAdapter;
+import scott.com.workhard.bus.event.EventUpdateWorkoutList;
 import scott.com.workhard.entities.Workout;
 import scott.com.workhard.utils.SpacesItemDecoration;
 
@@ -91,6 +95,25 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
 
     private void initVars() {
         setHasOptionsMenu(true);
+        getWorkouts();
+        adapter.addClickListener(new BaseSimpleAdapter.onItemClickListener<Workout>() {
+            @Override
+            public void onItemViewsClick(Workout item, int position) {
+                switch (getArguments().getInt(TYPE_VIEW_ADAPTER)) {
+                    case HISTORY: {
+                        ActivityWorkoutResume.newInstance(getActivity(), item, FrgWorkoutResume.RESUME);
+                        break;
+                    }
+                    default: {
+                        ActivityCreateWorkout.newInstance(getActivity(), item);
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
+    private void getWorkouts() {
         if (getArguments() != null) {
             switch (getArguments().getInt(TYPE_VIEW_ADAPTER)) {
                 case HISTORY: {
@@ -109,22 +132,6 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
         } else {
             adapter = new AdapterWorkout(AdapterWorkout.HOME);
         }
-
-        adapter.addClickListener(new BaseSimpleAdapter.onItemClickListener<Workout>() {
-            @Override
-            public void onItemViewsClick(Workout item, int position) {
-                switch (getArguments().getInt(TYPE_VIEW_ADAPTER)) {
-                    case HISTORY: {
-                        ActivityWorkoutResume.newInstance(getActivity(), item, FrgWorkoutResume.RESUME);
-                        break;
-                    }
-                    default: {
-                        ActivityCreateWorkout.newInstance(getActivity(),item);
-                        break;
-                    }
-                }
-            }
-        });
         presenter.doGetWorkouts(presenter.getTypeCall(getArguments().getInt(TYPE_VIEW_ADAPTER)));
     }
 
@@ -166,7 +173,7 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
         sRFrgHome.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.doGetWorkouts(presenter.getTypeCall((adapter.getTypeView())));
+                getWorkouts();
             }
         });
     }
@@ -189,7 +196,6 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
         presenter.detachView();
     }
 
-
     @Override
     public void showProgressIndicator(String message) {
         adapter.showLoadingState(true);
@@ -197,6 +203,7 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
 
     @Override
     public void removeProgressIndicator() {
+        sRFrgHome.setRefreshing(false);
         adapter.showLoadingState(false);
     }
 
@@ -209,6 +216,12 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
     public void onLoadWorkoutLoad(List<Workout> workouts) {
         sRFrgHome.setRefreshing(false);
         adapter.cleanItemsAndUpdate(workouts);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true, priority = 1)
+    public void updateEvent(EventUpdateWorkoutList eventUpdateWorkoutList) {
+        getWorkouts();
+        EventBus.getDefault().removeAllStickyEvents();
     }
 
 }

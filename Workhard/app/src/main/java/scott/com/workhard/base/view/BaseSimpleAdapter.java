@@ -133,7 +133,6 @@ public abstract class BaseSimpleAdapter<T, H extends BaseSimpleAdapter.BaseViewH
         validateItemsNullAndCreate();
         items.clear();
         addItems(list);
-        notifyDataSetChanged();
     }
 
     /**
