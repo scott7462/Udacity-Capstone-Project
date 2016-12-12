@@ -2,17 +2,9 @@ package scott.com.workhard.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.StringDef;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-import io.realm.annotations.PrimaryKey;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -41,29 +33,14 @@ public class User implements Parcelable {
     public static final String LAST_NAME = "lastName";
     public static final String BIRTHDAY = "birthday";
 
-    @PrimaryKey
-    @SerializedName("id")
-    @Expose
     private String id;
-    @SerializedName("name")
-    @Expose
     private String name;
-    @SerializedName("last_name")
-    @Expose
     private String lastName;
-    @SerializedName("email")
-    @Expose
     private String email;
-    @SerializedName("birthday")
-    @Expose
     private long birthday;
     @Exclude
-    @SerializedName("password")
-    @Expose
     private String password;
-    @SerializedName("token")
-    @Expose
-    private Token token;
+
     private String uid;
 
     public void setUid(String uid) {
@@ -114,14 +91,6 @@ public class User implements Parcelable {
         this.birthday = birthday;
     }
 
-    public Token getToken() {
-        return token;
-    }
-
-    public void setToken(Token token) {
-        this.token = token;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -158,11 +127,6 @@ public class User implements Parcelable {
         return this;
     }
 
-    public User withToken(Token token) {
-        setToken(token);
-        return this;
-    }
-
     public User withPassword(String password) {
         setPassword(password);
         return this;
@@ -181,7 +145,6 @@ public class User implements Parcelable {
         dest.writeString(this.lastName);
         dest.writeString(this.email);
         dest.writeLong(this.birthday);
-        dest.writeParcelable(this.token, flags);
     }
 
     public User() {
@@ -193,7 +156,6 @@ public class User implements Parcelable {
         this.lastName = in.readString();
         this.email = in.readString();
         this.birthday = in.readLong();
-        this.token = in.readParcelable(Token.class.getClassLoader());
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

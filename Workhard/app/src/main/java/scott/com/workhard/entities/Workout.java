@@ -41,8 +41,8 @@ public class Workout implements Parcelable {
     public static final int RECOVERY_TIME_LARGE = 300;
     public static final int COMPLETED = 400;
     public static final String WORKOUT_TABLE = "user_workouts";
-    public static final String NAME = "name";
     public static final String OWNER = "owner";
+    public static final String HISTORY_WORKOUT = "history_workout_user";
 
     @Status
     public static int getValidStatus(int status) {
@@ -82,11 +82,8 @@ public class Workout implements Parcelable {
     @Exclude
     @Workout.Status
     private int status = DOING_EXERCISE;
-    @Exclude
     private String currentExercise;
-    @Exclude
     private int currentExercisePosition;
-    @Exclude
     private int currentRound = 1;
 
     public Workout() {

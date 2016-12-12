@@ -27,7 +27,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class ExerciseTest {
 
-
     private String name;
     private String description;
     private String url;

@@ -24,7 +24,6 @@ import com.google.gson.annotations.SerializedName;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 public class Exercise implements Parcelable {
 
     public static final String EXERCISE_ARG = Exercise.class.getName();
