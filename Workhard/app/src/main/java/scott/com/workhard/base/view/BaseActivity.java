@@ -29,13 +29,16 @@ import scott.com.workhard.bus.util.SnackBarUtils;
 import scott.com.workhard.utils.AlterDialogFragment;
 
 /**
- * Copyright (C) 2015 The Android Open Source Project
- * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
+ * @author pedroscott. scott7462@gmail.com
+ * @version 12/3/16.
+ *          <p>
+ *          Copyright (C) 2015 The Android Open Source Project
+ *          <p/>
+ *          Licensed under the Apache License, Version 2.0 (the "License");
+ *          you may not use this file except in compliance with the License.
+ *          You may obtain a copy of the License at
+ *          <p/>
+ * @see <a href = "http://www.aprenderaprogramar.com" /> http://www.apache.org/licenses/LICENSE-2.0 </a>
  * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -57,6 +60,7 @@ public class BaseActivity extends AppCompatActivity {
     public void addSubscription(Subscription subscription) {
         getSubscription().add(subscription);
     }
+
     /**
      * Get the toolbar in the baseActivity instance.
      */
@@ -215,9 +219,9 @@ public class BaseActivity extends AppCompatActivity {
 
     @Subscribe
     public void showProgress(EventProgressDialog event) {
-        if(event.isShow()){
+        if (event.isShow()) {
             showProgressDialog(event.getMessage());
-        }else{
+        } else {
             dissmisProgressDialog();
         }
     }

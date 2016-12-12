@@ -8,7 +8,7 @@ import rx.Observable;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 9/18/16.
+ * @version 12/3/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -24,8 +24,6 @@ import rx.Observable;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 public class BaseDataManager<T, H extends Repository<T>> implements Repository<T> {
 
     private H fireBaseRepository;
@@ -35,8 +33,7 @@ public class BaseDataManager<T, H extends Repository<T>> implements Repository<T
         setFireBaseRepository(fireBaseRepository);
     }
 
-
-    public BaseDataManager(@NonNull H fireBaseRepository,@NonNull H localRepository) {
+    public BaseDataManager(@NonNull H fireBaseRepository, @NonNull H localRepository) {
         setFireBaseRepository(fireBaseRepository);
         setLocalRepository(localRepository);
     }

@@ -34,8 +34,6 @@ import scott.com.workhard.entities.ExerciseTest;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 public class ExercisesTest extends BaseActivity {
 
     @BindView(R.id.toolbar)

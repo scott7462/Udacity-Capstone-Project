@@ -13,8 +13,8 @@ import rx.subscriptions.CompositeSubscription;
 import scott.com.workhard.bus.event.EventSnackBar;
 
 /**
- * @author pedroscott,
- * @version 7/14/16.
+ * @author pedroscott. scott7462@gmail.com
+ * @version 12/3/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -30,7 +30,6 @@ import scott.com.workhard.bus.event.EventSnackBar;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 public class BaseFragment extends Fragment {
 
     private CompositeSubscription subscription;
@@ -65,7 +64,7 @@ public class BaseFragment extends Fragment {
     }
 
     @Subscribe
-    public void showSnackBar(EventSnackBar eventSnackBar){
+    public void showSnackBar(EventSnackBar eventSnackBar) {
 
     }
 

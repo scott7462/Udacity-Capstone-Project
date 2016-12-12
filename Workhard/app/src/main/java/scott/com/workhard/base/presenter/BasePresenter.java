@@ -5,7 +5,7 @@ import rx.subscriptions.CompositeSubscription;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 7/14/16.
+ * @version 12/3/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -21,7 +21,6 @@ import rx.subscriptions.CompositeSubscription;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 public class BasePresenter<V extends BasePresenterListener> implements Presenter<V> {
 
     private V baseViewListener;

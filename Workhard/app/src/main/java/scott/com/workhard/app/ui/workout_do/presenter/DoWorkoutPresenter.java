@@ -2,7 +2,9 @@ package scott.com.workhard.app.ui.workout_do.presenter;
 
 import android.util.Log;
 
+import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Func1;
 import scott.com.workhard.base.presenter.BasePresenter;
 import scott.com.workhard.data.Injection;
 import scott.com.workhard.entities.Workout;
@@ -86,7 +88,13 @@ public class DoWorkoutPresenter extends BasePresenter<DoWorkoutPresenterListener
 
     public void doFinishWorkout() {
         setSubscription(Injection.provideCurrentWorkoutRepository()
-                .finishWorkout()
+                .findCurrentWorkout()
+                .flatMap(new Func1<Workout, Observable<Boolean>>() {
+                    @Override
+                    public Observable<Boolean> call(Workout workout) {
+                        return Injection.provideCurrentWorkoutRepository().finishWorkout(workout);
+                    }
+                })
                 .subscribe(new Subscriber<Boolean>() {
                     @Override
                     public void onCompleted() {

@@ -21,8 +21,6 @@ import scott.com.workhard.entities.User;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 public interface MainPresenterListener extends BasePresenterListener{
 
     void onLogoutSuccessful();

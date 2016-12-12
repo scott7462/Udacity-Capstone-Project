@@ -1,11 +1,14 @@
 package scott.com.workhard.app.ui;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import scott.com.workhard.base.presenter.BasePresenter;
 import scott.com.workhard.data.Injection;
 import scott.com.workhard.entities.User;
+import scott.com.workhard.entities.Workout;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -35,7 +38,14 @@ public class PresenterMain extends BasePresenter<MainPresenterListener> {
 
     public void doFinishCurrentWorkout() {
         setSubscription(Injection.provideCurrentWorkoutRepository()
-                .finishWorkout().subscribe(new Subscriber<Boolean>() {
+                .findCurrentWorkout()
+                .flatMap(new Func1<Workout, Observable<Boolean>>() {
+                    @Override
+                    public Observable<Boolean> call(Workout workout) {
+                        return Injection.provideCurrentWorkoutRepository().finishWorkout(workout);
+                    }
+                })
+                .subscribe(new Subscriber<Boolean>() {
                     @Override
                     public void onCompleted() {
 
