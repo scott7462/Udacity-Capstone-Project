@@ -23,13 +23,10 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 public interface CurrentWorkoutRepository extends Repository<Workout> {
 
-    Observable<Boolean> finishWorkout();
+    Observable<Boolean> finishWorkout(Workout workout);
 
     Observable<Workout> findCurrentWorkout();
-
 
 }

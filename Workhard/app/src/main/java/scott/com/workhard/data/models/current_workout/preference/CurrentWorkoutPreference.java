@@ -1,8 +1,5 @@
 package scott.com.workhard.data.models.current_workout.preference;
 
-import android.content.Context;
-
-import scott.com.workhard.app.App;
 import scott.com.workhard.utils.preferences.PreferenceUtils;
 
 /**
@@ -23,20 +20,24 @@ import scott.com.workhard.utils.preferences.PreferenceUtils;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 public class CurrentWorkoutPreference extends PreferenceUtils {
 
-    public static final String PREFERENCE_CURRENT_WORK_OUT = "preference_current_workout";
+    private static final String PREFERENCE_CURRENT_WORK_OUT = "preference_current_workout";
 
+    /**
+     * This method enable or disable the current workout
+     *
+     * @param enabled to active the current workout
+     */
     public static void setPreferenceCurrentWorkOut(boolean enabled) {
         getEditor().putBoolean(PREFERENCE_CURRENT_WORK_OUT, enabled).apply();
     }
 
+    /**
+     * Check if the user have active current workout
+     */
     public static boolean getPreferenceCurrentWorkOut() {
         return getPreferences().getBoolean(PREFERENCE_CURRENT_WORK_OUT, false);
     }
-
-
 
 }

@@ -5,10 +5,9 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import rx.Observable;
-import rx.Subscription;
+import rx.functions.Func1;
 import scott.com.workhard.base.model.BaseDataManager;
 import scott.com.workhard.data.models.current_workout.preference.CurrentWorkoutPreference;
-import scott.com.workhard.entities.User;
 import scott.com.workhard.entities.Workout;
 
 /**
@@ -29,20 +28,18 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentWorkoutRepository> implements CurrentWorkoutRepository {
 
     private static CurrentWorkoutDataManager INSTANCE = null;
 
     public CurrentWorkoutDataManager(@NonNull CurrentWorkoutRepository fireBaseRepository, @NonNull CurrentWorkoutRepository localRepository) {
-        super(fireBaseRepository,localRepository);
+        super(fireBaseRepository, localRepository);
     }
 
     @NonNull
-    public static CurrentWorkoutDataManager newInstance(@NonNull CurrentWorkoutRepository restRepository, @NonNull CurrentWorkoutRepository dbRepository) {
+    public static CurrentWorkoutDataManager newInstance(@NonNull CurrentWorkoutRepository fireBaseRepository, @NonNull CurrentWorkoutRepository dbRepository) {
         if (INSTANCE == null) {
-            INSTANCE = new CurrentWorkoutDataManager(restRepository, dbRepository);
+            INSTANCE = new CurrentWorkoutDataManager(fireBaseRepository, dbRepository);
         }
         return INSTANCE;
     }
@@ -70,9 +67,15 @@ public class CurrentWorkoutDataManager extends BaseDataManager<Workout, CurrentW
     }
 
     @Override
-    public Observable<Boolean> finishWorkout() {
-        CurrentWorkoutPreference.setPreferenceCurrentWorkOut(false);
-        return getLocalRepository().finishWorkout();
+    public Observable<Boolean> finishWorkout(final Workout workout) {
+        return getFireBaseRepository().finishWorkout(workout)
+                .flatMap(new Func1<Boolean, Observable<Boolean>>() {
+                    @Override
+                    public Observable<Boolean> call(Boolean aBoolean) {
+                        CurrentWorkoutPreference.setPreferenceCurrentWorkOut(false);
+                        return getLocalRepository().finishWorkout(workout);
+                    }
+                });
     }
 
     @Override

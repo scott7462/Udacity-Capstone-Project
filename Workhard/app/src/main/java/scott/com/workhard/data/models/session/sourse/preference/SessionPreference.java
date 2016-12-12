@@ -20,11 +20,9 @@ import scott.com.workhard.utils.preferences.PreferenceUtils;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 public class SessionPreference extends PreferenceUtils {
 
-    public static final String PREFERENCE_TOKEN = "preference_token";
+    private static final String PREFERENCE_TOKEN = "preference_token";
 
     public static void setPreferenceToken(String enabled) {
         getEditor().putString(PREFERENCE_TOKEN, enabled).apply();
@@ -33,7 +31,5 @@ public class SessionPreference extends PreferenceUtils {
     public static String getPreferenceToken() {
         return getPreferences().getString(PREFERENCE_TOKEN, null);
     }
-
-
 
 }

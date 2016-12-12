@@ -24,8 +24,6 @@ import scott.com.workhard.entities.User;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 public interface SessionFireBase extends Repository<User> {
 
     Observable<User> login(String email, String password);

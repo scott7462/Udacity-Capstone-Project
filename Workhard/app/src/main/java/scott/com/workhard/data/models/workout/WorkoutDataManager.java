@@ -2,8 +2,6 @@ package scott.com.workhard.data.models.workout;
 
 import android.support.annotation.NonNull;
 
-import com.kelvinapps.rxfirebase.RxFirebaseDatabase;
-
 import java.util.List;
 
 import rx.Observable;
@@ -82,6 +80,6 @@ public class WorkoutDataManager extends BaseDataManager<Workout, WorkoutReposito
 
     @Override
     public Observable<List<Workout>> findHistoriesWorkouts() {
-        return null;
+        return getFireBaseRepository().findHistoriesWorkouts();
     }
 }
