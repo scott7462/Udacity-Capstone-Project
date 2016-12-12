@@ -25,8 +25,6 @@ import scott.com.workhard.bus.util.AlterDialogUtils;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 public class AlterDialogFragment extends DialogFragment {
 
     EventAlterDialog eventAlterDialog = new EventAlterDialog();

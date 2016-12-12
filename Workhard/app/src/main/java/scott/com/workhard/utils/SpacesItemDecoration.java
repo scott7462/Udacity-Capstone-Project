@@ -25,8 +25,6 @@ import scott.com.workhard.app.App;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
     private boolean withHeader = false;
     private int space;
