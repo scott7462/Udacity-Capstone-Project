@@ -32,8 +32,6 @@ import scott.com.workhard.app.App;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 public class ApiErrorRest {
 
     public static final int NETWORK = 1234;

@@ -1,14 +1,5 @@
 package scott.com.workhard.data.sourse.rest.api;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import scott.com.workhard.data.sourse.rest.request.RequestLogin;
-import scott.com.workhard.data.sourse.rest.response.ResponseExercises;
-import scott.com.workhard.data.sourse.rest.response.ResponseLogin;
-import scott.com.workhard.data.sourse.rest.response.ResponseWorkout;
-import scott.com.workhard.entities.User;
-
 /**
  * @author pedroscott. scott7462@gmail.com
  * @version 7/17/16.
@@ -27,7 +18,6 @@ import scott.com.workhard.entities.User;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 public class PublicService {
 
     private final ApiClient apiService;
@@ -36,15 +26,4 @@ public class PublicService {
         this.apiService = apiService;
     }
 
-    public Observable<ResponseLogin> login(RequestLogin requestLogin) {
-        return apiService.login(requestLogin)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    public Observable<ResponseLogin> register(User user) {
-        return apiService.register(user)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
 }
