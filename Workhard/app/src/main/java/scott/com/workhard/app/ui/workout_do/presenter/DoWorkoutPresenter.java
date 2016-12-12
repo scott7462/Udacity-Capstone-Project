@@ -29,7 +29,12 @@ import scott.com.workhard.entities.Workout;
  */
 
 public class DoWorkoutPresenter extends BasePresenter<DoWorkoutPresenterListeners> {
-
+    /**
+     * Method save the current workout on the internal database
+     * @param workout is the workout that the user want to save on the database to keep doing if the app was close
+     *              <p>
+     *              Rx function to call the listener onGetCurrentWorkout() or showMessage() in case of error
+     */
     public void doSaveWorkout(Workout workout) {
         setSubscription(Injection.provideCurrentWorkoutRepository()
                 .add(workout)
@@ -51,7 +56,11 @@ public class DoWorkoutPresenter extends BasePresenter<DoWorkoutPresenterListener
                     }
                 }));
     }
-
+    /**
+     * Method get the current workout that the user are doing
+     *              <p>
+     *              Rx function to call the listener onGetCurrentWorkout() or showMessage() in case of error
+     */
     public void doGetCurrentWorkout() {
         setSubscription(Injection.provideCurrentWorkoutRepository()
                 .findCurrentWorkout().subscribe(new Subscriber<Workout>() {
@@ -72,7 +81,12 @@ public class DoWorkoutPresenter extends BasePresenter<DoWorkoutPresenterListener
                 }));
 
     }
-
+    /**
+     * Method update the current exercises on the current workout
+     * @param workout that the user want to update
+     *              <p>
+     *              Rx function to call the listener onCreateWorkoutSuccess() or showMessage() in case of error
+     */
     public void doGoToNextExercise(Workout workout) {
         if (workout.isTheLastExercise()) {
             doFinishWorkout();
@@ -81,11 +95,20 @@ public class DoWorkoutPresenter extends BasePresenter<DoWorkoutPresenterListener
             doSaveWorkout(workout);
         }
     }
-
+    /**
+     * Method update the finish and change state of tje current workout
+     * @param workout that the user want to update
+     *              <p>
+     *              Rx function to call the listener onCreateWorkoutSuccess() or showMessage() in case of error
+     */
     public void doFinishRecoveryTime(Workout workout) {
         doSaveWorkout(workout.finishRecoveryTime());
     }
-
+    /**
+     * Method finish the workout remove to the database and notify the server to create history workout
+     *              <p>
+     *              Rx function to call the listener onCreateWorkoutSuccess() or showMessage() in case of error
+     */
     public void doFinishWorkout() {
         setSubscription(Injection.provideCurrentWorkoutRepository()
                 .findCurrentWorkout()

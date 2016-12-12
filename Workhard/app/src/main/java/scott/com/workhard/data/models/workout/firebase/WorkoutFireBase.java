@@ -74,7 +74,9 @@ public class WorkoutFireBase implements WorkoutRepository {
 
     @Override
     public Observable<List<Workout>> findAll() {
-        return null;
+        return RxFirebaseDatabase.observeSingleValueEvent(
+                getFireWorkoutsReference())
+                .flatMap(transformWorkoutsModelsWithResponse());
     }
 
     @Override
@@ -82,18 +84,7 @@ public class WorkoutFireBase implements WorkoutRepository {
         return RxFirebaseDatabase.observeSingleValueEvent(
                 getFireWorkoutsUserReference()
                         .orderByChild(Workout.OWNER).equalTo(SessionPreference.getPreferenceToken()))
-                .flatMap(new Func1<DataSnapshot, Observable<List<Workout>>>() {
-                    @Override
-                    public Observable<List<Workout>> call(DataSnapshot dataSnapshot) {
-                        List<Workout> workouts = new ArrayList<>();
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                            Workout workout = postSnapshot.getValue(Workout.class);
-                            workout.setKey(postSnapshot.getKey());
-                            workouts.add(workout);
-                        }
-                        return Observable.just(workouts);
-                    }
-                });
+                .flatMap(transformWorkoutsModelsWithResponse());
     }
 
     @Override
@@ -101,18 +92,22 @@ public class WorkoutFireBase implements WorkoutRepository {
         return RxFirebaseDatabase.observeSingleValueEvent(
                 getFireWorkoutsUserHistoryReference()
                         .orderByChild(Workout.OWNER).equalTo(SessionPreference.getPreferenceToken()))
-                .flatMap(new Func1<DataSnapshot, Observable<List<Workout>>>() {
-                    @Override
-                    public Observable<List<Workout>> call(DataSnapshot dataSnapshot) {
-                        List<Workout> workouts = new ArrayList<>();
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                            Workout workout = postSnapshot.getValue(Workout.class);
-                            workout.setKey(postSnapshot.getKey());
-                            workouts.add(workout);
-                        }
-                        return Observable.just(workouts);
-                    }
-                });
+                .flatMap(transformWorkoutsModelsWithResponse());
+    }
+
+    private Func1<DataSnapshot, Observable<List<Workout>>> transformWorkoutsModelsWithResponse() {
+        return new Func1<DataSnapshot, Observable<List<Workout>>>() {
+            @Override
+            public Observable<List<Workout>> call(DataSnapshot dataSnapshot) {
+                List<Workout> workouts = new ArrayList<>();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Workout workout = postSnapshot.getValue(Workout.class);
+                    workout.setKey(postSnapshot.getKey());
+                    workouts.add(workout);
+                }
+                return Observable.just(workouts);
+            }
+        };
     }
 
     /**
@@ -132,5 +127,16 @@ public class WorkoutFireBase implements WorkoutRepository {
     private DatabaseReference getFireWorkoutsUserHistoryReference() {
         return FirebaseDatabase.getInstance().getReference().child(Workout.HISTORY_WORKOUT);
     }
+
+
+    /**
+     * Method get the preference to user workouts  on FireBase form star workouts
+     *
+     * @return DatabaseReference the preference to user child on User in FireBase
+     */
+    private DatabaseReference getFireWorkoutsReference() {
+        return FirebaseDatabase.getInstance().getReference().child(Workout.WORKOUTS);
+    }
+
 
 }

@@ -29,6 +29,13 @@ import scott.com.workhard.entities.Workout;
 
 public class CreateWorkoutPresenter extends BasePresenter<CreateWorkoutPresenterListeners> {
 
+    /**
+     * Method create the workout on my workouts list
+     *
+     * @param workout is the workout that the user want create in the server
+     *                <p>
+     *                Rx function to call the listener onCreateWorkoutSuccess() or showMessage() in case of error
+     */
     public void doCreateWorkout(Workout workout) {
         getViewListener().showProgressIndicator(App.getGlobalContext().getString(R.string.frg_create_workout_creating_workout));
         setSubscription(Injection.provideWorkoutsRepository()
@@ -53,6 +60,13 @@ public class CreateWorkoutPresenter extends BasePresenter<CreateWorkoutPresenter
 
     }
 
+    /**
+     * Method remove the  workout on the server
+     *
+     * @param workout is the workout that the user want to finish on the server
+     *                <p>
+     *                Rx function to call the listener onCreateWorkoutSuccess() or showMessage() in case of error
+     */
     public void onDeleteWorkout(Workout workout) {
         getViewListener().showProgressIndicator(App.getGlobalContext().getString(R.string.frg_create_workout_deleting_workout));
         setSubscription(Injection.provideWorkoutsRepository()

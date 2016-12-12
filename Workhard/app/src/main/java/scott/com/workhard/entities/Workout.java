@@ -43,6 +43,7 @@ public class Workout implements Parcelable {
     public static final String WORKOUT_TABLE = "user_workouts";
     public static final String OWNER = "owner";
     public static final String HISTORY_WORKOUT = "history_workout_user";
+    public static final String WORKOUTS = "workouts";
 
     @Status
     public static int getValidStatus(int status) {

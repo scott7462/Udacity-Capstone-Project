@@ -10,7 +10,10 @@ import java.util.List;
 import rx.Subscriber;
 import scott.com.workhard.base.presenter.BasePresenter;
 import scott.com.workhard.data.Injection;
+import scott.com.workhard.data.sourse.rest.ApiErrorRest;
 import scott.com.workhard.entities.Workout;
+
+import static android.R.id.message;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -30,13 +33,11 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 public class PresenterWorkouts extends BasePresenter<WorkoutsPresenterListener> {
 
-    public static final int HOME = 1234;
-    public static final int HISTORY = 4321;
-    public static final int MY_WORKOUTS = 1987;
+    private static final int HOME = 1234;
+    private static final int HISTORY = 4321;
+    private static final int MY_WORKOUTS = 1987;
 
     @TypeCalls
     public int getTypeCall(int anInt) {
@@ -53,7 +54,7 @@ public class PresenterWorkouts extends BasePresenter<WorkoutsPresenterListener> 
 
     @IntDef({HOME, HISTORY, MY_WORKOUTS})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface TypeCalls {
+    private @interface TypeCalls {
     }
 
     public void doGetWorkouts(@TypeCalls int typeCall) {
@@ -72,70 +73,56 @@ public class PresenterWorkouts extends BasePresenter<WorkoutsPresenterListener> 
         }
 
     }
-
+    /**
+     * Method do get my workouts form the user
+     *              <p>
+     *              Rx function to call the listener onLoadWorkoutLoad() or showMessage() in case of error
+     */
     private void doCallMyWorkouts() {
         setSubscription(Injection.provideWorkoutsRepository()
                 .findMyWorkouts()
-                .subscribe(new Subscriber<List<Workout>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("Test", e.toString());
-                    }
-
-                    @Override
-                    public void onNext(List<Workout> workouts) {
-                        getViewListener().onLoadWorkoutLoad(workouts);
-                    }
-                }));
+                .subscribe(subscriptionWorkouts()));
     }
-
+    /**
+     * Method do get History of workouts that the user do
+     *              <p>
+     *              Rx function to call the listener onLoadWorkoutLoad() or showMessage() in case of error
+     */
     private void doCallWorkoutsHistory() {
         setSubscription(Injection.provideWorkoutsRepository()
                 .findHistoriesWorkouts()
-                .subscribe(new Subscriber<List<Workout>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("Test", e.toString());
-                    }
-
-                    @Override
-                    public void onNext(List<Workout> workouts) {
-                        getViewListener().onLoadWorkoutLoad(workouts);
-                    }
-                }));
+                .subscribe(subscriptionWorkouts()));
     }
-
+    /**
+     * Method do get the recommends workouts by the app
+     *              <p>
+     *              Rx function to call the listener onLoadWorkoutLoad() or showMessage() in case of error
+     */
     private void doCallGeneralWorkouts() {
-//        setSubscription(Injection.provideWorkoutsRepository()
-//                .findMyWorkouts()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<List<Workout>>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Log.d("Test", e.toString());
-//                    }
-//
-//                    @Override
-//                    public void onNext(List<Workout> workouts) {
-//                        getViewListener().onLoadWorkoutLoad(workouts);
-//                    }
-//                }));
+        setSubscription(Injection.provideWorkoutsRepository()
+                .findAll()
+                .subscribe(subscriptionWorkouts()));
     }
+
+
+    private Subscriber<List<Workout>> subscriptionWorkouts() {
+        return new Subscriber<List<Workout>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                getViewListener().showMessage(ApiErrorRest.handelError(e));
+            }
+
+            @Override
+            public void onNext(List<Workout> workouts) {
+                getViewListener().onLoadWorkoutLoad(workouts);
+            }
+        };
+    }
+
 
 }
