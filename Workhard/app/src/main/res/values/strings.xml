@@ -3,6 +3,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="tree_points">…</string>
 
     <!-- Actions -->
     <string name="action_save">Save</string>
@@ -11,8 +12,42 @@
     <string name="action_search">Search …</string>
     <string name="action_not">No</string>
     <string name="action_yes">Yes</string>
+    <string name="action_undo">UNDO</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_update">Update</string>
+    <string name="action_create_workout">Create</string>
+    <string name="action_update_workout">Update</string>
+    <string name="action_do_workout">Do</string>
+    <string name="action_delete">Delete</string>
     <string name="logout_message">You are sure to logout.</string>
+    <string name="action_finish">Finish Workout</string>
+    <string name="action_complete">Complete</string>
+    <string name="action_do_it_again">Do it again</string>
 
+    <!-- Menu drawable -->
+    <string name="nav_drawable_cd_avatar_of_the_user">Avatar of the user</string>
+    <string name="nav_drawable_cd_name_of_the_user">Name of the user</string>
+    <string name="nav_drawable_home">Home</string>
+    <string name="nav_drawable_history">History</string>
+    <string name="nav_drawable_profile">Profile</string>
+    <string name="nav_drawable_create_workout">Create Workout</string>
+    <string name="nav_drawable_logout">Logout</string>
+    <string name="nav_drawable_my_workout">My Workout</string>
+
+    <!-- Errors -->
+    <string name="error_loading_exercises">Error loading exercises</string>
+    <string name="error_invalid_email">Invalid email</string>
+    <string name="error_invalid_password">Invalid password</string>
+    <string name="error_invalid_password_min">Password need 6 characters</string>
+    <string name="error_twitter_connection">Impossible login with Twitter now please try late.</string>
+    <string name="error_facebook_connection">Impossible login with Facebook now please try late.</string>
+    <string name="error_login_with_google_email">The email is required to login with google account.</string>
+    <string name="error_login_with_google">Error trying to login with Google please try later.</string>
+    <string name="error_network_code_general">General error</string>
+    <string name="error_network_no_internet_connection">No Internet Connection.</string>
+    <string name="error_create_workout_name_not_empty">Name of workout can not by empty</string>
+    <string name="error_create_workout_min">Name workout need min 4 characters</string>
 
     <!-- Login Fragment -->
     <string name="frg_login_login">Login</string>
@@ -21,6 +56,8 @@
     <string name="frg_login_sing_up">Sing Up</string>
     <string name="frg_login_sing_in">Sing in</string>
     <string name="frg_login_forgot_password">forgot password</string>
+    <string name="frg_login_loading_login">Login …</string>
+
     <!-- Login Content Description -->
     <string name="frg_login_cd_sing_in_with_facebook">Sing in with facebook</string>
     <string name="frg_login_cd_sing_in_with_google">Sing in with google</string>
@@ -30,7 +67,6 @@
     <string name="frg_login_cd_write_your_password">Write your password</string>
     <string name="frg_login_cd_create_a_new_user">Create a new user</string>
 
-
     <!-- Register Fragment -->
     <string name="frg_register_create_account">CREATE ACCOUNT</string>
     <string name="frg_register_first_name">First Name</string>
@@ -39,7 +75,14 @@
     <string name="frg_register_confirm_password">Confirm Password</string>
     <string name="frg_register_password">Password</string>
     <string name="frg_register_email">Email</string>
-
+    <string name="frg_register_cd_first_name">First name</string>
+    <string name="frg_register_cd_last_name">Last name</string>
+    <string name="frg_register_cd_email">Email</string>
+    <string name="frg_register_cd_birthday">Birthday</string>
+    <string name="frg_register_cd_password">Password</string>
+    <string name="frg_register_cd_confirm_password">Confirm password</string>
+    <string name="frg_register_cd_create_a_new_user">Create a new user</string>
+    <string name="frg_register_loading">Registering user…</string>
 
     <!-- Open Image Fragment -->
     <string name="image_pick_gallery">Pick image to the gallery</string>
@@ -58,28 +101,13 @@
     <string name="frg_create_workout_rest_between_rounds_number"><![CDATA[Rest between rounds:
        <b><big>%1$d</big></b> sec]]>
     </string>
-    <string name="frg_create_workout_name">Workout name</string>
-    <string name="frg_create_workout_title">Create Workout</string>
-    <string name="frg_create_workout_need_on">Need at list one exercise.</string>
-    <string name="frg_create_workout_name_nim">Name need min 4 characters.</string>
-    <string name="frg_create_workout_item_exercise">Repetitions: %1$d</string>
 
     <!-- Home Fragment -->
     <string name="frg_home_empty_home">Empty workouts.</string>
     <string name="frg_home_empty_history">Here you can see the history of your previews workouts.
     </string>
-    <string name="frg_profile_title">Profile</string>
 
-    <!-- Do Workout Fragment -->
-    <string name="frg_rest_workout_recovery_time">Recovery Time</string>
-    <string name="nav_drawable_cd_avatar_of_the_user">Avatar of the user</string>
-    <string name="nav_drawable_cd_name_of_the_user">Name of the user</string>
-    <string name="nav_drawable_home">Home</string>
-    <string name="nav_drawable_history">History</string>
-    <string name="nav_drawable_profile">Profile</string>
-    <string name="nav_drawable_create_workout">Create Workout</string>
-    <string name="nav_drawable_logout">Logout</string>
-    <string name="frg_register_cd_create_a_new_user">Create a new user</string>
+    <!-- Create Workout Fragment -->
     <string name="frg_create_workout_cd_add_exercises_to_workout">Add exercises to workout</string>
     <string name="frg_create_workout_cd_name_of_you_workout">Name of you workout</string>
     <string name="frg_create_workout_cd_plus_rounds_to_workout">Plus rounds to workout</string>
@@ -88,22 +116,34 @@
     <string name="frg_create_workout_cd_minus_recovery_time_between_rounds_to_workout">Minus recovery time between rounds to workout</string>
     <string name="frg_create_workout_cd_plus_recovery_time_between_exercises_to_workout">Plus recovery time between exercises to workout</string>
     <string name="frg_create_workout_cd_minus_recovery_time_between_exercises_to_workout">Minus recovery time between exercises to workout</string>
-
+    <string name="frg_create_workout_name">Workout name</string>
+    <string name="frg_create_workout_title">Create Workout</string>
+    <string name="frg_create_workout_need_on">Need at list one exercise.</string>
+    <string name="frg_create_workout_name_nim">Name need min 4 characters.</string>
+    <string name="frg_create_workout_item_exercise">Repetitions: %1$d</string>
+        <string name="frg_create_item_rest_between_exercise_number">Rest between exercise:
+        <big>%1$d</big> sec
+    </string>
+    <string name="frg_create_item_rest_between_rounds_number">Rest between rounds:
+        <big>%1$d</big> sec
+    </string>
+    <string name="frg_create_workout_creating_workout">Creating workouts …</string>
+    <string name="frg_create_workout_delete_workout">Are you sure you want delete this workout?</string>
+    <string name="frg_create_workout_deleting_workout">Deleting workout …</string>
+    <string name="frg_create_workout_remove_exercise">You removed %1$s of this workout.</string>
     <string name="frg_home_cd_create_new_workout">Create new workout</string>
+    <string name="frg_exercise_empty_exercises">Impossible find exercises in this moment please try late.</string>
 
+    <!-- Profile Fragment -->
+    <string name="frg_profile_title">Profile</string>
     <string name="frg_profile_cd_first_name">First name</string>
     <string name="frg_profile_cd_last_name">Last name</string>
     <string name="frg_profile_cd_email">Email</string>
     <string name="frg_profile_cd_birthday">Birthday</string>
+    <string name="frg_profile_updating_profile">Updating profile …</string>
 
-
-    <string name="frg_register_cd_first_name">First name</string>
-    <string name="frg_register_cd_last_name">Last name</string>
-    <string name="frg_register_cd_email">Email</string>
-    <string name="frg_register_cd_birthday">Birthday</string>
-    <string name="frg_register_cd_password">Password</string>
-    <string name="frg_register_cd_confirm_password">Confirm password</string>
-    <string name="frg_rest_workout_cd_recovery_time">Recovery time</string>
+    <!-- Exercises Fragment -->
+    <string name="frg_exercise_source">Source:</string>
     <string name="item_exercise_cd_move_exercise_position">Move exercise position</string>
     <string name="item_exercise_cd_exercise_name">Exercise name</string>
     <string name="item_exercise_cd_exercise_repetitions">Exercise repetitions</string>
@@ -115,35 +155,23 @@
     <string name="item_workout_cd_rest_between_exercises">Rest between exercises</string>
     <string name="item_workout_cd_rest_between_rounds">Rest between rounds</string>
     <string name="item_workout_cd_date_of_the_workout">Date of the workout</string>
-
       <string name="frg_item_workout_rounds_number">Rounds:
         <big>%1$d</big>
     </string>
-    <string name="frg_create_item_rest_between_exercise_number">Rest between exercise:
-        <big>%1$d</big> sec
-    </string>
-    <string name="frg_create_item_rest_between_rounds_number">Rest between rounds:
-        <big>%1$d</big> sec
-    </string>
-    <string name="text_exercise"><html><body><p align="justify\">A push-up (or press-up) is a common calisthenics exercise performed in a prone position by raising and lowering the body using the arms. Push-ups exercise the pectoral muscles, triceps, and anterior deltoids, with ancillary benefits to the rest of the deltoids, serratus anterior, coracobrachialis and the midsection as a whole. Push-ups are a basic exercise used in civilian athletic training or physical education and commonly in military physical training. They are also a common form of punishment used in the military, school sport, or in some martial arts disciplines.</p></body></html></string>
-    <string name="frg_exercise_source">Source:</string>
-    <string name="tree_points">…</string>
-    <string name="frg_workout_title">Workout</string>
-    <string name="action_finish">Finish Workout</string>
-    <string name="action_complete">Complete</string>
-    <string name="action_do_it_again">Do it again</string>
-    <string name="frg_workout_rounds">Rounds\n%1$d</string>
-    <string name="frg_workout_rest_rounds">R rounds\n%1$d sec</string>
-    <string name="frg_workout_rest_between_exercise">R exercise\n%1$d sec</string>
-    <string name="frg_workout_dates">Date: %1$s</string>
-    <string name="nav_drawable_my_workout">My Workout</string>
-    <string name="frg_home_empty_my_workouts">You dont save any workout jet.</string>
-    <string name="frg_my_workouts_title">My workouts</string>
+
+    <!-- My workouts Fragment -->
+    <string name="frg_my_workouts_title">My Workouts</string>
+    <string name="frg_home_empty_my_workouts">You don\'t save any workout jet.</string>
+
+    <!-- History Fragment -->
     <string name="frg_history_title">History of workout</string>
 
-    <!-- Fragment do workout -->
-    <string name="frg_do_rest_workout_title">Recovery Time</string>
+    <!-- Do Workout Fragment -->
+    <string name="frg_do_workout_recovery_time">Recovery Time</string>
+    <string name="frg_do_workout_rest_title">Recovery Time</string>
+    <string name="frg_do_workout_rest_large_title">Rest large</string>
     <string name="frg_do_workout_next_exercise">Next Exercise</string>
+    <string name="frg_do_workout_rest_cd_recovery_time">Recovery time</string>
     <string name="frg_do_workout_skip">Skip</string>
     <string name="frg_do_workout_next">Next</string>
     <string name="frg_do_workout_number_of_repetitions">Reps\n%1$d</string>
@@ -155,10 +183,8 @@
     <string name="frg_do_workout_cd_go_to_next_step">Go to next step</string>
     <string name="frg_do_workout_finish_alert">Are you sure to finish this workout?</string>
     <string name="frg_do_workout_title">EXERCISE</string>
-    <string name="frg_do_rest_large_workout_title">Rest large</string>
-    <string name="error_loading_exercises">Error loading exercises</string>
     <string name="frg_do_workout_sec_in_clock"><![CDATA[%1$d <small>seg</small>]]></string>
-    <string name="frg_di_workout_add_ten_sec">Added 10 seconds to this recovery time.</string>
+    <string name="frg_do_workout_add_ten_sec">Added 10 seconds to this recovery time.</string>
     <string name="frg_do_workout_next_exercise_name">Next exercise: %1$s</string>
     <string name="frg_do_workout_next_exercise_description"><![CDATA[
         <body style=\"text-align:justify \">%1$s</body> ]]></string>
@@ -166,29 +192,16 @@
     <string name="frg_do_workout_do_other_round">Do other round</string>
     <string name="frg_do_workout_complete_alert">OK! Are you sure that you do not want continue training?</string>
     <string name="frg_do_workout_other_round_alert">Excellent! Are you sure to do another round?</string>
-    <string name="error_invalid_email">Invalid email</string>
-    <string name="error_invalid_password">Invalid password</string>
-    <string name="error_invalid_password_min">Password need 6 characters</string>
-    <string name="error_twitter_connection">Impossible login with Twitter now please try late.</string>
-    <string name="error_facebook_connection">Impossible login with Facebook now please try late.</string>
-    <string name="error_login_with_google_email">The email is required to login with google account.</string>
-    <string name="error_login_with_google">Error trying to login with Google please try later.</string>
-    <string name="network_error_code_general">General error</string>
-    <string name="network_error_no_internet_connection">No Internet Connection.</string>
-    <string name="date_server_formatter">YYYY-MM-dd HH:mm:SS</string>
-    <string name="action_update">Update</string>
-    <string name="frg_register_loading">Registering user…</string>
-    <string name="error_create_workout_name_not_empty">Name of workout can not by empty</string>
-    <string name="error_create_workout_min">Name workout need min 4 characters</string>
-    <string name="frg_create_workout_creating_workout">Creating workouts …</string>
-    <string name="action_create_workout">Create new workout</string>
-    <string name="action_update_workout">Update</string>
-    <string name="action_do_workout">Do</string>
-    <string name="action_delete">Delete</string>
-    <string name="frg_create_workout_delete_workout">Are you sure you want delete this workout?</string>
-    <string name="frg_create_workout_deleting_workout">Deleting workout …</string>
-    <string name="frg_exercise_empty_exercices">Imposible find exercices in this moment please try late.</string>
-    <string name="frg_login_loading_login">Login …</string>
-    <string name="frg_profile_updating_profile">Updating profile …</string>
+    <string name="frg_do_workout_have_a_workout">You have a preview workout</string>
+    <string name="frg_do_workout_finish_workout">Finish Workout</string>
+
+    <!-- Resume Workout Fragment -->
+    <string name="frg_resume_workout_do_another_round">Do another round</string>
+    <string name="frg_resume_workout_finish">Finish</string>
+    <string name="frg_workout_title">Workout</string>
+    <string name="frg_workout_rounds">Rounds\n%1$d</string>
+    <string name="frg_workout_rest_rounds">R rounds\n%1$d sec</string>
+    <string name="frg_workout_rest_between_exercise">R exercise\n%1$d sec</string>
+    <string name="frg_workout_dates">Date: %1$s</string>
 
 </resources>

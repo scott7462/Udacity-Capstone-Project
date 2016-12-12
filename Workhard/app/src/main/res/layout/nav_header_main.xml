@@ -25,7 +25,6 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/nav_drawable_cd_name_of_the_user"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Android Studio"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </LinearLayout>

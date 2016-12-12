@@ -136,8 +136,8 @@ public class FrgCreateOrUpdateWorkout extends BaseFragment implements CreateWork
 
             @Override
             public void onItemDismissed(final int position, final Exercise item) {
-                EventBus.getDefault().post(new EventSnackBar().withMessage("You removed " + item.getName() + " of this workout.")
-                        .withAction("UNDO", new View.OnClickListener() {
+                EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.frg_create_workout_remove_exercise, item.getName()))
+                        .withAction(getString(R.string.action_undo), new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 adapter.undoRemovedItem(position, item);

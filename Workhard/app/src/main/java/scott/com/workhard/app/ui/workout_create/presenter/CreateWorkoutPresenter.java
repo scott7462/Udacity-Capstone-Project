@@ -1,8 +1,6 @@
 package scott.com.workhard.app.ui.workout_create.presenter;
 
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import scott.com.workhard.R;
 import scott.com.workhard.app.App;
 import scott.com.workhard.base.presenter.BasePresenter;

@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primary_dark"
-        android:contentDescription="@string/frg_rest_workout_cd_recovery_time"
+        android:contentDescription="@string/frg_do_workout_rest_cd_recovery_time"
         android:gravity="center"
         android:padding="@dimen/default_large_size"
-        android:text="@string/frg_rest_workout_recovery_time"
+        android:text="@string/frg_do_workout_recovery_time"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
         android:textColor="@color/primary_light"
         android:textStyle="bold" />

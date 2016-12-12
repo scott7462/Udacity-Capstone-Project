@@ -31,7 +31,7 @@ public class ErrorFactory {
                     App.getGlobalContext().getPackageName());
             return App.getGlobalContext().getString(id);
         } catch (Exception e) {
-            return App.getGlobalContext().getString(R.string.network_error_code_general);
+            return App.getGlobalContext().getString(R.string.error_network_code_general);
         }
     }
 

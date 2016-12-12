@@ -18,7 +18,6 @@
     <dimen name="default_xxx_large_size">128dp</dimen>
 
     <dimen name="default_card_view_radios">4dp</dimen>
-
     <dimen name="default_elevation_lvl_one">4dp</dimen>
     <dimen name="default_elevation_lvl_two">4dp</dimen>
     <dimen name="social_button_size">50dp</dimen>

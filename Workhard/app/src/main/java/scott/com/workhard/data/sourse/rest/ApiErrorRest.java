@@ -47,7 +47,7 @@ public class ApiErrorRest {
 
     public static String handelError(Throwable error) {
         if (isRelatedToNetwork(error)) {
-            return App.getGlobalContext().getString(R.string.network_error_no_internet_connection);
+            return App.getGlobalContext().getString(R.string.error_network_no_internet_connection);
         } else if (error instanceof HttpException) {
             try {
                 HttpException retroError = (HttpException) error;

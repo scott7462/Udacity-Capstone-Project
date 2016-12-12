@@ -1,7 +1,6 @@
 package scott.com.workhard.app.ui.workout_create.presenter;
 
 import scott.com.workhard.base.presenter.BasePresenterListener;
-import scott.com.workhard.entities.Workout;
 
 /**
  * @author pedroscott. scott7462@gmail.com

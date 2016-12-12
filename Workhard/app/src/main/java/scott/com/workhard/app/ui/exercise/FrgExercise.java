@@ -113,14 +113,11 @@ public class FrgExercise extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        presenter = new CreateWorkoutPresenter();
-//        presenter.attachView(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-//        presenter.detachView();
     }
 
     @Override

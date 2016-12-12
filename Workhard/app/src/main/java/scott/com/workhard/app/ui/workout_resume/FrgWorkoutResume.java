@@ -44,7 +44,6 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 public class FrgWorkoutResume extends BaseFragment {
 
     @BindView(R.id.tVFrgWorkoutName)
@@ -137,14 +136,11 @@ public class FrgWorkoutResume extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        presenter = new CreateWorkoutPresenter();
-//        presenter.attachView(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-//        presenter.detachView();
     }
 
     @Override

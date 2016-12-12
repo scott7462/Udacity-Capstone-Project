@@ -1,6 +1,5 @@
 package scott.com.workhard.app.ui.profile.presenter;
 
-import scott.com.workhard.base.presenter.BasePresenter;
 import scott.com.workhard.base.presenter.BasePresenterListener;
 import scott.com.workhard.entities.User;
 

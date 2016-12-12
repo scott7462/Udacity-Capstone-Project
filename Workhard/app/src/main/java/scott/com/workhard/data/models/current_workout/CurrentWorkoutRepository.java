@@ -2,7 +2,6 @@ package scott.com.workhard.data.models.current_workout;
 
 import rx.Observable;
 import scott.com.workhard.base.model.Repository;
-import scott.com.workhard.entities.User;
 import scott.com.workhard.entities.Workout;
 
 /**

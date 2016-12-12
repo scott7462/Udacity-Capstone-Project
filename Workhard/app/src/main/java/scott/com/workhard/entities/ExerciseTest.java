@@ -1,11 +1,5 @@
 package scott.com.workhard.entities;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 /**
  * @author pedroscott. scott7462@gmail.com
  * @version 9/4/16.

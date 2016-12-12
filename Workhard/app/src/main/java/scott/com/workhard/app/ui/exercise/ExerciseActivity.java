@@ -50,16 +50,16 @@ public class ExerciseActivity extends BaseActivity {
     private void savedFragmentState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             navigateMainContent(getSupportFragmentManager().getFragment(
-                    savedInstanceState, CONTENT_FRAGMENT), getString(R.string.frg_do_rest_workout_title));
+                    savedInstanceState, CONTENT_FRAGMENT), getString(R.string.frg_do_workout_rest_title));
         } else {
-            navigateMainContent(FrgExercise.newInstance((Exercise) getIntent().getParcelableExtra(Exercise.EXERCISE_ARG)), getString(R.string.frg_do_rest_workout_title));
+            navigateMainContent(FrgExercise.newInstance((Exercise) getIntent().getParcelableExtra(Exercise.EXERCISE_ARG)), getString(R.string.frg_do_workout_rest_title));
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, "mContent", getSupportFragmentManager().findFragmentById(R.id.container));
+        getSupportFragmentManager().putFragment(outState,CONTENT_FRAGMENT, getSupportFragmentManager().findFragmentById(R.id.container));
     }
 
     public static void newInstance(Activity activity, Exercise exercise) {

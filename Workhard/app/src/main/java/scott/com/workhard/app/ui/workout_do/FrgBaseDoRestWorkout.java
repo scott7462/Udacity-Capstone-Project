@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -111,8 +110,6 @@ public abstract class FrgBaseDoRestWorkout extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("TEST", "ERRRO: " + e.toString());
-
                     }
 
                     @Override
@@ -167,7 +164,7 @@ public abstract class FrgBaseDoRestWorkout extends BaseFragment {
 
     @OnClick(R.id.tVFrgDoWorkoutTime)
     public void plusSegToTimer() {
-        EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.frg_di_workout_add_ten_sec)));
+        EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.frg_do_workout_add_ten_sec)));
         timer = timer - currentTimer + 10;
         tVFrgDoWorkoutTime.setText(Html.fromHtml(getString(R.string.frg_do_workout_sec_in_clock, timer)));
         getSubscription().clear();

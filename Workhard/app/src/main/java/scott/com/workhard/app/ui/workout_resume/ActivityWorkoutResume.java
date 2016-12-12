@@ -61,7 +61,7 @@ public class ActivityWorkoutResume extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, "mContent", getSupportFragmentManager().findFragmentById(R.id.container));
+        getSupportFragmentManager().putFragment(outState,CONTENT_FRAGMENT, getSupportFragmentManager().findFragmentById(R.id.container));
     }
 
     public static void newInstance(Activity activity, Workout workout, @FrgWorkoutResume.typeToView int viewType) {

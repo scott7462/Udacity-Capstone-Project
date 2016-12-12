@@ -35,6 +35,7 @@ public class ActivityCreateWorkout extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    private static final String CONTENT_FRAGMENT = "content";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +51,7 @@ public class ActivityCreateWorkout extends BaseActivity {
     private void savedFragmentState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             navigateMainContent(getSupportFragmentManager().getFragment(
-                    savedInstanceState, "mContent"), getString(R.string.app_name));
+                    savedInstanceState,CONTENT_FRAGMENT), getString(R.string.app_name));
         } else {
             navigateMainContent(FrgCreateOrUpdateWorkout.newInstance((Workout) getIntent().getParcelableExtra(Workout.WORKOUT_ARG)), getString(R.string.frg_create_workout_title));
         }
@@ -59,7 +60,7 @@ public class ActivityCreateWorkout extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, "mContent", getSupportFragmentManager().findFragmentById(R.id.container));
+        getSupportFragmentManager().putFragment(outState,CONTENT_FRAGMENT, getSupportFragmentManager().findFragmentById(R.id.container));
     }
 
     public static void newInstance(Activity activity, @Nullable Workout workout) {

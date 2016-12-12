@@ -9,8 +9,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -61,6 +59,7 @@ public class ActivityInit extends BaseActivity implements
 
     private static final int RC_SIGN_IN = 9001;
     private static final int TWITTER_REQUEST_CODE = 140;
+    private static final String CONTENT_FRAGMENT = "content";
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -88,7 +87,7 @@ public class ActivityInit extends BaseActivity implements
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, "mContent", getSupportFragmentManager().findFragmentById(R.id.container));
+        getSupportFragmentManager().putFragment(outState, CONTENT_FRAGMENT, getSupportFragmentManager().findFragmentById(R.id.container));
     }
 
     @Override
@@ -117,7 +116,7 @@ public class ActivityInit extends BaseActivity implements
     private void savedFragmentState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             navigateMainContent(getSupportFragmentManager().getFragment(
-                    savedInstanceState, "mContent"), getString(R.string.app_name));
+                    savedInstanceState,CONTENT_FRAGMENT), getString(R.string.app_name));
         } else {
             navigateMainContent(SessionFragment.newInstance(), getString(R.string.app_name));
         }

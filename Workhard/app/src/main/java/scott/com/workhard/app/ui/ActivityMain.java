@@ -45,6 +45,7 @@ public class ActivityMain extends BaseActivity
     @BindView(R.id.nVMain)
     NavigationView navigationView;
     private PresenterMain presenter;
+    private TextView tVHomeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,15 +88,15 @@ public class ActivityMain extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
         bindHeaderNavigationView();
         if (presenter.isCurrentWorkoutActive()) {
-            EventBus.getDefault().post(new EventAlterDialog().withMessage("Existe un workout")
-                    .withPositveButton("Continuar", new DialogInterface.OnClickListener() {
+            EventBus.getDefault().post(new EventAlterDialog().withMessage(getString(R.string.frg_do_workout_have_a_workout))
+                    .withPositveButton(getString(R.string.action_continue), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             ActivityDoWorkout.newInstance(ActivityMain.this, ActivityDoWorkout.CONTINUE_CURRENT_WORKOUT);
                             dialog.dismiss();
                         }
                     })
-                    .withNegativeButton("Cancel the previews one", new DialogInterface.OnClickListener() {
+                    .withNegativeButton(getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             presenter.doFinishCurrentWorkout();
@@ -108,10 +109,8 @@ public class ActivityMain extends BaseActivity
     private void bindHeaderNavigationView() {
         View headerView = navigationView.getHeaderView(0);
         ImageView iVHomeAvatar = (ImageView) headerView.findViewById(R.id.iVHomeAvatar);
-        TextView tVHomeName = (TextView) headerView.findViewById(R.id.tVHomeName);
-
-        //TODO get user from present and show information
-        tVHomeName.setText("Pedro Scott");
+        tVHomeName = (TextView) headerView.findViewById(R.id.tVHomeName);
+        presenter.doGetSession();
         iVHomeAvatar.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.ic_launcher));
     }
 
@@ -231,6 +230,6 @@ public class ActivityMain extends BaseActivity
 
     @Override
     public void onCurrentSession(User user) {
-
+        tVHomeName.setText(user.getName() + " " + user.getLastName());
     }
 }

@@ -14,6 +14,7 @@ import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
+import scott.com.workhard.R;
 
 /**
  * @author pedroscott ${EMAIL}
@@ -36,9 +37,6 @@ import io.realm.Realm;
 
 public class App extends MultiDexApplication {
 
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "MDBSpgrxgVsUMTK3obdGghOHx";
-    private static final String TWITTER_SECRET = "Bk81Tv1x4PyOb4D1Ak2ZkPn0VMMaIwiJDmwpsWpnGgfiRQhAVA";
     private static Context globalContext;
 
     public static Context getGlobalContext() {
@@ -50,7 +48,7 @@ public class App extends MultiDexApplication {
         super.onCreate();
         Realm.init(this);
         globalContext = this.getApplicationContext();
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(getString(R.string.twitter_key),getString(R.string.twitter_secret));
         Fabric.with(this, new Twitter(authConfig));
         facebookInit();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);

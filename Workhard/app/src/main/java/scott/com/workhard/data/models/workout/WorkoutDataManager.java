@@ -80,6 +80,8 @@ public class WorkoutDataManager extends BaseDataManager<Workout, WorkoutReposito
 
     @Override
     public Observable<List<Workout>> findHistoriesWorkouts() {
-        return getFireBaseRepository().findHistoriesWorkouts();
+        return getFireBaseRepository().findHistoriesWorkouts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

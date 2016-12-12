@@ -380,7 +380,7 @@ public class AdapterExercise extends BaseFilterSimpleAdapter<Exercise, BaseSimpl
         protected void bindView() {
             super.bindView();
             if(typeView==AdapterExercise.ADD_TO_WORKOUT){
-                tVItemEmpty.setText(tVItemEmpty.getContext().getString(R.string.frg_exercise_empty_exercices));
+                tVItemEmpty.setText(tVItemEmpty.getContext().getString(R.string.frg_exercise_empty_exercises));
             }
 
         }

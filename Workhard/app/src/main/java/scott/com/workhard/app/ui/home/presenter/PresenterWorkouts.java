@@ -8,8 +8,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import scott.com.workhard.base.presenter.BasePresenter;
 import scott.com.workhard.data.Injection;
 import scott.com.workhard.entities.Workout;

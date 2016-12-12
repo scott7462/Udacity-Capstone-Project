@@ -3,7 +3,6 @@ package scott.com.workhard.app.ui.home.presenter;
 import java.util.List;
 
 import scott.com.workhard.base.presenter.BasePresenterListener;
-import scott.com.workhard.entities.User;
 import scott.com.workhard.entities.Workout;
 
 /**

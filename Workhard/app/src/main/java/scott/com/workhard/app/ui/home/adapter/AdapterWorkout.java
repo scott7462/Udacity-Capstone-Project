@@ -52,9 +52,6 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout,BaseSimpleAd
         return false;
     }
 
-    /**
-     * @hide
-     */
     @IntDef({HOME, HISTORY, MY_WORKOUTS})
     @Retention(RetentionPolicy.SOURCE)
     public @interface typeToView {
