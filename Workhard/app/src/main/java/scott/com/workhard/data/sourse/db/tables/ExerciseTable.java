@@ -22,12 +22,8 @@ import scott.com.workhard.entities.Exercise;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 public class ExerciseTable extends RealmObject {
 
-    public static final String NAME = "name";
-    public static final String ID = "id";
     @PrimaryKey
     private String id;
     private String name;

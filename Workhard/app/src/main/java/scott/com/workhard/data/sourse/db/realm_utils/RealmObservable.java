@@ -27,7 +27,6 @@ import rx.schedulers.Schedulers;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 public final class RealmObservable {
 
     public static <T extends RealmObject> Observable<T> object(final Func1<Realm, T> function) {

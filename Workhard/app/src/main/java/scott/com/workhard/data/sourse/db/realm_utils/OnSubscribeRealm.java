@@ -33,7 +33,6 @@ import rx.subscriptions.Subscriptions;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 abstract class OnSubscribeRealm<T> implements Observable.OnSubscribe<T> {
 
     private final List<Subscriber<? super T>> subscribers = new ArrayList<>();
