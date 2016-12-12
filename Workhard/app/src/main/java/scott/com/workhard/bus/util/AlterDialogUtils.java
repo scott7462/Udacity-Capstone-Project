@@ -25,7 +25,6 @@ import scott.com.workhard.bus.event.EventAlterDialog;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 public class AlterDialogUtils {
     public static AlertDialog makeAlterDialog(EventAlterDialog eventAlterDialog, Activity activity) {
 

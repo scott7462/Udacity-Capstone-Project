@@ -1,6 +1,5 @@
 package scott.com.workhard.bus.util;
 
-import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.TextView;
@@ -25,7 +24,6 @@ import scott.com.workhard.bus.event.EventSnackBar;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 public class SnackBarUtils {
     public static void makeSnackBar(EventSnackBar eventSnackBar) {
         Snackbar snackbar = Snackbar
@@ -39,7 +37,7 @@ public class SnackBarUtils {
             snackbar.setActionTextColor(eventSnackBar.getTextColor());
         }
 
-        if(eventSnackBar.getTextActionColor()!=0){
+        if (eventSnackBar.getTextActionColor() != 0) {
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
             textView.setTextColor(eventSnackBar.getTextActionColor());

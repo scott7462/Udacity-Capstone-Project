@@ -18,6 +18,5 @@ package scott.com.workhard.bus.event;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 public class EventCallPickPhoto {
 }
