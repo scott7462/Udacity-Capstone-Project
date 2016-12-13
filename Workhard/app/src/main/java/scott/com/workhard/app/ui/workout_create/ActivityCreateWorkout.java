@@ -33,6 +33,7 @@ import scott.com.workhard.entities.Workout;
 
 public class ActivityCreateWorkout extends BaseActivity {
 
+    private static final String TYPE_VIEW = "TYPE_VIEW";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     private static final String CONTENT_FRAGMENT = "content";
@@ -53,7 +54,8 @@ public class ActivityCreateWorkout extends BaseActivity {
             navigateMainContent(getSupportFragmentManager().getFragment(
                     savedInstanceState,CONTENT_FRAGMENT), getString(R.string.app_name));
         } else {
-            navigateMainContent(FrgCreateOrUpdateWorkout.newInstance((Workout) getIntent().getParcelableExtra(Workout.WORKOUT_ARG)), getString(R.string.frg_create_workout_title));
+            navigateMainContent(FrgCreateOrUpdateWorkout.newInstance((Workout) getIntent().getParcelableExtra(Workout.WORKOUT_ARG)
+            ,getIntent().getIntExtra(TYPE_VIEW,FrgCreateOrUpdateWorkout.NEW)), getString(R.string.frg_create_workout_title));
         }
     }
 
@@ -63,11 +65,12 @@ public class ActivityCreateWorkout extends BaseActivity {
         getSupportFragmentManager().putFragment(outState,CONTENT_FRAGMENT, getSupportFragmentManager().findFragmentById(R.id.container));
     }
 
-    public static void newInstance(Activity activity, @Nullable Workout workout) {
+    public static void newInstance(Activity activity, @Nullable Workout workout,int typeView) {
         Intent intent = new Intent(activity, ActivityCreateWorkout.class);
         if (workout != null) {
             intent.putExtra(Workout.WORKOUT_ARG, workout);
         }
+        intent.putExtra(TYPE_VIEW,typeView);
         activity.startActivity(intent);
     }
 

@@ -1,6 +1,7 @@
 package scott.com.workhard.app.ui.workout_resume;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
@@ -14,6 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.joda.time.MutableDateTime;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -21,10 +25,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
 import scott.com.workhard.app.ui.workout_create.ActivityCreateWorkout;
+import scott.com.workhard.app.ui.workout_create.FrgCreateOrUpdateWorkout;
+import scott.com.workhard.app.ui.workout_create.presenter.CreateWorkoutPresenter;
+import scott.com.workhard.app.ui.workout_create.presenter.CreateWorkoutPresenterListeners;
 import scott.com.workhard.app.ui.workout_resume.adapter.AdapterExerciseResume;
 import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.base.view.BaseFragment;
+import scott.com.workhard.bus.event.EventAlterDialog;
+import scott.com.workhard.bus.event.EventSnackBar;
+import scott.com.workhard.bus.event.EventUpdateWorkoutList;
 import scott.com.workhard.entities.Workout;
+import scott.com.workhard.utils.DateTimeUtils;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -44,7 +55,7 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class FrgWorkoutResume extends BaseFragment {
+public class FrgWorkoutResume extends BaseFragment implements CreateWorkoutPresenterListeners {
 
     @BindView(R.id.tVFrgWorkoutName)
     TextView tVFrgWorkoutName;
@@ -65,6 +76,32 @@ public class FrgWorkoutResume extends BaseFragment {
     public static final int RESUME = 4321;
     public static final String VIEW_TYPE_ARG = "view_type";
 
+    @Override
+    public void onCreateWorkoutSuccess() {
+
+    }
+
+    @Override
+    public void onDeleteWorkoutSuccess() {
+        EventBus.getDefault().post(new EventUpdateWorkoutList());
+        getActivity().finish();
+    }
+
+    @Override
+    public void showProgressIndicator(String message) {
+        adapter.showLoadingState(true);
+    }
+
+    @Override
+    public void removeProgressIndicator() {
+        adapter.showLoadingState(false);
+    }
+
+    @Override
+    public void showMessage(String string) {
+        EventBus.getDefault().post(new EventSnackBar().withMessage(string));
+    }
+
     @IntDef({FINISH, RESUME})
     @Retention(RetentionPolicy.SOURCE)
     public @interface typeToView {
@@ -74,6 +111,7 @@ public class FrgWorkoutResume extends BaseFragment {
     private int viewType;
 
     private Workout workout;
+    private CreateWorkoutPresenter presenter;
 
     public static FrgWorkoutResume newInstance(Workout workout, @typeToView int viewType) {
         Bundle args = new Bundle();
@@ -129,18 +167,23 @@ public class FrgWorkoutResume extends BaseFragment {
             tVFrgWorkoutRounds.setText(getString(R.string.frg_do_workout_rounds_of_exercises, workout.getCurrentRound(), workout.getRounds()));
             tVFrgWorkoutRestExercise.setText(getString(R.string.frg_workout_rest_between_exercise, workout.getRestBetweenExercise()));
             tVFrgWorkoutRestRounds.setText(getString(R.string.frg_workout_rest_rounds, workout.getRestRoundsExercise()));
-//            tVFrgWorkoutDate.setText(getString(R.string.frg_workout_dates, workout.getDateCompleted()));
+            tVFrgWorkoutDate.setText(DateTimeUtils.getStringPatternFromDateTime(
+                    tVFrgWorkoutDate.getContext().getString(R.string.date_register_formatter),
+                    new MutableDateTime(workout.getDateCompleted())));
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        presenter = new CreateWorkoutPresenter();
+        presenter.attachView(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        presenter.detachView();
     }
 
     @Override
@@ -161,11 +204,25 @@ public class FrgWorkoutResume extends BaseFragment {
             case android.R.id.home:
                 getActivity().onBackPressed();
                 break;
-            case R.id.item_menu_finish:
-                getActivity().finish();
+            case R.id.item_menu_delete:
+                EventBus.getDefault().post(new EventAlterDialog()
+                        .withMessage("Are you sure to remove this workout of your history")
+                        .withPositveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                presenter.onDeleteWorkout(workout, true);
+                            }
+                        })
+                        .withNegativeButton(getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }));
                 break;
             case R.id.item_menu_do_it_again:
-                ActivityCreateWorkout.newInstance(getActivity(), workout);
+                workout.resetRounds();
+                ActivityCreateWorkout.newInstance(getActivity(), workout, FrgCreateOrUpdateWorkout.UPDATE);
                 break;
         }
         return super.onOptionsItemSelected(item);

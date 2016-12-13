@@ -67,29 +67,40 @@ public class CreateWorkoutPresenter extends BasePresenter<CreateWorkoutPresenter
      *                <p>
      *                Rx function to call the listener onCreateWorkoutSuccess() or showMessage() in case of error
      */
-    public void onDeleteWorkout(Workout workout) {
+    public void onDeleteWorkout(Workout workout, boolean history) {
         getViewListener().showProgressIndicator(App.getGlobalContext().getString(R.string.frg_create_workout_deleting_workout));
-        setSubscription(Injection.provideWorkoutsRepository()
-                .delete(workout)
-                .subscribe(new Subscriber<Boolean>() {
-                    @Override
-                    public void onCompleted() {
-                        getViewListener().removeProgressIndicator();
-                    }
+        if (history) {
+            setSubscription(Injection.provideWorkoutsRepository()
+                    .deleteWorkoutHistory(workout)
+                    .subscribe(subscriptionDelete()));
+        } else {
+            setSubscription(Injection.provideWorkoutsRepository()
+                    .delete(workout)
+                    .subscribe(subscriptionDelete()));
+        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        getViewListener().showMessage(ApiErrorRest.handelError(e));
-                        getViewListener().removeProgressIndicator();
-                    }
+    }
 
-                    @Override
-                    public void onNext(Boolean finish) {
-                        if (finish) {
-                            getViewListener().onDeleteWorkoutSuccess();
-                        }
+    private Subscriber<Boolean> subscriptionDelete() {
+        return new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+                getViewListener().removeProgressIndicator();
+            }
 
-                    }
-                }));
+            @Override
+            public void onError(Throwable e) {
+                getViewListener().showMessage(ApiErrorRest.handelError(e));
+                getViewListener().removeProgressIndicator();
+            }
+
+            @Override
+            public void onNext(Boolean finish) {
+                if (finish) {
+                    getViewListener().onDeleteWorkoutSuccess();
+                }
+
+            }
+        };
     }
 }

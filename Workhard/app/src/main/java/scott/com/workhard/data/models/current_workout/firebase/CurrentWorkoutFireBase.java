@@ -3,6 +3,8 @@ package scott.com.workhard.data.models.current_workout.firebase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 import rx.Observable;
@@ -54,6 +56,7 @@ public class CurrentWorkoutFireBase implements CurrentWorkoutRepository {
     @Override
     public Observable<Boolean> finishWorkout(Workout workout) {
         workout.setOwner(SessionPreference.getPreferenceToken());
+        workout.setDateCompleted(DateTime.now().getMillis());
         getFireBaseWorkoutHistoryReference().push().setValue(workout);
         return Observable.just(true);
     }

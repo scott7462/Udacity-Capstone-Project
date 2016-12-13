@@ -32,4 +32,6 @@ public interface WorkoutRepository extends Repository<Workout> {
 
     Observable<List<Workout>> findHistoriesWorkouts();
 
+    Observable<Boolean> deleteWorkoutHistory(Workout workout);
+
 }

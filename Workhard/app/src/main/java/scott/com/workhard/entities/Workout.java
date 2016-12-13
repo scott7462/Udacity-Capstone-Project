@@ -61,6 +61,12 @@ public class Workout implements Parcelable {
         }
     }
 
+    public void resetRounds() {
+        setCurrentExercise(null);
+        setCurrentExercisePosition(0);
+        setCurrentRound(1);
+    }
+
 
     @IntDef({DOING_EXERCISE, RECOVERY_TIME, RECOVERY_TIME_LARGE, COMPLETED})
     @Retention(RetentionPolicy.SOURCE)
@@ -72,6 +78,7 @@ public class Workout implements Parcelable {
     private int restBetweenExercise;
     private int restRoundsExercise;
     private int rounds;
+    private long dateCompleted;
     private String name;
     private List<Exercise> exerciseList = new ArrayList<>();
     @Exclude
@@ -83,8 +90,11 @@ public class Workout implements Parcelable {
     @Exclude
     @Workout.Status
     private int status = DOING_EXERCISE;
+    @Exclude
     private String currentExercise;
+    @Exclude
     private int currentExercisePosition;
+    @Exclude
     private int currentRound = 1;
 
     public Workout() {
@@ -179,6 +189,14 @@ public class Workout implements Parcelable {
         this.currentExercisePosition = currentExercisePosition;
     }
 
+    public long getDateCompleted() {
+        return dateCompleted;
+    }
+
+    public void setDateCompleted(long dateCompleted) {
+        this.dateCompleted = dateCompleted;
+    }
+
     public Workout withKey(String key) {
         setKey(key);
         return this;
@@ -231,6 +249,11 @@ public class Workout implements Parcelable {
 
     public Workout finishRecoveryTime() {
         setStatus(DOING_EXERCISE);
+        return this;
+    }
+
+    public Workout withDateCompleded(long dateCompleded) {
+        setDateCompleted(dateCompleded);
         return this;
     }
 
@@ -321,6 +344,7 @@ public class Workout implements Parcelable {
         dest.writeInt(this.restBetweenExercise);
         dest.writeInt(this.restRoundsExercise);
         dest.writeInt(this.rounds);
+        dest.writeLong(this.dateCompleted);
         dest.writeString(this.name);
         dest.writeTypedList(this.exerciseList);
         dest.writeByte(this.errorMessageInName ? (byte) 1 : (byte) 0);
@@ -336,6 +360,7 @@ public class Workout implements Parcelable {
         this.restBetweenExercise = in.readInt();
         this.restRoundsExercise = in.readInt();
         this.rounds = in.readInt();
+        this.dateCompleted = in.readLong();
         this.name = in.readString();
         this.exerciseList = in.createTypedArrayList(Exercise.CREATOR);
         this.errorMessageInName = in.readByte() != 0;
@@ -356,5 +381,4 @@ public class Workout implements Parcelable {
             return new Workout[size];
         }
     };
-
 }

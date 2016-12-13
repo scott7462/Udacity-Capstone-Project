@@ -30,6 +30,7 @@ import scott.com.workhard.app.ui.home.adapter.AdapterWorkout;
 import scott.com.workhard.app.ui.home.presenter.PresenterWorkouts;
 import scott.com.workhard.app.ui.home.presenter.WorkoutsPresenterListener;
 import scott.com.workhard.app.ui.workout_create.ActivityCreateWorkout;
+import scott.com.workhard.app.ui.workout_create.FrgCreateOrUpdateWorkout;
 import scott.com.workhard.app.ui.workout_resume.ActivityWorkoutResume;
 import scott.com.workhard.app.ui.workout_resume.FrgWorkoutResume;
 import scott.com.workhard.base.view.BaseFragment;
@@ -100,14 +101,15 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
             @Override
             public void onItemViewsClick(Workout item, int position) {
                 switch (getArguments().getInt(TYPE_VIEW_ADAPTER)) {
-                    case HISTORY: {
+                    case HISTORY:
                         ActivityWorkoutResume.newInstance(getActivity(), item, FrgWorkoutResume.RESUME);
                         break;
-                    }
-                    default: {
-                        ActivityCreateWorkout.newInstance(getActivity(), item);
+                    case HOME:
+                        ActivityCreateWorkout.newInstance(getActivity(), item, FrgCreateOrUpdateWorkout.NONE);
                         break;
-                    }
+                    default:
+                        ActivityCreateWorkout.newInstance(getActivity(), item, FrgCreateOrUpdateWorkout.UPDATE);
+                        break;
                 }
             }
         });
@@ -180,7 +182,7 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
 
     @OnClick(R.id.fBHomeAddWorkout)
     public void createWorkout() {
-        ActivityCreateWorkout.newInstance(getActivity(), null);
+        ActivityCreateWorkout.newInstance(getActivity(), null, FrgCreateOrUpdateWorkout.NEW);
     }
 
     @Override

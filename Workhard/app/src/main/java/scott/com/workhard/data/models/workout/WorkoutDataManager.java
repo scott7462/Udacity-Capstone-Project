@@ -8,6 +8,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import scott.com.workhard.base.model.BaseDataManager;
+import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.entities.Workout;
 
 /**
@@ -85,5 +86,10 @@ public class WorkoutDataManager extends BaseDataManager<Workout, WorkoutReposito
         return getFireBaseRepository().findHistoriesWorkouts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<Boolean> deleteWorkoutHistory(Workout workout) {
+        return getFireBaseRepository().deleteWorkoutHistory(workout);
     }
 }

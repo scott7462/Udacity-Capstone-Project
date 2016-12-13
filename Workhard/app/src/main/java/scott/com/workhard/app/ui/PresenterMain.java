@@ -66,8 +66,6 @@ public class PresenterMain extends BasePresenter<MainPresenterListener> {
     public void doLogout() {
         setSubscription(Injection.provideSessionRepository()
                 .logout()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
                     @Override
                     public void onCompleted() {

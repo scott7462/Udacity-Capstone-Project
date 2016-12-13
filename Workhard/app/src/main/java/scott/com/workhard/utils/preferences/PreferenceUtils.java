@@ -44,7 +44,7 @@ public class PreferenceUtils {
     }
 
     public static void clearPreferences() {
-
+        getEditor().clear().apply();
     }
 
 }

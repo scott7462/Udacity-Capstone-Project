@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.joda.time.MutableDateTime;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -15,6 +17,7 @@ import scott.com.workhard.R;
 import scott.com.workhard.base.view.BaseFilterSimpleAdapter;
 import scott.com.workhard.base.view.BaseSimpleAdapter;
 import scott.com.workhard.entities.Workout;
+import scott.com.workhard.utils.DateTimeUtils;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -105,7 +108,10 @@ public class AdapterWorkout extends BaseFilterSimpleAdapter<Workout,BaseSimpleAd
             tVItemWorkoutRestRounds.setText(tVItemWorkoutRestRounds.getContext()
                     .getString(R.string.frg_create_item_rest_between_rounds_number, workout.getRestRoundsExercise()));
             tVItemWorkoutDate.setVisibility(typeView == HISTORY ? View.VISIBLE : View.GONE);
-//            tVItemWorkoutDate.setText(workout.getDateCompleted());
+            tVItemWorkoutDate.setText(typeView == HISTORY ?
+                    DateTimeUtils.getStringPatternFromDateTime(
+                            tVItemWorkoutDate.getContext().getString(R.string.date_register_formatter),
+                            new MutableDateTime(workout.getDateCompleted())) : "");
         }
 
         private void initListeners() {

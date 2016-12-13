@@ -203,5 +203,6 @@
     <string name="frg_workout_rest_rounds">R rounds\n%1$d sec</string>
     <string name="frg_workout_rest_between_exercise">R exercise\n%1$d sec</string>
     <string name="frg_workout_dates">Date: %1$s</string>
+    <string name="action_remove_history">Remove of history</string>
 
 </resources>

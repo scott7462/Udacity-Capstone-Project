@@ -62,13 +62,15 @@ import static scott.com.workhard.app.ui.workout_do.ActivityDoWorkout.NEW_WORKOUT
  */
 public class FrgCreateOrUpdateWorkout extends BaseFragment implements CreateWorkoutPresenterListeners {
 
+    private static final String TYPE_VIEW = "TYPE_VIEW";
     @BindView(R.id.rVFrgCreateWorkOut)
     RecyclerView rVFrgCreateWorkOut;
 
     public static final int NEW = 1234;
     public static final int UPDATE = 4321;
+    public static final int NONE = 98373;
 
-    @IntDef({NEW, UPDATE})
+    @IntDef({NEW, UPDATE, NONE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface TypeToView {
     }
@@ -79,9 +81,10 @@ public class FrgCreateOrUpdateWorkout extends BaseFragment implements CreateWork
     private AdapterExercise adapter = new AdapterExercise(AdapterExercise.SHOW_IN_WORKOUT);
     private CreateWorkoutPresenter presenter;
 
-    public static FrgCreateOrUpdateWorkout newInstance(Workout workout) {
+    public static FrgCreateOrUpdateWorkout newInstance(Workout workout, int typeView) {
         Bundle args = new Bundle();
         args.putParcelable(Workout.WORKOUT_ARG, workout);
+        args.putInt(TYPE_VIEW, typeView);
         FrgCreateOrUpdateWorkout fragment = new FrgCreateOrUpdateWorkout();
         fragment.setArguments(args);
         return fragment;
@@ -97,12 +100,17 @@ public class FrgCreateOrUpdateWorkout extends BaseFragment implements CreateWork
         setHasOptionsMenu(true);
         adapter.showHeaderView(true);
         Workout workout = (Workout) getArguments().getParcelable(Workout.WORKOUT_ARG);
-        if (workout == null) {
-            typeView = NEW;
-        } else {
-            typeView = UPDATE;
+        switch (getArguments().getInt(TYPE_VIEW, NEW)) {
+            case NEW:
+                typeView = NEW;
+                break;
+            case NONE:
+                typeView = NONE;
+                break;
+            case UPDATE:
+                typeView = UPDATE;
+                break;
         }
-
         adapter.setWorkout(workout);
 
         adapter.addHeaderClickListener(new AdapterExercise.onHeaderClickListener() {
@@ -163,10 +171,17 @@ public class FrgCreateOrUpdateWorkout extends BaseFragment implements CreateWork
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (typeView == NEW) {
-            inflater.inflate(R.menu.menu_create_workout, menu);
-        } else {
-            inflater.inflate(R.menu.menu_update, menu);
+        switch (typeView) {
+            case NEW:
+                inflater.inflate(R.menu.menu_create_workout, menu);
+                break;
+            case NONE:
+                inflater.inflate(R.menu.menu_workout_recomendeted, menu);
+                break;
+            case UPDATE:
+                inflater.inflate(R.menu.menu_update, menu);
+                break;
+
         }
     }
 
@@ -188,7 +203,7 @@ public class FrgCreateOrUpdateWorkout extends BaseFragment implements CreateWork
                         .withPositveButton(getString(R.string.action_yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                presenter.onDeleteWorkout(adapter.getWorkout());
+                                presenter.onDeleteWorkout(adapter.getWorkout(), false);
                                 dialogInterface.dismiss();
                             }
                         })

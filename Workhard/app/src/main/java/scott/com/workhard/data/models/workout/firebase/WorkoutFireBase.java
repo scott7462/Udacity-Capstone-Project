@@ -95,6 +95,20 @@ public class WorkoutFireBase implements WorkoutRepository {
                 .flatMap(transformWorkoutsModelsWithResponse());
     }
 
+    @Override
+    public Observable<Boolean> deleteWorkoutHistory(Workout workout) {
+        getFireWorkoutsUserHistoryReference()
+                .child(workout.getKey()).removeValue();
+        return RxFirebaseDatabase.observeSingleValueEvent(getFireWorkoutsUserHistoryReference()
+                .child(workout.getKey()))
+                .flatMap(new Func1<DataSnapshot, Observable<Boolean>>() {
+                    @Override
+                    public Observable<Boolean> call(DataSnapshot dataSnapshot) {
+                        return Observable.just(!dataSnapshot.exists());
+                    }
+                });
+    }
+
     private Func1<DataSnapshot, Observable<List<Workout>>> transformWorkoutsModelsWithResponse() {
         return new Func1<DataSnapshot, Observable<List<Workout>>>() {
             @Override

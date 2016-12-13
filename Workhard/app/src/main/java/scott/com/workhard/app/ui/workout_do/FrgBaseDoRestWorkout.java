@@ -64,9 +64,6 @@ public abstract class FrgBaseDoRestWorkout extends BaseFragment {
     private int timer = 0;
     private int currentTimer = 0;
     private Workout workout;
-
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

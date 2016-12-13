@@ -25,6 +25,7 @@ import scott.com.workhard.app.ui.home.FrgHome;
 import scott.com.workhard.app.ui.init.launch.LaunchActivity;
 import scott.com.workhard.app.ui.profile.FrgProfile;
 import scott.com.workhard.app.ui.workout_create.ActivityCreateWorkout;
+import scott.com.workhard.app.ui.workout_create.FrgCreateOrUpdateWorkout;
 import scott.com.workhard.app.ui.workout_do.ActivityDoWorkout;
 import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.bus.event.EventAlterDialog;
@@ -147,7 +148,7 @@ public class ActivityMain extends BaseActivity
                 navigateMainContent(FrgProfile.newInstance(), getString(R.string.frg_profile_title));
                 break;
             case R.id.nav_create:
-                ActivityCreateWorkout.newInstance(this, null);
+                ActivityCreateWorkout.newInstance(this, null, FrgCreateOrUpdateWorkout.NEW);
                 break;
             case R.id.nav_logout:
                 doLogout();

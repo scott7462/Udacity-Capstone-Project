@@ -5,9 +5,12 @@ import android.support.annotation.NonNull;
 import com.facebook.login.LoginResult;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import scott.com.workhard.base.model.BaseDataManager;
 import scott.com.workhard.data.models.session.sourse.preference.SessionPreference;
 import scott.com.workhard.entities.User;
+import scott.com.workhard.utils.preferences.PreferenceUtils;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -65,7 +68,10 @@ public class SessionDataManager extends BaseDataManager<User, SessionFireBase> i
 
     @Override
     public Observable<Boolean> logout() {
-        return getFireBaseRepository().logout();
+        PreferenceUtils.clearPreferences();
+        return getFireBaseRepository().logout()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
