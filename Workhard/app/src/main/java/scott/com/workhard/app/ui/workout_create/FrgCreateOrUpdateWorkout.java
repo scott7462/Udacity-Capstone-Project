@@ -223,7 +223,7 @@ public class FrgCreateOrUpdateWorkout extends BaseFragment implements CreateWork
     }
 
     private boolean validateDataToSend() {
-        if (adapter.getItems().size() <= 0) {
+        if (adapter.getItems().size() < 0) {
             EventBus.getDefault().post(new EventSnackBar().withMessage(getString(R.string.frg_create_workout_need_on)));
             return false;
         } else if (!adapter.validateHeader()) {

@@ -15,7 +15,8 @@ import butterknife.ButterKnife;
 
 /**
  * @author pedroscott. scott7462@gmail.com
- * @version 12/3/16.
+ * @modified Julian Cardona. julian@kogimobile.com
+ * @version 9/4/16.
  *          <p>
  *          Copyright (C) 2015 The Android Open Source Project
  *          <p/>
@@ -31,7 +32,7 @@ import butterknife.ButterKnife;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public abstract class BaseSimpleAdapter<T, H extends BaseSimpleAdapter.BaseViewHolder<T>> extends RecyclerView.Adapter<H> {
+public abstract class BaseSimpleAdapter<T, H extends BaseSimpleAdapter.BaseViewHolder> extends RecyclerView.Adapter<H> {
 
     protected static final int EMPTY_VIEW = 2000;
     protected static final int HEADER_VIEW = 3000;
@@ -185,7 +186,7 @@ public abstract class BaseSimpleAdapter<T, H extends BaseSimpleAdapter.BaseViewH
     public void addItem(@NonNull T item) {
         validateItemsNullAndCreate();
         items.add(item);
-        notifyDataSetChanged();
+        notifyItemInserted(getItemPosition(getItemCount()));
     }
 
 
@@ -304,7 +305,7 @@ public abstract class BaseSimpleAdapter<T, H extends BaseSimpleAdapter.BaseViewH
         }
     }
 
-    public abstract static class BaseViewHolder<T> extends RecyclerView.ViewHolder {
+    public abstract static class BaseViewHolder<T> extends RecyclerView.ViewHolder{
 
         public BaseViewHolder(View itemView) {
             super(itemView);
@@ -495,16 +496,16 @@ public abstract class BaseSimpleAdapter<T, H extends BaseSimpleAdapter.BaseViewH
         return selectedItems;
     }
 
-    public boolean ifValidCondition(T t) {
+    public boolean ifValidCondition(T t){
         return true;
     }
 
     @CallSuper
     @Override
     public void onBindViewHolder(H holder, int position) {
-        if (holder instanceof EmptyViewHolder) {
+        if(holder instanceof EmptyViewHolder){
             ((EmptyViewHolder) holder).bindView();
-        } else {
+        }else{
             holder.bindView(items.get(getItemPosition(position)));
         }
     }

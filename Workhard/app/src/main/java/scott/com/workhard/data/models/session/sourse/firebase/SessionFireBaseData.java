@@ -56,7 +56,6 @@ public class SessionFireBaseData implements SessionFireBase {
     public static SessionFireBaseData newInstance() {
         if (instance == null) {
             instance = new SessionFireBaseData();
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             instance.getFireBaseUserReference().keepSynced(true);
         }
         return instance;

@@ -35,6 +35,7 @@ import scott.com.workhard.app.ui.workout_resume.ActivityWorkoutResume;
 import scott.com.workhard.app.ui.workout_resume.FrgWorkoutResume;
 import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.base.view.BaseSimpleAdapter;
+import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.bus.event.EventUpdateWorkoutList;
 import scott.com.workhard.entities.Workout;
 import scott.com.workhard.utils.SpacesItemDecoration;
@@ -116,7 +117,7 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
     }
 
     private void getWorkouts() {
-        if (getArguments() != null) {
+        if (adapter == null && getArguments() != null) {
             switch (getArguments().getInt(TYPE_VIEW_ADAPTER)) {
                 case HISTORY: {
                     adapter = new AdapterWorkout(AdapterWorkout.HISTORY);
@@ -131,8 +132,6 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
                     break;
                 }
             }
-        } else {
-            adapter = new AdapterWorkout(AdapterWorkout.HOME);
         }
         presenter.doGetWorkouts(presenter.getTypeCall(getArguments().getInt(TYPE_VIEW_ADAPTER)));
     }
@@ -211,12 +210,11 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
 
     @Override
     public void showMessage(String stringId) {
-
+        EventBus.getDefault().post(new EventSnackBar().withMessage(stringId));
     }
 
     @Override
     public void onLoadWorkoutLoad(List<Workout> workouts) {
-        sRFrgHome.setRefreshing(false);
         adapter.cleanItemsAndUpdate(workouts);
     }
 

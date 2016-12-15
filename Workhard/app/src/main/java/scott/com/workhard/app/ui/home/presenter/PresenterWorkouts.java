@@ -8,6 +8,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import scott.com.workhard.base.presenter.BasePresenter;
 import scott.com.workhard.data.Injection;
 import scott.com.workhard.data.sourse.rest.ApiErrorRest;
@@ -109,11 +111,12 @@ public class PresenterWorkouts extends BasePresenter<WorkoutsPresenterListener> 
         return new Subscriber<List<Workout>>() {
             @Override
             public void onCompleted() {
-
+                getViewListener().removeProgressIndicator();
             }
 
             @Override
             public void onError(Throwable e) {
+                getViewListener().removeProgressIndicator();
                 getViewListener().showMessage(ApiErrorRest.handelError(e));
             }
 

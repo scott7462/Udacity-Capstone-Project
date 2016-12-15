@@ -40,6 +40,8 @@ public class WorkoutFireBase implements WorkoutRepository {
         if (instance == null) {
             instance = new WorkoutFireBase();
             instance.getFireWorkoutsUserReference().keepSynced(true);
+            instance.getFireWorkoutsUserHistoryReference().keepSynced(true);
+            instance.getFireWorkoutsReference().keepSynced(true);
         }
         return instance;
     }
