@@ -29,6 +29,7 @@
     <dimen name="frg_do_workout_clock_size">80dp</dimen>
     <dimen name="empty_image">100dp</dimen>
     <dimen name="frg_home_height_workouts_items">72dp</dimen>
+    <dimen name="widget_header_size">45dp</dimen>
 
 
 </resources>

@@ -63,6 +63,7 @@ public class WorkoutsRemoteViewsFactory implements RemoteViewsFactory {
                     public void onNext(List<Workout> workouts) {
                         items.clear();
                         items.addAll(workouts);
+                        WorkoutsRemoteViewsFactory.this.getCount();
                     }
                 }));
     }
@@ -79,7 +80,8 @@ public class WorkoutsRemoteViewsFactory implements RemoteViewsFactory {
         Workout workout = items.get(position);
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_collection_item);
         rv.setTextViewText(R.id.tVWidgetWorkoutName, workout.getName());
-        rv.setTextViewText(R.id.tVWidgetWorkoutRounds, String.valueOf(workout.getCurrentRound()));
+        String srounds = "Rounds " + String.valueOf(workout.getRounds());
+        rv.setTextViewText(R.id.tVWidgetWorkoutRounds, srounds);
 
         Intent clickIntentTemplate = new Intent(mContext, LaunchActivity.class);
         rv.setOnClickFillInIntent(R.id.lLWidget, clickIntentTemplate);
@@ -107,7 +109,9 @@ public class WorkoutsRemoteViewsFactory implements RemoteViewsFactory {
         updateData();
     }
 
+    @Override
     public void onDataSetChanged() {
-        updateData();
+
     }
+
 }

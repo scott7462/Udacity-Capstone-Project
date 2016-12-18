@@ -206,4 +206,7 @@
     <string name="action_remove_history">Remove of history</string>
     <string name="widget_collection_no_data_set">You do not have history exercises jet.</string>
 
+
+    <string name="widget_workout_rounds">Rounds 1$s</string>
+
 </resources>
