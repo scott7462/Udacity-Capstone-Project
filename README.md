@@ -1,12 +1,13 @@
-# Capstone Project
+# Capstone Project WorkHard.
 Final project to Udacity Nanodegree.
 
-Message
+The Capstone Project:  Workhard is an agile app that aims to assist athletes calisthenics with the creation and customization of their workouts. And keep tracking your daily activities quickly and simply. While allowing social sharing daily and overall achievements.
 
 ## What Will I Learn?
 
-* Test
-* 
+* The Capstone project will give you the experience you need to own the full development cycle of an app.
+* Implement an MVP pattern in an app android.
+* Implement a repository pattern to manage multiples sources of data.
 
 ## Screens
 
@@ -23,6 +24,16 @@ Message
 * [Otto](http://square.github.io/otto/)
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
 * [Joda Time](http://www.joda.org/joda-time/)
+* [Firebase Database](https://firebase.google.com/docs/database/)
+* [Firebase Auth](https://firebase.google.com/docs/auth/)
+* [facebook Android SDK](https://developers.facebook.com/docs/android/)
+* [Firebase Auth](https://github.com/ragunathjawahar/android-saripaar/)
+* [Eventbus](https://github.com/greenrobot/EventBus/)
+* [Dexter](https://github.com/Karumi/Dexter/)
+* [Stetho](http://facebook.github.io/stetho/)
+* [Stetho](http://facebook.github.io/stetho/)
+* [Rxfirebase](https://github.com/nmoskalenko/RxFirebase/)
+* [Realm](https://realm.io/docs/java/latest/)
 
 ## Android Developer Nanodegree, Udacity.
 [![udacity][1]][2]
