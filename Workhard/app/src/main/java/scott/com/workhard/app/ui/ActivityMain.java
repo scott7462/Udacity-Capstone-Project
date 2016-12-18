@@ -30,11 +30,30 @@ import scott.com.workhard.app.ui.workout_do.ActivityDoWorkout;
 import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.bus.event.EventAlterDialog;
 import scott.com.workhard.entities.User;
+import scott.com.workhard.service.SyncWorkoutsService;
 
 import static scott.com.workhard.app.ui.home.FrgHome.HISTORY;
 import static scott.com.workhard.app.ui.home.FrgHome.HOME;
 import static scott.com.workhard.app.ui.home.FrgHome.MY_WORKOUTS;
 
+/**
+ * @author pedroscott. scott7462@gmail.com
+ * @version 10/10/16.
+ *          <p>
+ *          Copyright (C) 2015 The Android Open Source Project
+ *          <p/>
+ *          Licensed under the Apache License, Version 2.0 (the "License");
+ *          you may not use this file except in compliance with the License.
+ *          You may obtain a copy of the License at
+ *          <p/>
+ * @see <a href = "http://www.aprenderaprogramar.com" /> http://www.apache.org/licenses/LICENSE-2.0 </a>
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 public class ActivityMain extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener, MainPresenterListener {
 
@@ -56,11 +75,17 @@ public class ActivityMain extends BaseActivity
         savedFragmentState(savedInstanceState);
         initPresenter();
         iniViews();
+        syncAllWorkouts();
+    }
+
+    private void syncAllWorkouts() {
+        startService(new Intent(this, SyncWorkoutsService.class));
     }
 
     private void initPresenter() {
         presenter = new PresenterMain();
         presenter.attachView(this);
+
     }
 
     @Override

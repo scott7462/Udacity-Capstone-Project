@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--suppress AndroidElementNotAllowed -->
+<?xml version="1.0" encoding="utf-8"?><!-- suppress AndroidElementNotAllowed -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="scott.com.workhard">
 
@@ -15,28 +15,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="scott.com.workhard.app.ui.init.launch.LaunchActivity"
+            android:name=".app.ui.init.launch.LaunchActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/LaunchTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="scott.com.workhard.app.ui.init.ActivityInit"
+            android:name=".app.ui.init.ActivityInit"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="scott.com.workhard.app.ui.ActivityMain"
+            android:name=".app.ui.ActivityMain"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".app.ui.workout_create.ActivityCreateWorkout"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
         <activity
             android:name=".app.ui.workout_resume.ActivityWorkoutResume"
             android:label="@string/app_name"
@@ -53,9 +52,8 @@
             android:name=".app.ui.exercise.ExerciseActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
         <activity
-            android:name="scott.com.workhard.app.ui.init.register.RegisterActivity"
+            android:name=".app.ui.init.register.RegisterActivity"
             android:parentActivityName=".app.ui.ActivityMain"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -68,7 +66,6 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -85,7 +82,24 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="95422a709523acac80bba6218e9a52e0143d0694" />
+
+        <receiver android:name=".widget.WorkoutWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
+        <service
+            android:name=".widget.WorkoutWidgetService"
+            android:exported="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <service
+            android:name=".service.SyncWorkoutsService"
+            android:exported="false"></service>
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

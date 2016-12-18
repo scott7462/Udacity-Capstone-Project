@@ -204,5 +204,9 @@
     <string name="frg_workout_rest_between_exercise">R exercise\n%1$d sec</string>
     <string name="frg_workout_dates">Date: %1$s</string>
     <string name="action_remove_history">Remove of history</string>
+    <string name="widget_collection_no_data_set">You do not have history exercises jet.</string>
+
+
+    <string name="widget_workout_rounds">Rounds 1$s</string>
 
 </resources>

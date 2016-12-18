@@ -16,6 +16,7 @@ import scott.com.workhard.app.ui.PresenterMain;
 import scott.com.workhard.app.ui.init.ActivityInit;
 import scott.com.workhard.base.view.BaseActivity;
 import scott.com.workhard.entities.User;
+import scott.com.workhard.widget.WidgetUtils;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -44,6 +45,7 @@ public class LaunchActivity extends BaseActivity implements MainPresenterListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+        WidgetUtils.updateWidget();
         presenter = new PresenterMain();
         presenter.attachView(this);
         addSubscription(Observable.timer(2, TimeUnit.SECONDS)
