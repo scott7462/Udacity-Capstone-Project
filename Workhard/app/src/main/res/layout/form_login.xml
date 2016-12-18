@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lLFrgLogin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/default_x_large_size"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/default_x_large_size">
+
+
+    <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/eTFrgLoginEmail"
+            style="@style/Workhard.EditTextFrom"
+            android:contentDescription="@string/frg_login_cd_write_your_email"
+            android:drawableLeft="@drawable/ic_account"
+            android:drawableStart="@drawable/ic_account"
+            android:hint="@string/frg_login_email"
+            android:inputType="textEmailAddress" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/eTFrgLoginPassword"
+            style="@style/Workhard.EditTextFrom"
+            android:contentDescription="@string/frg_login_cd_write_your_password"
+            android:drawableLeft="@drawable/ic_lock_login"
+            android:drawableStart="@drawable/ic_lock_login"
+            android:hint="@string/frg_login_password"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_large_size"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/bTFrgLoginFacebookButton"
+            android:layout_width="@dimen/social_button_size"
+            android:layout_height="@dimen/social_button_size"
+            android:layout_margin="@dimen/default_medium_size"
+            android:background="@drawable/shape_round_button_facebook"
+            android:contentDescription="@string/frg_login_cd_sing_in_with_facebook"
+            android:padding="@dimen/default_medium_size"
+            android:src="@drawable/ic_login_facebook" />
+
+        <ImageButton
+            android:id="@+id/bTFrgLoginGoogleButton"
+            android:layout_width="@dimen/social_button_size"
+            android:layout_height="@dimen/social_button_size"
+            android:layout_margin="@dimen/default_medium_size"
+            android:background="@drawable/shape_round_button_google"
+            android:contentDescription="@string/frg_login_cd_sing_in_with_google"
+            android:padding="@dimen/default_medium_size"
+            android:src="@drawable/ic_login_in_google" />
+
+        <ImageButton
+            android:id="@+id/bTFrgLoginTwitterButton"
+            android:layout_width="@dimen/social_button_size"
+            android:layout_height="@dimen/social_button_size"
+            android:layout_margin="@dimen/default_medium_size"
+            android:background="@drawable/shape_round_button_twitter"
+            android:contentDescription="@string/frg_login_cd_sing_in_with_twitter"
+            android:padding="@dimen/default_medium_size"
+            android:src="@drawable/twitter" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/lBFrgLoginGooglePlus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_small_size"
+            android:clickable="true"
+            android:visibility="gone" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/lBFrgLoginFacebook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/default_small_size"
+            android:clickable="true"
+            android:visibility="gone" />
+
+        <com.twitter.sdk.android.core.identity.TwitterLoginButton
+            android:id="@+id/lBFrgLoginTwitter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_small_size"
+            android:clickable="true"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bTFrgLoginButton"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/default_x_large_size"
+        android:contentDescription="@string/frg_login_cd_sing_in_by_email"
+        android:paddingLeft="@dimen/default_xx_large_size"
+        android:paddingRight="@dimen/default_xx_large_size"
+        android:text="@string/frg_login_sing_in"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_x_large_size"
+        android:layout_marginTop="@dimen/default_medium_size"
+        android:gravity="center"
+        android:text="@string/frg_login_forgot_password"
+        android:textColor="@color/primary_text" />
+
+</LinearLayout>

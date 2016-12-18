@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="base_url" translatable="false">http://enigmatic-cove-79850.herokuapp.com/api/</string>
+</resources>

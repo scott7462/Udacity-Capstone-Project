@@ -1,33 +1,44 @@
 package scott.com.workhard.app.ui.init.register;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import scott.com.workhard.R;
-import scott.com.workhard.app.base.view.BaseFragment;
-import scott.com.workhard.app.ui.MainActivity;
-import scott.com.workhard.app.ui.init.login.presenter.LoginPresenter;
-import scott.com.workhard.app.ui.init.login.presenter.LoginPresenterListeners;
+import scott.com.workhard.app.ui.ActivityMain;
+import scott.com.workhard.app.ui.init.login.presenter.SessionPresenter;
+import scott.com.workhard.app.ui.init.login.presenter.SessionPresenterListeners;
+import scott.com.workhard.base.view.BaseActivity;
+import scott.com.workhard.base.view.BaseFragment;
+import scott.com.workhard.bus.event.EventProgressDialog;
+import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.utils.DatePickerFragment;
+import scott.com.workhard.utils.DateTimeUtils;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -48,12 +59,34 @@ import scott.com.workhard.utils.DatePickerFragment;
  * limitations under the License.
  */
 
-public class RegisterFragment extends BaseFragment implements LoginPresenterListeners
+public class RegisterFragment extends BaseFragment implements SessionPresenterListeners
         , Validator.ValidationListener {
 
-    private LoginPresenter presenter;
+    @NotEmpty
+    @BindView(R.id.eTFrgRegisterName)
+    AppCompatEditText eTFrgRegisterName;
+
+    @NotEmpty
+    @BindView(R.id.eTFrgRegisterLastName)
+    AppCompatEditText eTFrgRegisterLastName;
+
+    @Email
+    @BindView(R.id.eTFrgRegisterEmail)
+    AppCompatEditText eTFrgRegisterEmail;
+    @BindView(R.id.tVFrgRegisterDate)
+    TextView tVFrgRegisterDate;
+    @NotEmpty
+    @Password
+    @BindView(R.id.eTFrgRegisterPassword)
+    AppCompatEditText eTFrgRegisterPassword;
+    @NotEmpty
+    @ConfirmPassword
+    @BindView(R.id.eTFrgRegisterRepeatPassword)
+    AppCompatEditText eTFrgRegisterRepeatPassword;
+
+    private SessionPresenter presenter;
     private Validator validator;
-    private ProgressDialog progress;
+
 
     public static Fragment newInstance() {
         return new RegisterFragment();
@@ -65,7 +98,7 @@ public class RegisterFragment extends BaseFragment implements LoginPresenterList
         initVars();
     }
 
-    private void initVars() {
+    protected void initVars() {
         setHasOptionsMenu(true);
         validator = new Validator(this);
         validator.setValidationListener(this);
@@ -81,17 +114,27 @@ public class RegisterFragment extends BaseFragment implements LoginPresenterList
     }
 
     private void intViews() {
+        eTFrgRegisterRepeatPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                ((BaseActivity) getActivity()).clearKeyboardFromScreen();
+                return true;
+            }
+        });
     }
 
     private void cleanValidations() {
-//        ((TextInputLayout) eTFrgLoginEmail.getParent()).setError(null);
-//        ((TextInputLayout) eTFrgLoginPassword.getParent()).setError(null);
+        ((TextInputLayout) eTFrgRegisterName.getParent().getParent()).setError(null);
+        ((TextInputLayout) eTFrgRegisterLastName.getParent().getParent()).setError(null);
+        ((TextInputLayout) eTFrgRegisterEmail.getParent().getParent()).setError(null);
+        ((TextInputLayout) eTFrgRegisterPassword.getParent().getParent()).setError(null);
+        ((TextInputLayout) eTFrgRegisterRepeatPassword.getParent().getParent()).setError(null);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        presenter = new LoginPresenter();
+        presenter = new SessionPresenter();
         presenter.attachView(this);
     }
 
@@ -118,7 +161,12 @@ public class RegisterFragment extends BaseFragment implements LoginPresenterList
 
     @Override
     public void onValidationSucceeded() {
-
+        presenter.doRegister(eTFrgRegisterName.getText().toString(),
+                eTFrgRegisterLastName.getText().toString(),
+                eTFrgRegisterEmail.getText().toString(),
+                eTFrgRegisterPassword.getText().toString(),
+                DateTimeUtils.getDateTimeFromPattern(getString(R.string.date_register_formatter),
+                        tVFrgRegisterDate.getText().toString()).getMillis());
     }
 
     @Override
@@ -127,38 +175,43 @@ public class RegisterFragment extends BaseFragment implements LoginPresenterList
             View view = error.getView();
             String message = error.getCollatedErrorMessage(getActivity());
             if (view instanceof AppCompatEditText) {
-                ((TextInputLayout) view.getParent()).setError(message);
+                ((TextInputLayout) view.getParent().getParent()).setError(message);
             }
         }
     }
 
     @Override
-    public void showMessage(int stringId) {
-
+    public void showMessage(String stringId) {
+        EventBus.getDefault().post(new EventSnackBar().withMessage(stringId));
     }
 
     @Override
-    public void showProgressIndicator() {
-        progress = ProgressDialog.show(getActivity(), "Login",
-                "login message ...", true);
+    public void showProgressIndicator(String message) {
+        EventBus.getDefault().post(new EventProgressDialog(message, true));
     }
 
     @Override
     public void removeProgressIndicator() {
-        progress.dismiss();
+        EventBus.getDefault().post(new EventProgressDialog(false));
     }
 
-    @Override
-    public void navigateToMain() {
-        MainActivity.newInstance(getActivity());
-    }
-
-    public void showDatePickerDialog(EditText v) {
+    public void showDatePickerDialog(TextView v) {
         DatePickerFragment.showDatePickerDialog(getActivity().getSupportFragmentManager(), v);
     }
 
-    @OnClick(R.id.eTFrgRegisterDate)
-    public void onClick(EditText editText) {
-        showDatePickerDialog(editText);
+    @OnClick(R.id.tVFrgRegisterDate)
+    public void onClick(TextView textView) {
+        showDatePickerDialog(textView);
+    }
+
+    @Override
+    public void onLoginSuccessful() {
+        ActivityMain.newInstance(getActivity());
+    }
+
+    @OnClick(R.id.fBFrgSingIn)
+    public void onClick() {
+        cleanValidations();
+        validator.validate();
     }
 }

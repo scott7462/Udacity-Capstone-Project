@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import scott.com.workhard.R;
-import scott.com.workhard.app.base.view.BaseActivity;
+import scott.com.workhard.base.view.BaseActivity;
 
 /**
  * @author Pedro Scott. scott7462@gmail.com
@@ -33,21 +33,25 @@ public class RegisterActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    private static final String CONTENT_FRAGMENT = "content";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_init);
+        setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         setToolbar(toolbar);
         savedFragmentState(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private void savedFragmentState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             navigateMainContent(getSupportFragmentManager().getFragment(
-                    savedInstanceState, "mContent"), getString(R.string.app_name));
+                    savedInstanceState,CONTENT_FRAGMENT), getString(R.string.app_name));
         } else {
+           toolbar.setTitle(getString(R.string.app_name));
             navigateMainContent(RegisterFragment.newInstance(), getString(R.string.app_name));
         }
     }
@@ -55,9 +59,8 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, "mContent", getSupportFragmentManager().findFragmentById(R.id.container));
+        getSupportFragmentManager().putFragment(outState,CONTENT_FRAGMENT, getSupportFragmentManager().findFragmentById(R.id.container));
     }
-
 
     public static void newInstance(Activity activity) {
         activity.startActivity(new Intent(activity, RegisterActivity.class));

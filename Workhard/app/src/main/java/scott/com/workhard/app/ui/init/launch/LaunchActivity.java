@@ -1,10 +1,21 @@
 package scott.com.workhard.app.ui.init.launch;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import scott.com.workhard.R;
-import scott.com.workhard.app.ui.init.InitActivity;
+import scott.com.workhard.app.ui.ActivityMain;
+import scott.com.workhard.app.ui.MainPresenterListener;
+import scott.com.workhard.app.ui.PresenterMain;
+import scott.com.workhard.app.ui.init.ActivityInit;
+import scott.com.workhard.base.view.BaseActivity;
+import scott.com.workhard.entities.User;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -25,14 +36,71 @@ import scott.com.workhard.app.ui.init.InitActivity;
  * limitations under the License.
  */
 
-public class LaunchActivity extends AppCompatActivity {
+public class LaunchActivity extends BaseActivity implements MainPresenterListener {
+
+    private PresenterMain presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
-        InitActivity.newInstance(this);
+        presenter = new PresenterMain();
+        presenter.attachView(this);
+        addSubscription(Observable.timer(2, TimeUnit.SECONDS)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        presenter.doGetSession();
+                    }
+                }));
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.detachView();
+        super.onDestroy();
+    }
+
+    public static void newInstance(Context activity) {
+        activity.startActivity(new Intent(activity, LaunchActivity.class));
+    }
+
+    @Override
+    public void onLogoutSuccessful() {
+
+    }
+
+    @Override
+    public void onLogoutError() {
+
+    }
+
+    @Override
+    public void onNotCurrentSession() {
+        ActivityInit.newInstance(this);
         finish();
     }
 
+    @Override
+    public void onCurrentSession(User user) {
+        ActivityMain.newInstance(this);
+        finish();
+    }
+
+    @Override
+    public void showProgressIndicator(String message) {
+
+    }
+
+    @Override
+    public void removeProgressIndicator() {
+
+    }
+
+    @Override
+    public void showMessage(String stringId) {
+
+    }
 }

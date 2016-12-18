@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/default_medium_size">
+
+    <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/eTFrgProfileName"
+            style="@style/Workhard.EditTextFrom"
+            android:contentDescription="@string/frg_profile_cd_first_name"
+            android:hint="@string/frg_register_first_name"
+            android:inputType="textCapWords" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/eTFrgProfileLastName"
+            style="@style/Workhard.EditTextFrom"
+            android:contentDescription="@string/frg_profile_cd_last_name"
+            android:hint="@string/frg_register_last_name"
+            android:inputType="textCapWords" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout style="@style/Workhard.TextInputFrom">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/eTFrgProfileEmail"
+            style="@style/Workhard.EditTextFrom"
+            android:contentDescription="@string/frg_profile_cd_email"
+            android:enabled="false"
+            android:hint="@string/frg_register_email"
+            android:inputType="textEmailAddress" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tVFrgProfileDate"
+        style="@style/Workhard.TextViewFrom"
+        android:layout_marginTop="@dimen/default_medium_size"
+        android:contentDescription="@string/frg_profile_cd_birthday"
+        android:hint="@string/frg_register_birthday" />
+
+</LinearLayout>
+

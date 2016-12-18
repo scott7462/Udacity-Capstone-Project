@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primary"
+    android:orientation="vertical"
+    android:elevation="@dimen/default_elevation_lvl_one"
+    android:padding="@dimen/default_large_size">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/eTFrgCreateWorkoutName"
+            style="@style/Workhard.EditTextFrom"
+            android:contentDescription="@string/frg_create_workout_cd_name_of_you_workout"
+            android:drawableLeft="@drawable/ic_account"
+            android:drawablePadding="@dimen/default_medium_size"
+            android:textColor="@android:color/white"
+            android:drawableStart="@drawable/ic_account"
+            android:hint="@string/frg_create_workout_name"
+            android:inputType="textCapSentences"
+            android:maxLength="25"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_medium_size"
+        android:layout_marginTop="@dimen/default_medium_size"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tVFrgCreateWorkoutRounds"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_time_laps_rounds"
+            android:drawablePadding="@dimen/default_medium_size"
+            android:drawableStart="@drawable/ic_time_laps_rounds"
+            android:gravity="center_vertical"
+            android:text="@string/frg_create_workout_rounds_number"
+            android:textColor="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/iBFrgCreateWorkoutRoundsMinus"
+            style="@style/Workhard.ButtonMinus"
+            android:contentDescription="@string/frg_create_workout_cd_minus_round_to_workout" />
+
+        <ImageButton
+            android:id="@+id/iBFrgCreateWorkoutRoundsPlus"
+            style="@style/Workhard.ButtonPlus"
+            android:contentDescription="@string/frg_create_workout_cd_plus_rounds_to_workout" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_medium_size"
+        android:layout_marginTop="@dimen/default_medium_size"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tVFrgCreateWorkoutRestExercise"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_timer"
+            android:drawablePadding="@dimen/default_medium_size"
+            android:drawableStart="@drawable/ic_timer"
+            android:gravity="center_vertical"
+            android:text="@string/frg_create_workout_rest_between_exercise_number"
+            android:textColor="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/iBFrgCreateWorkoutRestExerciseMinus"
+            style="@style/Workhard.ButtonMinus"
+            android:contentDescription="@string/frg_create_workout_cd_minus_recovery_time_between_exercises_to_workout" />
+
+        <ImageButton
+            android:id="@+id/iBFrgCreateWorkoutRestExercisePlus"
+            style="@style/Workhard.ButtonPlus"
+            android:contentDescription="@string/frg_create_workout_cd_plus_recovery_time_between_exercises_to_workout" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_medium_size"
+        android:layout_marginTop="@dimen/default_medium_size"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tVFrgCreateWorkoutRestRounds"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_timer"
+            android:drawablePadding="@dimen/default_medium_size"
+            android:drawableStart="@drawable/ic_timer"
+            android:gravity="center_vertical"
+            android:text="@string/frg_create_workout_rest_between_rounds_number"
+            android:textColor="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/iBFrgCreateWorkoutRestRoundsMinus"
+            style="@style/Workhard.ButtonMinus"
+            android:contentDescription="@string/frg_create_workout_cd_minus_recovery_time_between_rounds_to_workout" />
+
+        <ImageButton
+            android:id="@+id/iBFrgCreateWorkoutRestRoundsPlus"
+            style="@style/Workhard.ButtonPlus"
+            android:contentDescription="@string/frg_create_workout_cd_plus_recovery_time_between_rounds_to_workout" />
+    </LinearLayout>
+
+</LinearLayout>

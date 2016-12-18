@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="date_register_formatter">E, MMM dd yyyy</string>
+    <string name="date_server_formatter" translatable="false" >YYYY-MM-dd HH:mm:SS</string>
+
+</resources>

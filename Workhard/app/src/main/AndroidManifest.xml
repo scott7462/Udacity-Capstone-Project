@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--suppress AndroidElementNotAllowed -->
+<?xml version="1.0" encoding="utf-8"?><!--suppress AndroidElementNotAllowed -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="scott.com.workhard">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".app.App"
@@ -15,20 +17,47 @@
         <activity
             android:name="scott.com.workhard.app.ui.init.launch.LaunchActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/LaunchTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="scott.com.workhard.app.ui.init.InitActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="scott.com.workhard.app.ui.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name="scott.com.workhard.app.ui.init.ActivityInit"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="scott.com.workhard.app.ui.ActivityMain"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".app.ui.workout_create.ActivityCreateWorkout"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <activity
+            android:name=".app.ui.workout_resume.ActivityWorkoutResume"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".app.ui.workout_do.ActivityDoWorkout"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".app.ui.select_exercise.ActivitySelectExercise"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".app.ui.exercise.ExerciseActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <activity
+            android:name="scott.com.workhard.app.ui.init.register.RegisterActivity"
+            android:parentActivityName=".app.ui.ActivityMain"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -53,12 +82,10 @@
             </intent-filter>
         </activity>
 
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="95422a709523acac80bba6218e9a52e0143d0694" />
     </application>
-
 
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

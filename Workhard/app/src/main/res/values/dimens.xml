@@ -18,9 +18,14 @@
     <dimen name="default_xxx_large_size">128dp</dimen>
 
     <dimen name="default_card_view_radios">4dp</dimen>
-
     <dimen name="default_elevation_lvl_one">4dp</dimen>
     <dimen name="default_elevation_lvl_two">4dp</dimen>
+    <dimen name="social_button_size">50dp</dimen>
+    <dimen name="top_image_login">200dp</dimen>
+    <dimen name="frg_do_workout_rest_clock">200dp</dimen>
+    <dimen name="frg_do_workout_next_description">100dp</dimen>
+    <dimen name="frg_do_workout_clock_size">80dp</dimen>
+    <dimen name="empty_image">100dp</dimen>
 
 
 </resources>

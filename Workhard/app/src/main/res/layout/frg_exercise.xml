@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tVFrgExerciseName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary_dark"
+        android:contentDescription="@string/frg_do_workout_cd_workout_name"
+        android:gravity="center"
+        android:padding="@dimen/default_large_size"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+        android:textColor="@color/primary_light"
+        android:textStyle="bold"
+        tools:text="I can do that" />
+
+    <TextView
+        android:id="@+id/tVFrgExerciseDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:contentDescription="@string/frg_do_workout_cd_rounds_of_exercises"
+        android:padding="@dimen/default_large_size"
+        android:scrollbars="vertical"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+        tools:text="@string/text_exercise" />
+
+    <TextView
+        android:id="@+id/tVFrgExerciseSource"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:padding="@dimen/default_large_size"
+        android:text="Source: https://en.wikipedia.org/wiki/Push-up" />
+</LinearLayout>

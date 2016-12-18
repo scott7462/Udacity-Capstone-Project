@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="facebook_app_id" translatable="false">269165066792083</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb269165066792083</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2826786094908323/9944673298
+    </string>
+    <string name="fabric_api_key" translatable="false">95422a709523acac80bba6218e9a52e0143d0694
+    </string>
+    <string name="twitter_key" translatable="false">MDBSpgrxgVsUMTK3obdGghOHx</string>
+    <string name="twitter_secret" translatable="false">
+        Bk81Tv1x4PyOb4D1Ak2ZkPn0VMMaIwiJDmwpsWpnGgfiRQhAVA
+    </string>
+</resources>

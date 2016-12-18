@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fBFrgCreateWork"
+        style="@style/Workhard.FloatingButton"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/default_large_size"
+        android:contentDescription="@string/frg_create_workout_cd_add_exercises_to_workout"
+        android:elevation="@dimen/default_elevation_lvl_two"
+        android:src="@drawable/ic_plus"
+        tools:ignore="UnusedAttribute" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rVFrgCreateWorkOut"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_exercise" />
+
+</android.support.design.widget.CoordinatorLayout>
