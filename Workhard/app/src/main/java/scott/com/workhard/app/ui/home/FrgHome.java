@@ -106,7 +106,7 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener,
     private void initVars() {
         setHasOptionsMenu(true);
         getWorkouts();
-        getLoaderManager().initLoader(1, null, this);
+        getLoaderManager().initLoader(HISTORY, null, this);
         adapter.addClickListener(new BaseSimpleAdapter.onItemClickListener<Workout>() {
             @Override
             public void onItemViewsClick(Workout item, int position) {
@@ -236,7 +236,7 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener,
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         switch (id) {
-            case 0:
+            case HISTORY:
                 return new CursorLoader(getActivity(),
                         WorkoutsContract.HistoryEntry.CONTENT_STORY_URI
                         , null, null, null, null);
@@ -250,6 +250,7 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener,
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Workout workout = Workout.CursorWorkout(cursor);
+            cursor.moveToNext();
         }
     }
 
