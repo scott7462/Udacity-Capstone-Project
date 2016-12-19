@@ -99,7 +99,13 @@
             android:permission="android.permission.BIND_REMOTEVIEWS" />
         <service
             android:name=".service.SyncWorkoutsService"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <provider
+            android:name=".data.provider.WorkoutsProvider"
+            android:authorities="scott.com.workhard"
+            android:exported="true"
+            android:syncable="true" />
     </application>
 
 </manifest>

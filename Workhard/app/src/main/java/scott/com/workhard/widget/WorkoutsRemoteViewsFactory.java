@@ -12,6 +12,7 @@ import java.util.List;
 import rx.Subscriber;
 import rx.subscriptions.CompositeSubscription;
 import scott.com.workhard.R;
+import scott.com.workhard.app.App;
 import scott.com.workhard.app.ui.init.launch.LaunchActivity;
 import scott.com.workhard.data.Injection;
 import scott.com.workhard.entities.Workout;
@@ -34,7 +35,8 @@ import scott.com.workhard.entities.Workout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class WorkoutsRemoteViewsFactory implements RemoteViewsFactory {
+public class WorkoutsRemoteViewsFactory implements RemoteViewsFactory
+{
     private static final String TAG = WorkoutsRemoteViewsFactory.class.getSimpleName();
     private List<Workout> items = new ArrayList<>();
     private Context mContext;

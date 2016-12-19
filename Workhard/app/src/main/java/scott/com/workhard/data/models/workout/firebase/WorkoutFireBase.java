@@ -10,8 +10,10 @@ import java.util.List;
 
 import rx.Observable;
 import rx.functions.Func1;
+import scott.com.workhard.app.App;
 import scott.com.workhard.data.models.session.sourse.preference.SessionPreference;
 import scott.com.workhard.data.models.workout.WorkoutRepository;
+import scott.com.workhard.data.provider.DataPersister;
 import scott.com.workhard.entities.Workout;
 
 /**
@@ -94,7 +96,16 @@ public class WorkoutFireBase implements WorkoutRepository {
         return RxFirebaseDatabase.observeSingleValueEvent(
                 getFireWorkoutsUserHistoryReference()
                         .orderByChild(Workout.OWNER).equalTo(SessionPreference.getPreferenceToken()))
-                .flatMap(transformWorkoutsModelsWithResponse());
+                .flatMap(transformWorkoutsModelsWithResponse())
+                .flatMap(new Func1<List<Workout>, Observable<List<Workout>>>() {
+                    @Override
+                    public Observable<List<Workout>> call(List<Workout> workouts) {
+                        DataPersister dataPersister = new DataPersister(App.getGlobalContext().getContentResolver());
+                        dataPersister.removeAllHistory();
+                        dataPersister.addWorkout(workouts);
+                        return Observable.just(workouts);
+                    }
+                });
     }
 
     @Override
@@ -110,6 +121,7 @@ public class WorkoutFireBase implements WorkoutRepository {
                     }
                 });
     }
+
 
     private Func1<DataSnapshot, Observable<List<Workout>>> transformWorkoutsModelsWithResponse() {
         return new Func1<DataSnapshot, Observable<List<Workout>>>() {
