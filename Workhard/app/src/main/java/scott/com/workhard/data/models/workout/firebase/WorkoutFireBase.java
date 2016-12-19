@@ -122,20 +122,6 @@ public class WorkoutFireBase implements WorkoutRepository {
                 });
     }
 
-    private Func1<DataSnapshot, Observable<List<Workout>>> transformWorkoutsHistoryModelsWithResponse() {
-        return new Func1<DataSnapshot, Observable<List<Workout>>>() {
-            @Override
-            public Observable<List<Workout>> call(DataSnapshot dataSnapshot) {
-                List<Workout> workouts = new ArrayList<>();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Workout workout = postSnapshot.getValue(Workout.class);
-                    workout.setKey(postSnapshot.getKey());
-                    workouts.add(workout);
-                }
-                return Observable.just(workouts);
-            }
-        };
-    }
 
     private Func1<DataSnapshot, Observable<List<Workout>>> transformWorkoutsModelsWithResponse() {
         return new Func1<DataSnapshot, Observable<List<Workout>>>() {

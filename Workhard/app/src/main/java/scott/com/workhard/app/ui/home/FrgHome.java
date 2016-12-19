@@ -1,11 +1,15 @@
 package scott.com.workhard.app.ui.home;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,8 +41,11 @@ import scott.com.workhard.base.view.BaseFragment;
 import scott.com.workhard.base.view.BaseSimpleAdapter;
 import scott.com.workhard.bus.event.EventSnackBar;
 import scott.com.workhard.bus.event.EventUpdateWorkoutList;
+import scott.com.workhard.data.provider.WorkoutsContract;
+import scott.com.workhard.data.provider.WorkoutsProvider;
 import scott.com.workhard.entities.Workout;
 import scott.com.workhard.utils.SpacesItemDecoration;
+import timber.log.Timber;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -58,7 +65,8 @@ import scott.com.workhard.utils.SpacesItemDecoration;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
+public class FrgHome extends BaseFragment implements WorkoutsPresenterListener,
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TYPE_VIEW_ADAPTER = "type_view_adapter";
     @BindView(R.id.rVFrgHome)
@@ -98,6 +106,7 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
     private void initVars() {
         setHasOptionsMenu(true);
         getWorkouts();
+        getLoaderManager().initLoader(1, null, this);
         adapter.addClickListener(new BaseSimpleAdapter.onItemClickListener<Workout>() {
             @Override
             public void onItemViewsClick(Workout item, int position) {
@@ -223,5 +232,31 @@ public class FrgHome extends BaseFragment implements WorkoutsPresenterListener {
         getWorkouts();
         EventBus.getDefault().removeAllStickyEvents();
     }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        switch (id) {
+            case 0:
+                return new CursorLoader(getActivity(),
+                        WorkoutsContract.HistoryEntry.CONTENT_STORY_URI
+                        , null, null, null, null);
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Workout workout = Workout.CursorWorkout(cursor);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        Timber.e("test");
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package scott.com.workhard.entities;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
@@ -11,6 +12,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+
+import scott.com.workhard.data.provider.WorkoutsContract;
 
 /**
  * @author pedroscott. scott7462@gmail.com
@@ -44,6 +47,22 @@ public class Workout implements Parcelable {
     public static final String OWNER = "owner";
     public static final String HISTORY_WORKOUT = "history_workout_user";
     public static final String WORKOUTS = "workouts";
+
+    public static Workout CursorWorkout(Cursor cursor) {
+        try {
+            int idIndex = cursor.getInt(WorkoutsContract.HistoryEntry.COLUMN_ID);
+            String id = cursor.getString(WorkoutsContract.HistoryEntry.COLUMN_ITEM_ID);
+            String name = cursor.getString(WorkoutsContract.HistoryEntry.COLUMN_NAME);
+            int rounds = cursor.getInt(WorkoutsContract.HistoryEntry.COLUMN_ROUNDS);
+            return new Workout()
+                    .withKey(id)
+                    .withName(name)
+                    .withRounds(rounds);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Workout();
+    }
 
     @Status
     public static int getValidStatus(int status) {
@@ -354,7 +373,7 @@ public class Workout implements Parcelable {
         dest.writeInt(this.currentRound);
     }
 
-    protected Workout(Parcel in) {
+    public Workout(Parcel in) {
         this.key = in.readString();
         this.owner = in.readString();
         this.restBetweenExercise = in.readInt();

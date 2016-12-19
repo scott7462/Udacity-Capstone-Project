@@ -28,8 +28,9 @@ public class WorkoutsContract {
         };
 
         public static final int COLUMN_ID = 0;
-        public static final int COLUMN_NAME = 1;
-        public static final int COLUMN_ROUNDS = 2;
+        public static final int COLUMN_ITEM_ID = 1;
+        public static final int COLUMN_NAME = 2;
+        public static final int COLUMN_ROUNDS = 3;
 
         public static Uri buildStoryUriWith(long id) {
             return ContentUris.withAppendedId(CONTENT_STORY_URI, id);
