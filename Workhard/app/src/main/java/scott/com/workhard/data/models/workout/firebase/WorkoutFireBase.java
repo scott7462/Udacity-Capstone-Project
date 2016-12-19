@@ -10,8 +10,10 @@ import java.util.List;
 
 import rx.Observable;
 import rx.functions.Func1;
+import scott.com.workhard.app.App;
 import scott.com.workhard.data.models.session.sourse.preference.SessionPreference;
 import scott.com.workhard.data.models.workout.WorkoutRepository;
+import scott.com.workhard.data.provider.DataPersister;
 import scott.com.workhard.entities.Workout;
 
 /**
@@ -94,7 +96,16 @@ public class WorkoutFireBase implements WorkoutRepository {
         return RxFirebaseDatabase.observeSingleValueEvent(
                 getFireWorkoutsUserHistoryReference()
                         .orderByChild(Workout.OWNER).equalTo(SessionPreference.getPreferenceToken()))
-                .flatMap(transformWorkoutsModelsWithResponse());
+                .flatMap(transformWorkoutsModelsWithResponse())
+                .flatMap(new Func1<List<Workout>, Observable<List<Workout>>>() {
+                    @Override
+                    public Observable<List<Workout>> call(List<Workout> workouts) {
+                        DataPersister dataPersister = new DataPersister(App.getGlobalContext().getContentResolver());
+                        dataPersister.removeAllHistory();
+                        dataPersister.addWorkout(workouts);
+                        return Observable.just(workouts);
+                    }
+                });
     }
 
     @Override
@@ -109,6 +120,21 @@ public class WorkoutFireBase implements WorkoutRepository {
                         return Observable.just(!dataSnapshot.exists());
                     }
                 });
+    }
+
+    private Func1<DataSnapshot, Observable<List<Workout>>> transformWorkoutsHistoryModelsWithResponse() {
+        return new Func1<DataSnapshot, Observable<List<Workout>>>() {
+            @Override
+            public Observable<List<Workout>> call(DataSnapshot dataSnapshot) {
+                List<Workout> workouts = new ArrayList<>();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Workout workout = postSnapshot.getValue(Workout.class);
+                    workout.setKey(postSnapshot.getKey());
+                    workouts.add(workout);
+                }
+                return Observable.just(workouts);
+            }
+        };
     }
 
     private Func1<DataSnapshot, Observable<List<Workout>>> transformWorkoutsModelsWithResponse() {
